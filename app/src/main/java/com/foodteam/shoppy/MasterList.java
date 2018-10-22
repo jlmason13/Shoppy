@@ -15,7 +15,6 @@ public class MasterList extends AppCompatActivity {
         setContentView(R.layout.activity_master_list);
 
         ImageButton gotoFrontBtn = (ImageButton) findViewById(R.id.returnToMainMenu );
-        //gotoFrontBtn.setBackgroundResource(R.color.accent_1);
         gotoFrontBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
