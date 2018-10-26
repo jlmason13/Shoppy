@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginBottom="24dp"
-        android:text="LIst o' Lists"
+        android:text="List o' Lists"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/button_createlist"
         app:layout_constraintStart_toStartOf="@+id/button_createlist"
