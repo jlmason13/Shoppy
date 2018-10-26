@@ -12,12 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:checked="true"
-        android:clickable="true"
         android:text="@string/date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <CheckBox
         android:id="@+id/store_id"
@@ -25,11 +22,9 @@
         android:layout_height="37dp"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:clickable="true"
         android:text="@string/store"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_id"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/date_id" />
 
     <CheckBox
         android:id="@+id/checkBox3"
@@ -37,12 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:checked="false"
-        android:clickable="true"
         android:text="@string/brand"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/store_id"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/store_id" />
 
     <CheckBox
         android:id="@+id/checkBox4"
@@ -50,11 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:clickable="true"
         android:text="@string/lowest_price"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox3"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
 
     <CheckBox
         android:id="@+id/checkBox5"
@@ -62,11 +52,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:clickable="true"
         android:text="@string/average_price"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox4"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
 
     <CheckBox
         android:id="@+id/checkBox6"
@@ -74,20 +62,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:clickable="true"
         android:text="@string/highest_price"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox5"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
         android:text="@string/filter_by"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
