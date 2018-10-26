@@ -13,6 +13,15 @@ public class List extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        // go to enter details page
+        Button done = findViewById(R.id.doneShopping);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent enterdetails = new Intent( getApplicationContext(), EnterDetails.class );
+                startActivity(enterdetails);
+            }
+        });
     }
 
     // add check box, delete button, and prod details button per element in list
