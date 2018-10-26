@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Shoppy</string>
+    <string name="SophDefaultString">empty</string>
 </resources>
