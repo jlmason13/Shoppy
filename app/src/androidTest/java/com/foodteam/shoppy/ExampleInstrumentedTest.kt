@@ -15,8 +15,7 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
-    //EMILY'S TEST COMMIT COMMENT!!!!
-
+    //Don't do tests here. Jococo won't see it.
     @Test
     fun useAppContext() {
         // Context of the app under test.

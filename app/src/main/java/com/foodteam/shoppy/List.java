@@ -15,4 +15,10 @@ public class List extends AppCompatActivity {
 
     }
 
+    // add check box, delete button, and prod details button per element in list
+
+
+    //suggestions will be an expandableTextView
+
+
 }
