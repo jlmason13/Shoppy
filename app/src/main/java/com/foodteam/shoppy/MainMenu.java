@@ -27,7 +27,7 @@ public class MainMenu extends AppCompatActivity {
 
         //Main Menu Button: "MASTER LIST"
         Button gotoMasterList = findViewById(R.id.buttMasterList);
-        gotoLists.setOnClickListener(new View.OnClickListener() {
+        gotoMasterList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainMenu.this, MasterList.class));
             }
@@ -35,7 +35,7 @@ public class MainMenu extends AppCompatActivity {
 
         //Main Menu Button: "SETTINGS"
         Button gotoSettings = findViewById(R.id.buttSettings);
-        gotoLists.setOnClickListener(new View.OnClickListener() {
+        gotoSettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainMenu.this, Settings.class));
             }
