@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/MasterListTitle"
-            android:layout_width="289dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="8"
             android:text="MasterList"
@@ -46,7 +46,7 @@
             android:baselineAligned="false">
 
             <LinearLayout
-                android:id="@+id/AttributeOneColumn"
+                android:id="@+id/AttOneCol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -62,6 +62,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/AttTwoCol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -70,12 +71,13 @@
                 <TextView
                     android:id="@+id/AttributeTwo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/SophDefaultString"
                     android:textAlignment="center" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/AttThreeCol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -90,6 +92,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/AttFourCol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -104,6 +107,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/AttFiveCol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -116,7 +120,24 @@
                     android:text="@string/SophDefaultString"
                     android:textAlignment="center" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/AttButtonCol"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/EmptyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Details"
+                    android:textAlignment="center" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>
