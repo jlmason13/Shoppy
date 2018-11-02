@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Filters">
+    tools:context=".MasterListFilters">
 
     <TextView
         android:id="@+id/textView"
@@ -18,38 +18,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/Date"
+        android:id="@+id/Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
         android:checked="true"
-        android:text="@string/date"
+        android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <CheckBox
-        android:id="@+id/Store"
-        android:layout_width="68dp"
-        android:layout_height="37dp"
+        android:id="@+id/Frequency"
+        android:layout_width="97dp"
+        android:layout_height="45dp"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
         android:checked="true"
-        android:text="@string/store"
+        android:text="@string/frequency"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Date" />
+        app:layout_constraintTop_toBottomOf="@+id/Name" />
 
     <CheckBox
-        android:id="@+id/Brand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/AvgPrice"
+        android:layout_width="132dp"
+        android:layout_height="32dp"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
         android:checked="true"
         android:clickable="false"
-        android:text="@string/brand"
+        android:text="@string/averagePrice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Store" />
+        app:layout_constraintTop_toBottomOf="@+id/Frequency" />
 
     <CheckBox
         android:id="@+id/LowestPrice"
@@ -59,30 +59,7 @@
         android:layout_marginTop="20dp"
         android:checked="true"
         android:clickable="false"
-        android:text="@string/lowest_price"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Brand" />
-
-    <CheckBox
-        android:id="@+id/AvgPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
-        android:checked="true"
-        android:clickable="false"
-        android:text="@string/average_price"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LowestPrice" />
-
-    <CheckBox
-        android:id="@+id/HighestPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
-        android:checked="true"
-        android:text="@string/highest_price"
+        android:text="@string/lowestPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AvgPrice" />
 
@@ -106,57 +83,60 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <RadioButton
-            android:id="@+id/MostRecentPurchase"
+            android:id="@+id/NameAlphabetical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/most_recent_purchase" />
+            android:text="@string/name_alphabetical" />
 
         <RadioButton
-            android:id="@+id/OldestPurchase"
+            android:id="@+id/FrequencyLH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/oldest_purchase" />
+            android:text="@string/frequency_lowest_to_highest" />
 
         <RadioButton
-            android:id="@+id/StoreAlephabetical"
+            android:id="@+id/FrequencyHL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/frequency_highest_to_lowest" />
+
+        <RadioButton
+            android:id="@+id/Lowest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="@string/store_alphabetical" />
+            android:text="@string/lowestPrice" />
 
         <RadioButton
-            android:id="@+id/BrandAlephabetical"
+            android:id="@+id/TotalLH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/brand_alphabetical" />
+            android:text="@string/total_spent_lowest_to_highest" />
 
         <RadioButton
-            android:id="@+id/PriceAverage"
+            android:id="@+id/TotalHL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/price_average" />
-
-
-        <RadioButton
-            android:id="@+id/PriceLowest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/price_lowest" />
-
-        <RadioButton
-            android:id="@+id/PriceHeighest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/price_highest" />
+            android:text="@string/total_spent_highest_to_lowest" />
 
     </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/TotalSpent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="20dp"
+        android:checked="true"
+        android:text="@string/total_spent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LowestPrice" />
 
 </android.support.constraint.ConstraintLayout>
