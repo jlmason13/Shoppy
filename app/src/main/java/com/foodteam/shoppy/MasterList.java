@@ -31,7 +31,7 @@ public class MasterList extends AppCompatActivity {
         gotoFrontBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent( getApplicationContext(), Filters.class );
+                Intent startIntent = new Intent( getApplicationContext(), Filters.class );    // MasterListFilters.class complaining because don't have current master version
                 startActivity(startIntent);
 
             }
