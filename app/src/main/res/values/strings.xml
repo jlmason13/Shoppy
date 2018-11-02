@@ -3,7 +3,6 @@
 
     <string name="color">Color:</string>
     <string name="font_size">Font Size:</string>
-    <string name="filter_by">Filter by:</string>
     <string name="SophDefaultString">empty</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
@@ -22,4 +21,24 @@
     <string name="lowest_price">Lowest price</string>
     <string name="average_price">Average price</string>
     <string name="highest_price">Highest price</string>
+    <string name="start_fresh">Start Fresh</string>
+    <string name="display">Display:</string>
+    <string name="sort_by">Sort by:</string>
+    <string name="oldest_purchase">Oldest Purchase</string>
+    <string name="price_average">Price: Average</string>
+    <string name="price_lowest">Price: Lowest</string>
+    <string name="price_highest">Price: Highest</string>
+    <string name="most_recent_purchase">Most Recent Purchase</string>
+    <string name="name">Name</string>
+    <string name="frequency">Frequency</string>
+    <string name="averagePrice">Average Price</string>
+    <string name="lowestPrice">Lowest Price</string>
+    <string name="name_alphabetical">Name: Alphabetical</string>
+    <string name="frequency_lowest_to_highest">Frequency: Lowest to Highest</string>
+    <string name="frequency_highest_to_lowest">Frequency: Highest to Lowest</string>
+    <string name="total_spent_lowest_to_highest">Total Spent: Lowest to Highest</string>
+    <string name="total_spent_highest_to_lowest">Total Spent: Highest to Lowest</string>
+    <string name="total_spent">Total Spent</string>
+    <string name="store_alphabetical">Store: Alphabetical</string>
+    <string name="brand_alphabetical">Brand: Alphabetical</string>
 </resources>
