@@ -37,16 +37,6 @@ public class MasterList extends AppCompatActivity {
             }
         });
 
-//        //Test dynamically adding textviews
-//        LinearLayout attOneCol = (LinearLayout) findViewById(R.id.AttributeOneColumn);
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);       //CONTINUE ME
-//        String[] items = { "egg", "bread", "milk"};
-//        for( int i = 0; i < items.length; i++ ) {
-//            TextView item = new TextView( this );
-//            item.setText( items[i] );
-//            attOneCol.addView( item );
-//        }
-
     }
 
 
