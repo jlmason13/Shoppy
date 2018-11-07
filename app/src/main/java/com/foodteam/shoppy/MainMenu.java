@@ -17,7 +17,7 @@ public class MainMenu extends AppCompatActivity {
 
     SQLiteDatabase shoppyDB = null;
 
-    public void createDatabase(View view){
+    public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
             shoppyDB = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
@@ -46,6 +46,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        createDatabase();
 
         //Main Menu Button: "LISTS"
         Button gotoLists = findViewById(R.id.buttLists);
