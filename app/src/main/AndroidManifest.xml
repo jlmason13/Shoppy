@@ -24,7 +24,8 @@
         <activity android:name=".MasterList" />
         <activity android:name=".Filters" />
         <activity android:name=".ProductDetails" />
-        <activity android:name=".EnterDetails"></activity>
+        <activity android:name=".EnterDetails" />
+        <activity android:name=".MasterListFilters"></activity>
     </application>
 
 </manifest>
