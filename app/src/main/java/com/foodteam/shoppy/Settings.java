@@ -12,6 +12,33 @@ import android.database.Cursor;
 public class Settings extends AppCompatActivity {
 
     SQLiteDatabase shoppyDB = null;
+    Cursor cur;
+
+    public void stuff(){
+        //Deletes the list
+        cur = shoppyDB.rawQuery("select listName from Lists", new String [] {});
+        while (cur.moveToNext()) {
+            shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("listName")) );
+
+        }
+
+        //Deletes the product details
+        cur = shoppyDB.rawQuery("select product from MasterList", new String [] {});
+        while (cur.moveToNext()) {
+            shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("product")) );
+        }
+
+        //Empty's the master list
+        shoppyDB.execSQL("DELETE FROM MasterList" );
+        shoppyDB.execSQL("VACUUM");
+
+        //Empty's thw list of list
+        shoppyDB.execSQL("DELETE FROM Lists" );
+        shoppyDB.execSQL("VACUUM");
+
+        //close cur
+        cur.close();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,32 +49,43 @@ public class Settings extends AppCompatActivity {
         shoppyDB = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
 
         Button startFresh = findViewById(R.id.StartFresh);
-        startFresh.setOnClickListener(
+        startFresh.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 //Deletes the list
-                Cursor cur = shoppyDB.rawQuery("select listName from Lists", new String [] {});
-                while (cur.moveToNext()) {
-                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getstring );
+                cur = shoppyDB.rawQuery("select listName from Lists", new String[]
+
+                        {
+                        });
+                while (cur.moveToNext())
+
+                {
+                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("listName")));
 
                 }
 
                 //Deletes the product details
-                cur = shoppyDB.rawQuery("select product from MasterList", new String [] {});
-                while (cur.moveToNext()) {
-                shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getstring );
+                cur = shoppyDB.rawQuery("select product from MasterList", new String[]
+
+                        {
+                        });
+                while (cur.moveToNext())
+
+                {
+                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("product")));
                 }
 
                 //Empty's the master list
-                shoppyDB.execSQL("DELETE FROM " + MasterList );
+                shoppyDB.execSQL("DELETE FROM MasterList");
                 shoppyDB.execSQL("VACUUM");
 
                 //Empty's thw list of list
-                shoppyDB.execSQL("DELETE FROM " + Lists );
+                shoppyDB.execSQL("DELETE FROM Lists");
                 shoppyDB.execSQL("VACUUM");
 
                 //close cur
                 cur.close();
-        );
-
+            }
+        });
 //        Button Red = findViewById(R.id.red);
 //        Red.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
