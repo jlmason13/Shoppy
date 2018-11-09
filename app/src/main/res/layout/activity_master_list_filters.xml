@@ -26,7 +26,7 @@
         android:checked="true"
         android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <CheckBox
         android:id="@+id/Frequency"
@@ -37,7 +37,7 @@
         android:checked="true"
         android:text="@string/frequency"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Name" />
+        app:layout_constraintTop_toBottomOf="@+id/Name"/>
 
     <CheckBox
         android:id="@+id/AvgPrice"
@@ -46,10 +46,9 @@
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
         android:checked="true"
-        android:clickable="false"
         android:text="@string/averagePrice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Frequency" />
+        app:layout_constraintTop_toBottomOf="@+id/Frequency"/>
 
     <CheckBox
         android:id="@+id/LowestPrice"
@@ -58,10 +57,9 @@
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
         android:checked="true"
-        android:clickable="false"
         android:text="@string/lowestPrice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AvgPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/AvgPrice"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -88,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/name_alphabetical" />
 
         <RadioButton
@@ -95,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/frequency_lowest_to_highest" />
 
         <RadioButton
@@ -102,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/frequency_highest_to_lowest" />
 
         <RadioButton
@@ -110,6 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/lowestPrice" />
 
         <RadioButton
@@ -117,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/total_spent_lowest_to_highest" />
 
         <RadioButton
@@ -124,6 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/total_spent_highest_to_lowest" />
 
     </RadioGroup>
@@ -138,5 +142,16 @@
         android:text="@string/total_spent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LowestPrice" />
+
+    <Button
+        android:id="@+id/applyfilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply Filters"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="503dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/textView"
+        app:layout_constraintRight_toLeftOf="@id/textView4"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.foodteam.shoppy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,8 +17,19 @@ import java.io.File;
 public class MainMenu extends AppCompatActivity {
 
     SQLiteDatabase shoppyDB = null;
+    Context mcontext;
 
-    public void createDatabase(View view){
+    /*public MainMenu(Context context){
+        mcontext = context;
+    }*/
+
+    public String hello(){
+        //With the massive unit test troubles we've been having,
+        //this method shows us that tests can work!!!!
+        return mcontext.getPackageName();
+    }
+
+    public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
             shoppyDB = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
@@ -26,9 +38,12 @@ public class MainMenu extends AppCompatActivity {
                     "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
             //db on file system
+
             File database = getApplicationContext().getDatabasePath("shoppyDB.db");
+            //Show if file was actually set to shoppyDB
+
             if (!database.exists()){
-                Toast.makeText(this, "Database Created", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, "Database Missing", Toast.LENGTH_LONG).show();
             }
@@ -37,15 +52,17 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    /*
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        createDatabase();
 
         //Main Menu Button: "LISTS"
         Button gotoLists = findViewById(R.id.buttLists);
