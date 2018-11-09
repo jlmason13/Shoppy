@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 
 public class MasterListFilters extends AppCompatActivity {
-
+//
     private int[] filters;
 
     @Override
