@@ -19,9 +19,9 @@ public class MainMenu extends AppCompatActivity {
     SQLiteDatabase shoppyDB = null;
     Context mcontext;
 
-    public MainMenu(Context context){
+    /*public MainMenu(Context context){
         mcontext = context;
-    }
+    }*/
 
     public String hello(){
         //With the massive unit test troubles we've been having,
@@ -42,7 +42,7 @@ public class MainMenu extends AppCompatActivity {
             File database = getApplicationContext().getDatabasePath("shoppyDB.db");
             //Show if file was actually set to shoppyDB
 
-            if (!database.exists()){
+            if (database.exists()){
                 Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, "Database Missing", Toast.LENGTH_LONG).show();
