@@ -24,7 +24,7 @@ public class Settings extends AppCompatActivity {
         Button startFresh = findViewById(R.id.StartFresh);
         startFresh.setOnClickListener(
                 //Deletes the list
-                Cursor cur = shoppyDB.rawQuery("select listName from Lists", new String [] {});
+                Cursor cur = shoppyDB.rawQuery("select listName from Lists;", new String [] {});    //new String [] {}
                 while (cur.moveToNext()) {
                     shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getstring );
 
