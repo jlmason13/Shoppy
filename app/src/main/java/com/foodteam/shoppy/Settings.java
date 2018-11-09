@@ -11,6 +11,8 @@ import android.database.Cursor;
 
 public class Settings extends AppCompatActivity {
 
+    //why?
+
     SQLiteDatabase shoppyDB = null;
 
     @Override
