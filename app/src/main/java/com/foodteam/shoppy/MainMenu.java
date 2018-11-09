@@ -42,7 +42,7 @@ public class MainMenu extends AppCompatActivity {
             File database = getApplicationContext().getDatabasePath("shoppyDB.db");
             //Show if file was actually set to shoppyDB
 
-            if (!database.exists()){
+            if (database.exists()){
                 Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, "Database Missing", Toast.LENGTH_LONG).show();
