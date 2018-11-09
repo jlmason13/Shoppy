@@ -26,7 +26,7 @@ public class MainMenu extends AppCompatActivity {
                     "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
             //db on file system
-            File database = getApplicationContext().getDatabasePath("shoppyDB.db");
+            File database = getApplicationContext().getDatabasePath("shoppyDB");
             if (!database.exists()){
                 Toast.makeText(this, "Database Created", Toast.LENGTH_SHORT).show();
             }else{
