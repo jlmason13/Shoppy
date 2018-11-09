@@ -38,8 +38,10 @@ public class MainMenu extends AppCompatActivity {
                     "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
             //db on file system
+
             File database = getApplicationContext().getDatabasePath("shoppyDB.db");
             //Show if file was actually set to shoppyDB
+
             if (!database.exists()){
                 Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
