@@ -1,5 +1,6 @@
 package com.foodteam.shoppy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +17,17 @@ import java.io.File;
 public class MainMenu extends AppCompatActivity {
 
     SQLiteDatabase shoppyDB = null;
+    Context mcontext;
+
+    public MainMenu(Context context){
+        mcontext = context;
+    }
+
+    public String hello(){
+        //With the massive unit test troubles we've been having,
+        //this method shows us that tests can work!!!!
+        return mcontext.getPackageName();
+    }
 
     public void createDatabase(){
         try{
@@ -27,8 +39,9 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
             //db on file system
             File database = getApplicationContext().getDatabasePath("shoppyDB.db");
+            //Show if file was actually set to shoppyDB
             if (!database.exists()){
-                Toast.makeText(this, "Database Created", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, "Database Missing", Toast.LENGTH_LONG).show();
             }
@@ -37,10 +50,11 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    /*
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
