@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!-- PRE-EXISTING LISTS -->
+    <LinearLayout
+        android:id="@+id/existingList"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/nameOfList"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:onClick="gotoList" />
+
+        <TextView
+            android:id="@+id/delete_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/ic_delete"
+            android:onClick="onDelete"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

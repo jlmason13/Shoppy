@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class ProductDetails extends AppCompatActivity {
     /*When ProductDetails is used, it should already have been linked
     to a specific product. This product should be the name of the table
-    so getDetails() can pull from that table.*/
+    so getDetails() can pull directly from that table.*/
     SQLiteDatabase shoppyDB = null; //The database
     //CODE TO PUT INTO LIST.JAVA:
     //Intent intent = new Intent(List.this, ProductDetails.class); //Link activity pages
@@ -24,6 +25,11 @@ public class ProductDetails extends AppCompatActivity {
         try{
             //Create/open shoppy.db and make it exclusive to the app
             shoppyDB = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
+            if (product == null){
+                //Did not successfully receive product name from List.java
+                Toast.makeText(this, "Product Missing", Toast.LENGTH_SHORT).show();
+            }
+            //There should be a table by the name of the product. Find it.
             shoppyDB.execSQL("SELECT * FROM " + product + ");");
         }catch(Exception e){
             Log.e("PRODDETAIL ERROR", "Problem getting product details for " + product);
@@ -47,6 +53,7 @@ public class ProductDetails extends AppCompatActivity {
         }else {
             product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
         }
+        //Once product name is acquired, get details on it to display
         getDetails(product);
     }
 
