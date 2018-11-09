@@ -57,7 +57,27 @@ public class List extends AppCompatActivity {
         // add check box, delete button, and prod details button per element in list
 
 
-        //suggestions will be an expandableTextView
+    public void deleteItem() {
+
+    }
+
+    //onclick for product details button
+    public void prodDets() {
+
+    }
+
+    //onclick for adding products to list
+    public void addProduct(View view) {
+        //needs to add a row to <listnameTable>
+
+        //add an Edit text, remove button, and product details button for product to a listView
+    }
+
+
+
+
+
+    //suggestions will be an expandableTextView
 
 
 

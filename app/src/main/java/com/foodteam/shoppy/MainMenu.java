@@ -19,9 +19,9 @@ public class MainMenu extends AppCompatActivity {
     SQLiteDatabase shoppyDB = null;
     Context mcontext;
 
-    public MainMenu(Context context){
+  /*public MainMenu(Context context){
         mcontext = context;
-    }
+    }*/
 
     public String hello(){
         //With the massive unit test troubles we've been having,
