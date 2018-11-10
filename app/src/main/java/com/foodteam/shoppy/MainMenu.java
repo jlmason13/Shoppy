@@ -39,9 +39,8 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
             //db on file system
 
-            File database = getApplicationContext().getDatabasePath("shoppyDB.db");
+            File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi
             //Show if file was actually set to shoppyDB
-
             if (database.exists()){
                 Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
