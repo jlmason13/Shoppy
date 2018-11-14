@@ -11,6 +11,8 @@ import android.database.Cursor;
 
 public class Settings extends AppCompatActivity {
 
+    //why?
+
     SQLiteDatabase shoppyDB = null;
     Cursor cur;
 
@@ -60,7 +62,6 @@ public class Settings extends AppCompatActivity {
 
                 {
                     shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("listName")));
-
                 }
 
                 //Deletes the product details
