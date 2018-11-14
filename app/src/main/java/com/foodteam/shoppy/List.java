@@ -1,13 +1,19 @@
 package com.foodteam.shoppy;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class List extends AppCompatActivity {
+
+    String tablename;
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
@@ -22,6 +28,16 @@ public class List extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //get name of table from previous page
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                tablename = null;
+            } else {
+                tablename = extras.getString("nameOfTable");
+            }
+        }
 
         //connect to db
         try (SQLiteDatabase sqLiteDatabase = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null)) {
@@ -42,6 +58,7 @@ public class List extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent enterdetails = new Intent( getApplicationContext(), EnterDetails.class );
+                    enterdetails.putExtra("", tablename);
                     startActivity(enterdetails);
                 }
             });
