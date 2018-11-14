@@ -58,13 +58,19 @@
                 android:id="@+id/newListName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_weight="5"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:inputType="textAutoComplete"
+                android:isScrollContainer="false"
+                android:maxLines="1" />
 
             <Button
                 android:id="@+id/createList"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
+                android:hint='"new list name"'
                 android:onClick="addList"
                 android:text="Add" />
         </LinearLayout>
