@@ -17,17 +17,28 @@ import java.io.File;
 public class MainMenu extends AppCompatActivity {
 
     SQLiteDatabase shoppyDB = null;
-    Context mcontext;
+
+    public MainMenu(){}
+    public MainMenu(SQLiteDatabase shoppyDB){
+        this.shoppyDB = shoppyDB;
+    }
+    public void setShoppyDB(SQLiteDatabase shoppyDB){
+        this.shoppyDB = shoppyDB;
+    }
+    public SQLiteDatabase getShoppyDB(){
+        return this.shoppyDB;
+    }
+    //Context mcontext;
 
     /*public MainMenu(Context context){
         mcontext = context;
     }*/
-
-    public String hello(){
+    /*
+    public String hello(String product){
         //With the massive unit test troubles we've been having,
         //this method shows us that tests can work!!!!
         return mcontext.getPackageName();
-    }
+    }*/
 
     public void createDatabase(){
         try{
@@ -39,9 +50,8 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
             //db on file system
 
-            File database = getApplicationContext().getDatabasePath("shoppyDB.db");
+            File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi
             //Show if file was actually set to shoppyDB
-
             if (database.exists()){
                 Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
             }else{
@@ -52,17 +62,23 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    /*
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
-    }*/
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        createDatabase();
+        //createDatabase();
+        //DBHandler db = new DBHandler(this, "shoppyDB", null, 1);
+        //db.onCreate(shoppyDB);
+
+        //I'm using the database:
+        DBHandler.getInstance(getApplicationContext());
+
+
 
         //Main Menu Button: "LISTS"
         Button gotoLists = findViewById(R.id.buttLists);
