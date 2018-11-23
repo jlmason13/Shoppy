@@ -1,34 +1,51 @@
 package com.foodteam.shoppy;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 
 public class MainMenu extends AppCompatActivity {
 
-    SQLiteDatabase shoppyDB = null;
-    Context mcontext;
+    SQLiteDatabase shoppyDB;
 
-    /*public MainMenu(Context context){
-        mcontext = context;
-    }*/
+    public MainMenu(){}
+    public MainMenu(SQLiteDatabase shoppyDB){
+        this.shoppyDB = shoppyDB;
+    }
+    public void setShoppyDB(SQLiteDatabase shoppyDB){
+        this.shoppyDB = shoppyDB;
+    }
+    public SQLiteDatabase getShoppyDB(){
+        return this.shoppyDB;
+    }
 
-    public String hello(){
+
+//Context mcontext;
+
+/*public MainMenu(Context context){
+    mcontext = context;
+}*/
+    /*
+    public String hello(String product){
         //With the massive unit test troubles we've been having,
         //this method shows us that tests can work!!!!
         return mcontext.getPackageName();
-    }
-
+    }*/
+/*
     public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
@@ -51,18 +68,49 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    /*
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
-    }*/
+    }
+*/
+public String getTableAsString(SQLiteDatabase db, String tableName){
+    String tableString = String.format("Table %s:\n", tableName);
+    Cursor allRows = db.rawQuery(" SELECT * FROM " + tableName, null);
+    if (allRows.moveToFirst()){
+        String[] columnNames = allRows.getColumnNames();
+        do{
+            for (String name: columnNames){
+                tableString += String.format("%s: %s\n", name, allRows.getString(allRows.getColumnIndex(name)));
+            }
+            tableString += "\n";
+        }while (allRows.moveToNext());
+    }
+    allRows.close();
+    return tableString;
+}
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        createDatabase();
 
+//USE THIS CODE TO USE THE DATABASE:
+/*
+        //I'm using the database:
+        DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
+        //Toast.makeText(this, "Added to ML", Toast.LENGTH_SHORT).show(); //Use TOAST if you want to see a pop-up message
+        Log.e("Create Item", "Create eggs in MasterList"); //Use LOG if you want to see it in file dump
+        dbHelper.createItemMasterList("eggs", 2, (float) 1.75, (float) 0.98, (float) 2.78); //add milk to MasterList
+
+        //Toast.makeText(this, "Deleted in ML", Toast.LENGTH_SHORT).show();
+        Log.e("Delete Item", "Delete eggs from MasterList"); //Use LOG if you want to see it in file dump
+        dbHelper.deleteProductMasterList("eggs"); //Delete product from MasterList (whole row)
+
+        Log.e("Number Items", "Items in MasterList " + dbHelper.countMasterList()); //Use LOG if you want to see it in file dump
+*/
+
+//BUTTONS:
         //Main Menu Button: "LISTS"
         Button gotoLists = findViewById(R.id.buttLists);
         gotoLists.setOnClickListener(new View.OnClickListener() {

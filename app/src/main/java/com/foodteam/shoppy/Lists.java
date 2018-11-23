@@ -28,6 +28,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 
 public class Lists extends AppCompatActivity {
@@ -35,116 +36,31 @@ public class Lists extends AppCompatActivity {
     private LinearLayout parentLinearLayout;
     private int listcount = 0;
     private String listname = "";
+    private String tablename = "";
     EditText newName;
     ArrayList<String> results = new ArrayList<String>();
+    DBHandler shoppyHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
 
+        shoppyHelp = DBHandler.getInstance(getApplicationContext());
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.listArea);
-
         newName = (EditText)findViewById(R.id.newListName);
-        shoppy = openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
-        populateListView();
 
         //connect to db
-        try (SQLiteDatabase shoppy = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null)) {
-
-            // create list button goes to empty list page
-           /* Button createlistbutton = findViewById(R.id.button_createlist);
-            createlistbutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //txt box for list name
-                    String listName = "Enter List Name";
-                    LinearLayout linearLayout = findViewById(R.id.listArea);
-                   // setContentView(linearLayout);
-                   // linearLayout.setOrientation(LinearLayout.VERTICAL);
-                    EditText nameHolder = new EditText(getBaseContext());
-                    nameHolder.setText(listName);
-                  //  listName = nameHolder.getText().toString();
-                    linearLayout.addView(nameHolder);
-
-
-                    listName = nameHolder.toString();
-                /////THIS IS WRONG - FIND A WAY TO GET TO NEW INTENT WITH CLICK OF ENTER KEY
-                    nameHolder.setFocusableInTouchMode(true);
-                    nameHolder.requestFocus();
-                    nameHolder.setOnKeyListener(new View.OnKeyListener() {
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            // If the event is a key-down event on the "enter" button
-                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                                // Perform action on key press
-                               // setImeOptions(6);
-
-                                //shoppy.insert("List", null, listName); //add new list to database
-                                //create <listName> table
-
-
-                                Intent showList = new Intent( getApplicationContext(), List.class );
-                                startActivity(showList);
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-
-*/
-
-                    /*
-                    nameHolder.setOnKeyListener(new View.OnKeyListener() {
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                                //create table titled <txt from box>
-
-
-                                //go to list page w/ info from ^table
-                                Intent showList = new Intent( getApplicationContext(), List.class );
-                                startActivity(showList);
-                            }
-                            return false;
-                            if (event.getAction() == KeyEvent.ACTION_DOWN)
-                            {
-                                switch (keyCode)
-                                {
-                                    case KeyEvent.KEYCODE_DPAD_CENTER:
-                                    case KeyEvent.KEYCODE_ENTER:
-                                        addCourseFromTextBox();
-                                        return true;
-                                    default:
-                                        break;
-                                }
-                            }
-                            return false;
-                        }
-
-                    });*/
-                  // Intent showList = new Intent( getApplicationContext(), List.class );
-                  // startActivity(showList);
-            //    }
-           // });
-
-
-            // dynamically add views to go to other existing lists
-            // for each list in table lists
-           Cursor cur = shoppy.rawQuery("select listName from Lists", new String [] {});
-
-            while (cur.moveToNext()) {
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View rowView = inflater.inflate(R.layout.list_helper, null);
-                // Add the new row
-                parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-            }
-
-
-
-            cur.close();
+        /*try {
+            shoppy = openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
+            populateListView();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+            Log.e("DATABASE ERROR", "Problem getting database");
+        }*/
+
+
+
     }
 
 
@@ -199,13 +115,14 @@ public class Lists extends AppCompatActivity {
 
             listcount--;
         }
-        // remove list from hoppydb
+        // remove list from shoppydb
         // should have an are you sure pop up
     }
 
     public void gotoList(View v) {
         // figure out way to pass name of list so you see the right one
         Intent showList = new Intent( getApplicationContext(), List.class );
+        showList.putExtra("nameOfTable", tablename);
         startActivity(showList);
     }
 
@@ -218,7 +135,7 @@ public class Lists extends AppCompatActivity {
             listname = newName.getText().toString();
 
             //get rid of spaces in listname for saving purposes
-            String tablename = "";
+            tablename = "";
             for (int i = 0; i < listname.length()-1; i++) {
                 if (listname.charAt(i) == ' ') {
                     tablename = tablename + '_';
@@ -227,19 +144,26 @@ public class Lists extends AppCompatActivity {
                 }
             }
 
-            //add row to Lists table
-            String sql = new StringBuilder().append("INSERT INTO Lists (listName) VALUES(\"").append(tablename).append("\");").toString();
-            shoppy.execSQL("INSERT INTO Lists VALUES(\")"+ tablename +"\") ");
+            try {
+                //add row to Lists table
+                String sql = new StringBuilder().append("INSERT INTO Lists (listName) VALUES(\"").append(tablename).append("\");").toString();
+                shoppy.execSQL("INSERT INTO Lists VALUES(\")" + tablename + "\") ");
 
-            //create table called newName.getText().toString()
-            sql = new StringBuilder().append("CREATE TABLE  IF NOT EXISTS ").append(tablename).append(" ( product VARCHAR primary key, inCart BOOLEAN );").toString();
-            shoppy.execSQL(sql);
+                //create table called newName.getText().toString()
+                String make = new StringBuilder().append("CREATE TABLE  IF NOT EXISTS ").append(tablename).append(" ( product VARCHAR primary key, inCart BOOLEAN );").toString();
+                shoppy.execSQL(make);
+
+                //"re-draw" the list of lists
+                populateListView();
+            } catch (Exception e) {
+                Log.e("DATABASE ERROR", "Problem inserting into database");
+                Toast.makeText(this, "Database Error", Toast.LENGTH_LONG).show();
+            }
         }
-        populateListView();
     }
 
     //function for adding all existing lists to the listView so they shoe up on screen
-    private void populateListView() {
+    private void populateListView() { //FIX THIS METHOD IT MAKE SHOPPY CRASH
         Cursor cur; cur = shoppy.rawQuery("select listName from Lists", null);
         if (cur!= null) {
            cur.moveToFirst();
@@ -263,9 +187,12 @@ public class Lists extends AppCompatActivity {
         list.setAdapter(curAdapt);
         */
 
-
+        cur.close();
     }
 
 
+  //  public static String getListName() {
+    //    return tablename;
+    //}
 
 }
