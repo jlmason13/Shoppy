@@ -45,7 +45,7 @@ public class MainMenu extends AppCompatActivity {
         //this method shows us that tests can work!!!!
         return mcontext.getPackageName();
     }*/
-/*
+
     public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
@@ -72,7 +72,7 @@ public class MainMenu extends AppCompatActivity {
         shoppyDB.close();
         super.onDestroy();
     }
-*/
+
 public String getTableAsString(SQLiteDatabase db, String tableName){
     String tableString = String.format("Table %s:\n", tableName);
     Cursor allRows = db.rawQuery(" SELECT * FROM " + tableName, null);
@@ -94,6 +94,7 @@ public String getTableAsString(SQLiteDatabase db, String tableName){
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
 /*
@@ -134,5 +135,7 @@ public String getTableAsString(SQLiteDatabase db, String tableName){
                 startActivity(new Intent(MainMenu.this, Settings.class));
             }
         });
+
+        //TODO remove crazyness from MasterList
     }
 }
