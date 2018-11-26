@@ -32,6 +32,6 @@ public class ProductDetailsTest {
     @Test
     public void onCreate() {
         String name = "";
-        //assertEquals("Expected" , proDet.getDetails(name));
+
     }
 }
