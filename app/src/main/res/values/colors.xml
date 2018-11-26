@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#0E6655</color>
     <color name="colorAccent">#d81b60</color>
 
-    //added by Zofi for MasterList
+    <!--Sophia's color-->
     <color name="BlackText">#060606</color>
     <color name="DarkGreyText">#343434</color>
     <color name="GreyText">#494A49</color>
 
+    <!--Settings usage-->
+
+    <!--Font color-->
+    <color name="black">#000000</color>
+
+    <!--Background colors-->
+    <color name="white">#ffffff</color>
+    <color name="lightPink">#F48FB1</color>
+    <color name="lightPurple">#BB8FCE</color>
+    <color name="lightGreen">#2ECC71</color>
+    <color name="lightBlue">#5DADE2</color>
+    <color name="lightYellow">#FFEE58</color>
+    <color name="lightOrange">#FFA726</color>
+    <color name="lightRed">#FF5050</color>
+
+    <!--Top line (toolbar) colors-->
+    <color name="colorPrimaryDark">#0E6655</color>
+    <color name="darkPink">#FF00FF</color>
+    <color name="darkPurple">#6C3483</color>
+    <color name="darkGreen">#008000</color>
+    <color name="darkBlue">#0000FF</color>
+    <color name="darkYellow">#FFFF00</color>
+    <color name="darkOrange">#EF6C00</color>
+    <color name="darkRed">#ff0000</color>
 </resources>
