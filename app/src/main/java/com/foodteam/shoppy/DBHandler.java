@@ -10,7 +10,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static DBHandler sInstance;
 
     private static final String DATABASE_NAME = "shoppyDB";
-    //private static final String DATABASE_TABLE = "table_name";
+    private static final String TABLE_MASTERLIST = "MasterList";
+    private static final String TABLE_LISTS = "Lists";
+    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
+    private static final String CREATE_TABLE_LISTS = "CREATE TABLE " + TABLE_LISTS + "(listName VARCHAR primary key);";
     private static final int DATABASE_VERSION = 1;
 
     //getInstance() ensures only one DBHandler will exist at any time.
@@ -37,16 +40,80 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Create two tables, MasterList & Lists
-        db.execSQL("CREATE TABLE IF NOT EXISTS MasterList " +
-                "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
+        db.execSQL(CREATE_TABLE_MASTERLIST);
+        db.execSQL(CREATE_TABLE_LISTS);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {}
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MASTERLIST + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LISTS + ";");
+    }
 
+    public void closeDB(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen()){
+            db.close();
+        }
+    }
+//---------------------------------------------
+    //This creates a whole new row for the product. TESTED
+    public void createItemMasterList(String p, int f, float a, float l, float t){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("product", p);
+        values.put("frequency", f);
+        values.put("avgPrice", a);
+        values.put("lowestPrice", l);
+        values.put("totalSpent", t);
+        //insert row
+        db.insert("MasterList", null, values);
+    }
 
-//============
+    //This creates a whole new row for the List.
+    public void createItemLists(String p){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("listName", p);
+        //insert row
+        db.insert("Lists", null, values);
+    }
+
+    //Update "product" in MasterList. UNTESTED
+    public void updateProductMasterList(String p){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("product", p);
+        db.update("MasterList", values, "product = ?", new String[] {String.valueOf(p)}  );
+    }
+
+    //Delete "product" in MasterList. TESTED
+    public void deleteProductMasterList(String p){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete("MasterList", "product = ?", new String[] {String.valueOf(p)} );
+    }
+
+    //Tells you how many items are in MasterList. TESTED
+    public int countMasterList(){
+        String count = " SELECT * FROM " + TABLE_MASTERLIST;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(count, null);
+        int n = c.getCount();
+        c.close();
+        return n;
+    }
+
+    //Tells you how many items are in Lists.
+    public int countLists(){
+        String count = " SELECT * FROM " + TABLE_LISTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(count, null);
+        int n = c.getCount();
+        c.close();
+        return n;
+    }
+
+//============ REFERENCE CODE =============
     /*
     //information of database
     private static final int DATABASE_VERSION = 1;

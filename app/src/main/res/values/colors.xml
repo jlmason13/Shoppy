@@ -3,4 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#0E6655</color>
     <color name="colorAccent">#d81b60</color>
+
+    //added by Zofi for MasterList
+    <color name="BlackText">#060606</color>
+    <color name="DarkGreyText">#343434</color>
+    <color name="GreyText">#494A49</color>
+
 </resources>
