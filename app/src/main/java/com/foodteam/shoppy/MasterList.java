@@ -2,8 +2,11 @@ package com.foodteam.shoppy;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -44,9 +47,18 @@ public class MasterList extends AppCompatActivity {
         gotoFrontBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent( getApplicationContext(), MasterListFilters.class );    // MasterListFilters.class complaining because don't have current master version
+                Intent startIntent = new Intent( getApplicationContext(), MasterListFilters.class );
                 startActivity(startIntent);
 
+            }
+        });
+
+        Button returnToMainMenu = (Button) findViewById(R.id.returnToMainMenu);
+        returnToMainMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent returnIntent = new Intent( getApplicationContext(), MainMenu.class );
+                startActivity(returnIntent);
             }
         });
 
@@ -63,7 +75,78 @@ public class MasterList extends AppCompatActivity {
     }
 
     protected int addMasterListProductData() {
-        Cursor itterate = theDatabase.rawQuery( "select * from MasterList;", null);
+        //The layout parameters for contents of a row
+        TableRow.LayoutParams buttonParam = new TableRow.LayoutParams(
+                120,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f
+        );
+        TableRow.LayoutParams textViewParam = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f
+        );
+        TableRow.LayoutParams numTextViewParam = new TableRow.LayoutParams(
+                35,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f
+        );
+
+        //retreive textViews of Attribute titles
+        TextView attrOne = (TextView) findViewById(R.id.AttributeOne);
+        TextView attrTwo = (TextView) findViewById(R.id.AttributeTwo);
+        TextView attrThree = (TextView) findViewById(R.id.AttributeThree);
+        TextView attrFour = (TextView) findViewById(R.id.AttributeFour);
+        TextView attrFive = (TextView) findViewById(R.id.AttributeFive);
+
+
+        // label the attributes based on filters array
+        String[] attrNames = {"product", "frequency", "avgPrice", "lowestPrice", "totalSpent"};
+        TextView[] attrLocales = {attrOne, attrTwo, attrThree, attrFour, attrFive};
+        if (filters != null) {
+            for (int i = 0, j = 0; i < filters.length - 1; i++) {
+                if (filters[i] == 1) {
+                    System.out.println( "Zofi: filters index " + i + " equals " + filters[i]);
+                    attrLocales[j].setText(attrNames[i]);
+                    j++;
+                }
+            }
+        } else {
+            for (int i = 0; i < 5; i++) {               //5 = filters.length - 1
+                attrLocales[i].setText(attrNames[i]);
+            }
+        }
+
+        // adjusts query based on last element of filters array
+        String query = "select * from Masterlist order by ";
+        if (filters != null) {
+            switch (filters[5]) {
+                case 0:
+                    query = query + "product ASC;";
+                    break;
+                case 1:
+                    query = query + "frequency ASC;";
+                    break;
+                case 2:
+                    query = query + "frequency DESC;";
+                    break;
+                case 3:
+                    query = query + "lowestPrice ASC;";
+                    break;
+                case 4:
+                    query = query + "totalSpent ASC;";
+                    break;
+                case 5:
+                    query = query + "totalSpent DESC;";
+                    break;
+                default:
+                    query = query + "product ASC;";
+            }
+        } else {
+            query = query + "product;";
+        }
+
+        Cursor itterate = theDatabase.rawQuery( query, null );
 
         int productColumn       = itterate.getColumnIndex("product");
         int freqColumn          = itterate.getColumnIndex("frequency");
@@ -71,32 +154,53 @@ public class MasterList extends AppCompatActivity {
         int lowestPriceColumn   = itterate.getColumnIndex("lowestPrice");
         int totalSpentColumn    = itterate.getColumnIndex("totalSpent");
 
-        Button   detailsButton   = new Button(this);
-        detailsButton.setText("Details");
-
+        //create rows based on data from cursor and the filters array, only includes columns that were selected via the filters page
         itterate.moveToFirst();
-
-        System.out.println("here1");    //track where error occurs
-        int i = 2;
-
         if (itterate != null && (itterate.getCount() > 0)) {
-            do{
-                System.out.println("here" + i); i++;
-                TextView curProduct      = createTextView( itterate.getString(productColumn)     );
-                TextView curFreq         = createTextView( itterate.getString(freqColumn)        );
-                TextView curAvg          = createTextView( itterate.getString(avgPriceColumn)    );
-                TextView curLow          = createTextView( itterate.getString(lowestPriceColumn) );
-                TextView curTotalSpent   = createTextView( itterate.getString(totalSpentColumn)  );
-
-                createNewRow( curProduct, curFreq, curAvg, curLow, curTotalSpent, detailsButton);   //details Button has no onclickListener
-            } while ( itterate.moveToNext() );
-
+            for( int r = 0; r < itterate.getCount(); r++ ) {
+                TableRow row = new TableRow(this);
+                if ( filters != null ) {
+                    if (filters[0] == 1) {
+                        TextView curProduct     = createTextView( textViewParam,    itterate.getString(productColumn),     false );
+                        row.addView(curProduct);
+                    }
+                    if (filters[1] == 1) {
+                        TextView curFreq        = createTextView( numTextViewParam, itterate.getString(freqColumn),        true );
+                        row.addView(curFreq);
+                    }
+                    if (filters[2] == 1) {
+                        TextView curAvg         = createTextView( numTextViewParam, itterate.getString(avgPriceColumn),    true );
+                        row.addView(curAvg);
+                    }
+                    if (filters[3] == 1) {
+                        TextView curLow         = createTextView( numTextViewParam, itterate.getString(lowestPriceColumn), true );
+                        row.addView(curLow);
+                    }
+                    if (filters[4] == 1) {
+                        TextView curTotalSpent  = createTextView( numTextViewParam, itterate.getString(totalSpentColumn),  true );
+                        row.addView(curTotalSpent);
+                    }
+                    Button detailsButton        = createNewButton( buttonParam, itterate.getString(productColumn) );
+                    row.addView(detailsButton);
+                    theTable.addView(row);
+                } else {
+                    TextView curProduct      = createTextView( textViewParam,    itterate.getString(productColumn),     false );
+                    TextView curFreq         = createTextView( numTextViewParam, itterate.getString(freqColumn),        true );
+                    TextView curAvg          = createTextView( numTextViewParam, itterate.getString(avgPriceColumn),    true );
+                    TextView curLow          = createTextView( numTextViewParam, itterate.getString(lowestPriceColumn), true );
+                    TextView curTotalSpent   = createTextView( numTextViewParam, itterate.getString(totalSpentColumn),  true );
+                    Button detailsButton     = createNewButton( buttonParam, itterate.getString(productColumn) );
+                    createNewRow( curProduct, curFreq, curAvg, curLow, curTotalSpent, detailsButton);
+                }
+                itterate.moveToNext();
+            }
         }
+        itterate.close();
         return 1;
     }
 
+    //handles creating a new row when filters array is not initialized
     private void createNewRow ( TextView curProduct, TextView curFreq, TextView curAvg, TextView curLow, TextView curTotalSpent, Button detailsButton ) {
-        //TODO Must figure out how to implement order based on filter
         TableRow row = new TableRow(this);
 
         row.addView(curProduct);
@@ -109,10 +213,36 @@ public class MasterList extends AppCompatActivity {
         theTable.addView(row);
     }
 
-    private TextView createTextView (String toDisplay ){
+    //name is self-explanatory
+    private TextView createTextView (TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
         TextView text = new TextView( this );
         text.setText( toDisplay );
+        text.setTextSize(16);
+        if ( !isNum ) {
+            text.setEms(5);     //wraps the text
+        } else {
+            text.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        }
+        text.setLayoutParams(aParam);
+        text.setTextColor(ContextCompat.getColor(this, R.color.GreyText));
         return text;
+    }
+
+    //name is self-explanatory
+    private Button createNewButton(TableRow.LayoutParams buttonParam, String productName) {
+        final String product = productName;
+        Button detailsButton = new Button(this);
+        detailsButton.setText("Details");
+        detailsButton.setLayoutParams(buttonParam);
+        detailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent transferIntent = new Intent(getApplicationContext(), ProductDetails.class);
+                transferIntent.putExtra("THEPRODUCTNAME", product);
+                startActivity(transferIntent);
+            }
+        });
+        return detailsButton;
     }
 
 }
