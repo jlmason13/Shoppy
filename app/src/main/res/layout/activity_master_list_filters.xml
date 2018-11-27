@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:text="@string/display"
         android:textColor="@android:color/black"
         android:textSize="36sp"
@@ -22,12 +22,12 @@
         android:id="@+id/Name"
         android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:text="@string/name"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -35,12 +35,12 @@
         android:id="@+id/Frequency"
         android:layout_width="140dp"
         android:layout_height="45dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:text="@string/frequency"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Name" />
 
@@ -48,12 +48,12 @@
         android:id="@+id/PriceAvg"
         android:layout_width="132dp"
         android:layout_height="61dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:checked="true"
-        android:text="@string/averagePrice"
+        android:text="Average Price"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Frequency" />
 
@@ -61,20 +61,34 @@
         android:id="@+id/LowPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:checked="true"
         android:text="@string/lowestPrice"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PriceAvg" />
+
+
+    <CheckBox
+        android:id="@+id/TotalSpent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:checked="true"
+        android:text="@string/total_spent"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LowPrice" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="30dp"
         android:text="@string/sort_by"
         android:textColor="@android:color/black"
@@ -85,8 +99,7 @@
     <RadioGroup
         android:layout_width="164dp"
         android:layout_height="375dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
@@ -99,7 +112,7 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/name_alphabetical"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/FrequencyLH"
@@ -109,7 +122,7 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/frequency_lowest_to_highest"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/FrequencyHL"
@@ -119,7 +132,7 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/frequency_highest_to_lowest"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/Lowest"
@@ -130,7 +143,7 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/lowestPrice"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/TotalLH"
@@ -140,7 +153,7 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/total_spent_lowest_to_highest"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/TotalHL"
@@ -150,22 +163,9 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/total_spent_highest_to_lowest"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </RadioGroup>
-
-    <CheckBox
-        android:id="@+id/TotalSpent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
-        android:checked="true"
-        android:text="@string/total_spent"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LowPrice" />
 
     <Button
         android:id="@+id/applyfilters"
