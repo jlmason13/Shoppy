@@ -28,9 +28,10 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
-                android:minHeight="25dp"
                 android:minWidth="25dp"
+                android:minHeight="25dp"
                 android:text="Return"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
@@ -40,8 +41,8 @@
                 android:layout_weight="1"
                 android:text="MasterList"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="30sp" />
+                android:textColor="@color/black"
+                android:textSize="36sp" />
 
             <Button
                 android:id="@+id/gotoFilters"
@@ -49,12 +50,12 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif"
-                android:minHeight="25dp"
                 android:minWidth="25dp"
+                android:minHeight="25dp"
                 android:text="Filters"
-                android:textSize="14sp"/>
-
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
