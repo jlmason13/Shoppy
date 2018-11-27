@@ -96,7 +96,7 @@ public class List extends AppCompatActivity {
     public void addProduct(View view) {
         //needs to add a row to <listnameTable>
 
-        //add an Edit text, remove button, and product details button for product to a listView
+        //adda checkbox, Edit text, remove button, and product details button for product to a listView
     }
 
 
@@ -107,8 +107,9 @@ public class List extends AppCompatActivity {
 
 
     public void back(View v) {
-        Intent showList = new Intent( getApplicationContext(), List.class );
-        startActivity(showList);
+       // Intent showList = new Intent( getApplicationContext(), List.class );
+       // startActivity(showList);
+        finish();
     }
 
 

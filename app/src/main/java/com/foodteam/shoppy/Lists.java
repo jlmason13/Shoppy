@@ -55,7 +55,7 @@ public class Lists extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Log.e("DATABASE ERROR", "Problem getting database");
+            Log.e("ERROR GETTING DATABASE", "Problem getting database");
            // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
         }
         populateListView();
@@ -65,7 +65,7 @@ public class Lists extends AppCompatActivity {
         //get the name of the current list
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
         String name = text.getText().toString();
-
+        name = obj.toTableName(name);
         //SHOULD ADD AN ARE YOU SURE POP UP
 
         try {
@@ -73,7 +73,7 @@ public class Lists extends AppCompatActivity {
             shoppyHelp.removeListTable(shoppy, name);
         } catch (Exception e) {
             Log.e("DATABASE ERROR", "Problem removing list from database");
-            Toast.makeText(this, "Database Error", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "ERROR REMOVING LIST", Toast.LENGTH_LONG).show();
         }
 
         //redraw the list o' lists
@@ -98,6 +98,7 @@ public class Lists extends AppCompatActivity {
         //dont do anything if the text feild is empty
         if (!TextUtils.isEmpty(newName.getText().toString())) {
             listname = newName.getText().toString();
+            listname = listname.trim();
             //get rid of spaces in listname for saving purposes
             tablename = obj.toTableName(listname);
 
@@ -125,7 +126,7 @@ public class Lists extends AppCompatActivity {
                     shoppyHelp.createListTable(shoppy, tablename); //creates a table called tablename
                 } catch (Exception e) {
                     Log.e("DATABASE ERROR", "Problem inserting new list into database");
-                    Toast.makeText(this, "Database Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
                 }
                 //let user know add was successful
                 Toast.makeText(this, listname + " added", Toast.LENGTH_LONG).show();
@@ -135,6 +136,11 @@ public class Lists extends AppCompatActivity {
             } else {
                 Toast.makeText(this, listname + " already exists", Toast.LENGTH_LONG).show();
             }
+
+            //empty the edittext
+            newName.setText("");
+        } else {
+            Toast.makeText(this, "Type in the box please", Toast.LENGTH_LONG).show();
         }
     }
 
