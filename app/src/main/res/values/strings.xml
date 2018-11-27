@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Shoppy</string>
-
-    <string name="color">Color:</string>
-    <string name="font_size">Font Size:</string>
+    <string name="color">Color</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
@@ -13,7 +11,7 @@
     <string name="green">Green</string>
     <string name="purple">Purple</string>
     <string name="pink">Pink</string>
-    <string name="black">Black</string>
+    <string name="white">White</string>
     <string name="date">Date</string>
     <string name="store">Store</string>
     <string name="brand">Brand</string>
@@ -21,8 +19,8 @@
     <string name="average_price">Average price</string>
     <string name="highest_price">Highest price</string>
     <string name="start_fresh">Start Fresh</string>
-    <string name="display">Display:</string>
-    <string name="sort_by">Sort by:</string>
+    <string name="display">Display</string>
+    <string name="sort_by">Sort by</string>
     <string name="oldest_purchase">Oldest Purchase</string>
     <string name="price_average">Price: Average</string>
     <string name="price_lowest">Price: Lowest</string>
@@ -40,5 +38,6 @@
     <string name="total_spent">Total Spent</string>
     <string name="store_alphabetical">Store: Alphabetical</string>
     <string name="brand_alphabetical">Brand: Alphabetical</string>
-    <string name="listName" />
+    <string name="back">Return</string>
+
 </resources>

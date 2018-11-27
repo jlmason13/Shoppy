@@ -10,16 +10,18 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/color"
-        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGroup2"
-        android:layout_width="97dp"
+        android:layout_width="123dp"
         android:layout_height="258dp"
         android:layout_marginStart="41dp"
         android:layout_marginTop="30dp"
@@ -31,113 +33,117 @@
             android:id="@+id/red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/red" />
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goRed"
+            android:text="@string/red"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/orange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/orange" />
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goOrange"
+            android:text="@string/orange"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/yellow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yellow" />
+            android:checked="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goYellow"
+            android:text="@string/yellow"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/blue" />
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goBlue"
+            android:text="@string/blue"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/green" />
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goGreen"
+            android:text="@string/green"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/purple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/purple" />
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goPurple"
+            android:text="@string/purple"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/pink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pink" />
-
-        <RadioButton
-            android:id="@+id/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/black" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/font_size"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="319dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:checkedButton="@+id/radioButton2"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
-
-
-        <RadioButton
-            android:id="@+id/small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/small" />
+            android:onClick="goPink"
+            android:text="@string/pink"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <RadioButton
-            android:id="@+id/medium"
+            android:id="@+id/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:checked="true"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/medium" />
+            android:onClick="goWhite"
+            android:text="@string/white"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-        <RadioButton
-            android:id="@+id/large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/large" />
     </RadioGroup>
 
     <Button
         android:id="@+id/StartFresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="41dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="470dp"
+        android:layout_marginEnd="120dp"
         android:text="@string/start_fresh"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/back"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
