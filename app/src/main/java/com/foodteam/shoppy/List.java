@@ -8,21 +8,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class List extends AppCompatActivity {
 
     String tablename;
 
-    @Override
+   /* @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         savedInstanceState.putInt("MY_FIELD", 43);
         // ... other fields
-        savedInstanceState.putString("", ""/*this needs to be the */);
+        savedInstanceState.putString("", "");
 
         super.onSaveInstanceState(savedInstanceState);
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,12 @@ public class List extends AppCompatActivity {
                 tablename = extras.getString("nameOfTable");
             }
         }
+
+        //set the title of the page to the lists name
+        ListName obj = new ListName();
+        obj.setName(tablename);
+        TextView title = (TextView) findViewById(R.id.title);
+        title.setText(obj.toListName(obj.getName()));
 
         //connect to db
         try (SQLiteDatabase sqLiteDatabase = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null)) {
@@ -97,7 +106,30 @@ public class List extends AppCompatActivity {
     //suggestions will be an expandableTextView
 
 
+    public void back(View v) {
+        Intent showList = new Intent( getApplicationContext(), List.class );
+        startActivity(showList);
+    }
 
 
+    //set inCart depending on if checkbox is clicked
+    public void cart(View v) {
+        int cart;
 
+        CheckBox check = (CheckBox)v;
+        if(check.isChecked()){
+            cart = 1;
+        } else {
+            cart = 0;
+        }
+
+        //set inCart for specific product to be int cart
+
+    }
+
+    public void doneShopping(View view) {
+        Intent details = new Intent( getApplicationContext(), EnterDetails.class );
+        details.putExtra("nameOfTable", tablename);
+        startActivity(details);
+    }
 }
