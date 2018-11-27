@@ -7,7 +7,7 @@
     tools:context=".Lists"
     tools:layout_editor_absoluteY="25dp">
 
-  <!-- <Button
+    <!-- <Button
         android:id="@+id/button_createlist"
         android:layout_width="217dp"
         android:layout_height="50dp"
@@ -53,8 +53,13 @@
         <!-- CREATE LIST -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:visibility="visible"><![CDATA[
             android:orientation="horizontal" >
+
+
+
+            ]]>
 
             <EditText
                 android:id="@+id/newListName"
@@ -63,9 +68,12 @@
                 android:layout_weight="5"
                 android:clickable="false"
                 android:cursorVisible="false"
-                android:inputType="textAutoComplete"
+                android:hint="New List Name"
+                android:inputType="text|textAutoComplete"
                 android:isScrollContainer="false"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:selectAllOnFocus="false"
+                android:singleLine="true" />
 
             <Button
                 android:id="@+id/createList"
@@ -78,11 +86,39 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarStyle="outsideOverlay">
+
+            <LinearLayout
+                android:id="@+id/listOlists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+        <!--
         <ListView
             android:id="@+id/listOlists"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+
+        </ListView>
+        -->
     </LinearLayout>
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:onClick="back"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

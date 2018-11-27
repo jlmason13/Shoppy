@@ -71,8 +71,8 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //This creates a whole new row for the List.
-    public void createItemLists(String p){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public void createItemLists(SQLiteDatabase db, String p){
+      //  SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("listName", p);
         //insert row
@@ -111,6 +111,57 @@ public class DBHandler extends SQLiteOpenHelper {
         int n = c.getCount();
         c.close();
         return n;
+    }
+
+
+
+    //----- stuff for list/s -----
+
+    //creates a list table with the passed in name
+    public void createListTable(SQLiteDatabase db, String listname) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + listname + "(product VARCHAR primary key, inCart int);");
+    }
+
+    //insert row into list table
+    public void addProduct(SQLiteDatabase db, String listname, String product) {
+        ContentValues values = new ContentValues();
+        values.put("product", product);
+        db.insert(listname, null, values);
+    }
+
+    //edit a product in list table
+    public void editProduct(String listname, String product) {
+      //needs to change the products text
+    }
+
+    //put product in cart (edit product row in list)
+    public void cart(String listname, String product, int inCart) {
+      //needs to change the value of inCart int listname where product = product;
+    }
+
+    //remove product from list
+    public void deleteProd(SQLiteDatabase db, String listname, String product) {
+        db.delete(listname, "product = ?", new String[] {String.valueOf(product)} );
+    }
+
+    //remove list table and removes that row from lists
+    public void removeListTable(SQLiteDatabase db, String listname) {
+        db.execSQL("DROP TABLE IF EXISTS " + listname + ";");
+        db.delete("Lists", "listName = ?", new String[] {String.valueOf(listname)} );
+    }
+
+
+    //retrieve data from table
+    public Cursor getRows(SQLiteDatabase db, String table, String column) {
+        //used for list and lists, column will either be product or
+        //use in populateListView function
+
+        String query = "select " + column + " from " + table;
+        Cursor cur = db.rawQuery(query, null);
+        if (cur != null) {
+            cur.moveToFirst();
+        }
+        return cur;
     }
 
 //============ REFERENCE CODE =============
