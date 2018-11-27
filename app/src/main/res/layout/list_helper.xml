@@ -16,7 +16,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:onClick="gotoList" />
+            android:onClick="gotoList"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/delete_button"
@@ -25,39 +26,6 @@
             android:layout_weight="1"
             android:background="@android:drawable/ic_delete"
             android:onClick="onDelete"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/productRow"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/productName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:isScrollContainer="false" />
-
-        <Button
-            android:id="@+id/prodDetailsButton"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:onClick="prodDetails"
-            android:text="Details"
-            android:clickable="false"/> <!--if prod exists in masterList table then set clickable to true-->
-
-        <TextView
-            android:id="@+id/deleteProduct"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@android:drawable/ic_delete"
-            android:onClick="deleteProd"/>
 
     </LinearLayout>
 
