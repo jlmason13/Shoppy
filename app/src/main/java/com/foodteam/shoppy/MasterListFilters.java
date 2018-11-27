@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class MasterListFilters extends AppCompatActivity {
 //
@@ -17,7 +18,6 @@ public class MasterListFilters extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_list_filters);
         setArray();
-
 
         Button applyFilters = findViewById(R.id.applyfilters);
         applyFilters.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +54,7 @@ public class MasterListFilters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.AvgPrice:
+            case R.id.PriceAvg:
                 if(checked) {
                     filters[2] = 1;
                 } else {
@@ -62,7 +62,7 @@ public class MasterListFilters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.LowestPrice:
+            case R.id.LowPrice:
                 if(checked) {
                     filters[3] = 1;
                 } else {
@@ -74,9 +74,20 @@ public class MasterListFilters extends AppCompatActivity {
                 if(checked) {
                     filters[4] = 1;
                 } else {
-                    filters[4] = 1;
+                    filters[4] = 0;
                 }
         }
+
+        //testing to make ensure that the proper checkbox is affecting the array
+        //every time a checkbox is clicked, adjust the array
+        /*
+        String test = "";
+
+        for(int i = 0; i < 6; i++) {
+            test += filters[i];
+        }
+        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
+        */
     }
 
 
@@ -120,5 +131,16 @@ public class MasterListFilters extends AppCompatActivity {
                 }
                 break;
         }
+
+        //testing to make ensure that the proper checkbox is affecting the array
+        //every time a checkbox is clicked, adjust the array
+        /*
+        String test = "";
+
+        for(int i = 0; i < 6; i++) {
+            test += filters[i];
+        }
+        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
+        */
     }
 }
