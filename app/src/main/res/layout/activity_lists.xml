@@ -52,27 +52,20 @@
 
         <!-- CREATE LIST -->
         <LinearLayout
+            android:id="@+id/addStuffArea"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="visible"><![CDATA[
-            android:orientation="horizontal" >
-
-
-
-            ]]>
+            android:gravity="top">
 
             <EditText
                 android:id="@+id/newListName"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="5"
-                android:clickable="false"
                 android:cursorVisible="false"
                 android:hint="New List Name"
-                android:inputType="text|textAutoComplete"
-                android:isScrollContainer="false"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:maxLines="1"
-                android:selectAllOnFocus="false"
                 android:singleLine="true" />
 
             <Button
@@ -86,17 +79,24 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <ScrollView
             android:id="@+id/scroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:isScrollContainer="false"
+            android:fadeScrollbars="false"
             android:scrollbarStyle="outsideOverlay">
 
-            <LinearLayout
+            <TableLayout
                 android:id="@+id/listOlists"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical" />
+
         </ScrollView>
         <!--
         <ListView
@@ -106,6 +106,14 @@
 
 
         </ListView>
+
+
+
+        <LinearLayout
+                android:id="@+id/listOlists"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
         -->
     </LinearLayout>
 

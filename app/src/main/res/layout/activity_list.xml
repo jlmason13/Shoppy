@@ -15,7 +15,6 @@
         android:layout_marginEnd="8dp"
         android:text="Name O' List"
         android:textColor="@color/black"
-
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,13 +100,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Done Shopping"
-
-        android:textSize="18sp"
         android:onClick="doneShopping"
-
         android:textColor="@color/black"
         android:textSize="24sp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

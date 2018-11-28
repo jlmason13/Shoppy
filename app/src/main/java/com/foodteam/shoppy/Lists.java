@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class Lists extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Log.e("DATABASE ERROR", "Problem getting database");
+            Log.e("ERROR GETTING DATABASE", "Problem getting database");
            // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
         }
         populateListView();
@@ -65,15 +67,16 @@ public class Lists extends AppCompatActivity {
         //get the name of the current list
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
         String name = text.getText().toString();
-
+        name = obj.toTableName(name);
         //SHOULD ADD AN ARE YOU SURE POP UP
 
         try {
             // remove list from shoppydb
             shoppyHelp.removeListTable(shoppy, name);
+            Toast.makeText(this, "list "+obj.toListName(name)+" removed", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e("DATABASE ERROR", "Problem removing list from database");
-            Toast.makeText(this, "Database Error", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "ERROR REMOVING LIST", Toast.LENGTH_LONG).show();
         }
 
         //redraw the list o' lists
@@ -98,6 +101,7 @@ public class Lists extends AppCompatActivity {
         //dont do anything if the text feild is empty
         if (!TextUtils.isEmpty(newName.getText().toString())) {
             listname = newName.getText().toString();
+            listname = listname.trim();
             //get rid of spaces in listname for saving purposes
             tablename = obj.toTableName(listname);
 
@@ -105,7 +109,6 @@ public class Lists extends AppCompatActivity {
             //Make sure no existing lists share the name
             try {
                 Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
-
                 if (cur != null && (cur.getCount() > 0)) {
                     for( int i = 0; i < cur.getCount(); i++ ) {
                         if (cur.getString(cur.getColumnIndex("listName")).equals(tablename)) {
@@ -118,52 +121,56 @@ public class Lists extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
             if (!exists) {
                 try {
                     shoppyHelp.createItemLists(shoppy, tablename); //adds the list to Lists table
                     shoppyHelp.createListTable(shoppy, tablename); //creates a table called tablename
                 } catch (Exception e) {
                     Log.e("DATABASE ERROR", "Problem inserting new list into database");
-                    Toast.makeText(this, "Database Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
                 }
                 //let user know add was successful
-                Toast.makeText(this, listname + " added", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
 
                 //"re-draw" the list of lists
                 populateListView();
             } else {
                 Toast.makeText(this, listname + " already exists", Toast.LENGTH_LONG).show();
             }
+
+            //empty the edittext
+            newName.setText("");
+        } else {
+            Toast.makeText(this, "Type in the box please", Toast.LENGTH_LONG).show();
         }
     }
 
     //function for adding all existing lists to the listView so they shoe up on screen
     private void populateListView() {
-        LinearLayout list = (LinearLayout) findViewById(R.id.listOlists);
+        //LinearLayout list = (LinearLayout) findViewById(R.id.listOlists);
+       // list.removeAllViews();
+        TableLayout list = (TableLayout) findViewById(R.id.listOlists);
         list.removeAllViews();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View row = inflater.inflate(R.layout.list_helper, null, false);
-        TextView name;
-        //parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
 
+        TextView name;
 
         try {
             Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
-            //String[] existingLists = new String[]{"listName"};
-           // int[] toViewIDs = new int[]{R.id.existingList};
-           // SimpleCursorAdapter curAdapt = new SimpleCursorAdapter(getBaseContext(), R.layout.list_helper, cur, existingLists, toViewIDs, 0);
-
-           // list.setAdapter(curAdapt);
-
-            if (cur != null && (cur.getCount() > 0)) {
+            if (cur != null && cur.getCount() > 0) {
                 for( int i = 0; i < cur.getCount(); i++ ) {
+                    TableRow tr = new TableRow(this);
+
                     name = row.findViewById(R.id.nameOfList);
                     name.setText(obj.toListName(cur.getString(cur.getColumnIndex("listName"))));
 
-                    if(row.getParent()!=null)
-                        ((ViewGroup)row.getParent()).removeView(row);
-                    list.addView(row);
+                    if(row.getParent()!= null) {
+                        ((ViewGroup) row.getParent()).removeView(row);
+                    }
+
+                    tr.addView(row);
+                    list.addView(tr);
 
                     cur.moveToNext();
                 }
