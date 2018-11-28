@@ -182,7 +182,7 @@ public class Lists extends AppCompatActivity {
                     tr.addView(delete);  //add the views to the row
                     list.addView(tr); //add the row to list of lists
                     */
-                   theList.add(cur.getString(cur.getColumnIndex("listName")));
+                   theList.add(obj.toListName(cur.getString(cur.getColumnIndex("listName"))));
                     cur.moveToNext();
                 }
             }

@@ -82,7 +82,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="5"
                 android:cursorVisible="false"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:hint="New List Name"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -97,6 +97,15 @@
                 android:text="Add"
                 android:textSize="24sp" />
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/listOlists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
+
+
+        </ListView>
 
         <ScrollView
             android:id="@+id/scroll"
@@ -113,14 +122,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addStuffArea"
             tools:background="@color/lightPurple">
-
-            <ListView
-                android:id="@+id/listOlists"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            </ListView>
 
         </ScrollView>
         <!--
