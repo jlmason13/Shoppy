@@ -80,14 +80,12 @@ public class MasterListFilters extends AppCompatActivity {
 
         //testing to make ensure that the proper checkbox is affecting the array
         //every time a checkbox is clicked, adjust the array
-        /*
         String test = "";
 
         for(int i = 0; i < 6; i++) {
             test += filters[i];
         }
         Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
-        */
     }
 
 
@@ -134,13 +132,11 @@ public class MasterListFilters extends AppCompatActivity {
 
         //testing to make ensure that the proper checkbox is affecting the array
         //every time a checkbox is clicked, adjust the array
-        /*
         String test = "";
 
         for(int i = 0; i < 6; i++) {
             test += filters[i];
         }
         Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
-        */
     }
 }
