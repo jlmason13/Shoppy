@@ -12,8 +12,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "shoppyDB";
     private static final String TABLE_MASTERLIST = "MasterList";
     private static final String TABLE_LISTS = "Lists";
-    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
-    private static final String CREATE_TABLE_LISTS = "CREATE TABLE " + TABLE_LISTS + "(listName VARCHAR primary key);";
+    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE IF NOT EXISTS " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
+    private static final String CREATE_TABLE_LISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTS + "(listName VARCHAR primary key);";
     private static final int DATABASE_VERSION = 1;
 
     //getInstance() ensures only one DBHandler will exist at any time.

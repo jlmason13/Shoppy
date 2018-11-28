@@ -149,29 +149,40 @@ public class Lists extends AppCompatActivity {
     private void populateListView() {
         //LinearLayout list = (LinearLayout) findViewById(R.id.listOlists);
        // list.removeAllViews();
-        TableLayout list = (TableLayout) findViewById(R.id.listOlists);
-        list.removeAllViews();
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = inflater.inflate(R.layout.list_helper, null, false);
 
-        TextView name;
+        //TableLayout list = (TableLayout) findViewById(R.id.listOlists);
+        //list.removeAllViews(); //clear it
+
+        ListView list = (ListView)findViewById(R.id.listOlists);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View list_item = inflater.inflate(R.layout.list_helper, null, false);
+
+        LinearLayout row = list_item.findViewById(R.id.existingList);
+        //TextView name = (TextView)row.findViewById(R.id.nameOfList);
+        //TextView delete = (TextView)row.findViewById(R.id.delete_button);
+
+        ArrayList<String> theList = new ArrayList<>();
 
         try {
             Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
             if (cur != null && cur.getCount() > 0) {
                 for( int i = 0; i < cur.getCount(); i++ ) {
-                    TableRow tr = new TableRow(this);
+                   /* TableRow tr = new TableRow(this);
+
+
+                    if(row.getParent()!= null) {
+                       // ((ViewGroup) row.getParent()).removeView(row);
+                    }
 
                     name = row.findViewById(R.id.nameOfList);
                     name.setText(obj.toListName(cur.getString(cur.getColumnIndex("listName"))));
 
-                    if(row.getParent()!= null) {
-                        ((ViewGroup) row.getParent()).removeView(row);
-                    }
-
-                    tr.addView(row);
-                    list.addView(tr);
-
+                    tr.addView(name);  //add the views to the row
+                    tr.addView(delete);  //add the views to the row
+                    list.addView(tr); //add the row to list of lists
+                    */
+                   theList.add(cur.getString(cur.getColumnIndex("listName")));
                     cur.moveToNext();
                 }
             }
@@ -194,7 +205,9 @@ public class Lists extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.listOlists);
             list.setAdapter(new ArrayAdapter<String>(this, R.layout.list_helper));
         */
-        cur.close();
+            cur.close();
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_helper, R.id.nameOfList, theList);
+            list.setAdapter(adapter);
         } catch ( Exception e) {
             Log.e("POPULATE ERROR", "Problem with populateListView");
             e.printStackTrace();
