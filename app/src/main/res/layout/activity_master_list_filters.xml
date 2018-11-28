@@ -25,6 +25,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:checked="true"
+        android:onClick="onCheckboxClicked"
         android:text="@string/name"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -38,6 +39,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:checked="true"
+        android:onClick="onCheckboxClicked"
         android:text="@string/frequency"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -51,6 +53,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:checked="true"
+        android:onClick="onCheckboxClicked"
         android:text="Average Price"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -64,12 +67,12 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:checked="true"
+        android:onClick="onCheckboxClicked"
         android:text="@string/lowestPrice"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PriceAvg" />
-
 
     <CheckBox
         android:id="@+id/TotalSpent"
@@ -78,6 +81,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:checked="true"
+        android:onClick="onCheckboxClicked"
         android:text="@string/total_spent"
         android:textColor="@android:color/black"
         android:textSize="18sp"
