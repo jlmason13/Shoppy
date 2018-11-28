@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:text="@string/display"
         android:textColor="@android:color/black"
         android:textSize="36sp"
@@ -22,12 +22,12 @@
         android:id="@+id/Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:text="@string/date"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -35,12 +35,12 @@
         android:id="@+id/Store"
         android:layout_width="108dp"
         android:layout_height="37dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:text="@string/store"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Date" />
 
@@ -48,13 +48,13 @@
         android:id="@+id/Brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:clickable="false"
         android:text="@string/brand"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Store" />
 
@@ -62,13 +62,13 @@
         android:id="@+id/LowestPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:clickable="false"
         android:text="@string/lowest_price"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Brand" />
 
@@ -76,13 +76,13 @@
         android:id="@+id/AvgPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:clickable="false"
         android:text="@string/average_price"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LowestPrice" />
 
@@ -90,12 +90,12 @@
         android:id="@+id/HighestPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
         android:text="@string/highest_price"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AvgPrice" />
 
@@ -103,7 +103,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="30dp"
         android:text="@string/sort_by"
         android:textColor="@android:color/black"
@@ -112,22 +112,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:layout_width="174dp"
-        android:layout_height="408dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:id="@+id/radioGroup"
+        android:layout_width="164dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <RadioButton
             android:id="@+id/MostRecentPurchase"
-            android:layout_width="168dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
             android:text="@string/most_recent_purchase"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/OldestPurchase"
@@ -136,7 +136,7 @@
             android:layout_weight="1"
             android:text="@string/oldest_purchase"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/StoreAlephabetical"
@@ -146,7 +146,7 @@
             android:checked="false"
             android:text="@string/store_alphabetical"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/BrandAlephabetical"
@@ -155,7 +155,7 @@
             android:layout_weight="1"
             android:text="@string/brand_alphabetical"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/PriceAverage"
@@ -164,7 +164,7 @@
             android:layout_weight="1"
             android:text="@string/price_average"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
 
         <RadioButton
@@ -174,7 +174,7 @@
             android:layout_weight="1"
             android:text="@string/price_lowest"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/PriceHeighest"
@@ -183,8 +183,19 @@
             android:layout_weight="1"
             android:text="@string/price_highest"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </RadioGroup>
+
+    <Button
+        android:id="@+id/applyFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply Filters"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="503dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/textView"
+        app:layout_constraintRight_toLeftOf="@id/textView4"/>
 
 </android.support.constraint.ConstraintLayout>
