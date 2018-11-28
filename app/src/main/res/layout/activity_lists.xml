@@ -88,13 +88,15 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:isScrollContainer="false"
+            android:fadeScrollbars="false"
             android:scrollbarStyle="outsideOverlay">
 
-            <LinearLayout
+            <TableLayout
                 android:id="@+id/listOlists"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
+
         </ScrollView>
         <!--
         <ListView
@@ -104,6 +106,14 @@
 
 
         </ListView>
+
+
+
+        <LinearLayout
+                android:id="@+id/listOlists"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
         -->
     </LinearLayout>
 

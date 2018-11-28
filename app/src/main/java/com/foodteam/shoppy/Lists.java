@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -71,6 +73,7 @@ public class Lists extends AppCompatActivity {
         try {
             // remove list from shoppydb
             shoppyHelp.removeListTable(shoppy, name);
+            Toast.makeText(this, "list "+obj.toListName(name)+" removed", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e("DATABASE ERROR", "Problem removing list from database");
             Toast.makeText(this, "ERROR REMOVING LIST", Toast.LENGTH_LONG).show();
@@ -106,7 +109,6 @@ public class Lists extends AppCompatActivity {
             //Make sure no existing lists share the name
             try {
                 Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
-
                 if (cur != null && (cur.getCount() > 0)) {
                     for( int i = 0; i < cur.getCount(); i++ ) {
                         if (cur.getString(cur.getColumnIndex("listName")).equals(tablename)) {
@@ -119,7 +121,6 @@ public class Lists extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
             if (!exists) {
                 try {
                     shoppyHelp.createItemLists(shoppy, tablename); //adds the list to Lists table
@@ -129,7 +130,7 @@ public class Lists extends AppCompatActivity {
                     Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
                 }
                 //let user know add was successful
-                Toast.makeText(this, listname + " added", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
 
                 //"re-draw" the list of lists
                 populateListView();
@@ -146,30 +147,30 @@ public class Lists extends AppCompatActivity {
 
     //function for adding all existing lists to the listView so they shoe up on screen
     private void populateListView() {
-        LinearLayout list = (LinearLayout) findViewById(R.id.listOlists);
+        //LinearLayout list = (LinearLayout) findViewById(R.id.listOlists);
+       // list.removeAllViews();
+        TableLayout list = (TableLayout) findViewById(R.id.listOlists);
         list.removeAllViews();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View row = inflater.inflate(R.layout.list_helper, null, false);
-        TextView name;
-        //parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
 
+        TextView name;
 
         try {
             Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
-            //String[] existingLists = new String[]{"listName"};
-           // int[] toViewIDs = new int[]{R.id.existingList};
-           // SimpleCursorAdapter curAdapt = new SimpleCursorAdapter(getBaseContext(), R.layout.list_helper, cur, existingLists, toViewIDs, 0);
-
-           // list.setAdapter(curAdapt);
-
-            if (cur != null && (cur.getCount() > 0)) {
+            if (cur != null && cur.getCount() > 0) {
                 for( int i = 0; i < cur.getCount(); i++ ) {
+                    TableRow tr = new TableRow(this);
+
                     name = row.findViewById(R.id.nameOfList);
                     name.setText(obj.toListName(cur.getString(cur.getColumnIndex("listName"))));
 
-                    if(row.getParent()!=null)
-                        ((ViewGroup)row.getParent()).removeView(row);
-                    list.addView(row);
+                    if(row.getParent()!= null) {
+                        ((ViewGroup) row.getParent()).removeView(row);
+                    }
+
+                    tr.addView(row);
+                    list.addView(tr);
 
                     cur.moveToNext();
                 }
