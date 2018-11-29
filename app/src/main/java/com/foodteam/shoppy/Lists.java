@@ -61,15 +61,6 @@ public class Lists extends AppCompatActivity {
             e.printStackTrace();
         }
         populateListView();
-        try {
-            shoppyHelp.setColor(shoppy, 1);
-            //shoppyHelp.getColor(shoppy);
-            Toast.makeText(this, "color stuff works", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Log.e("DATABASE ERROR", "color stuff");
-            e.printStackTrace();
-            Toast.makeText(this, "ERROR color stuff", Toast.LENGTH_LONG).show();
-        }
     }
 
     public void onDelete(View v) {

@@ -32,7 +32,7 @@ public class MainMenu extends AppCompatActivity {
     public SQLiteDatabase getShoppyDB(){
         return this.shoppyDB;
     }
-/*
+//*
     public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
@@ -41,6 +41,10 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS MasterList " +
                     "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
+            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);");
+            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ");
+            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS settings(color integer default 0);");
+
 
             //db on file system
 
@@ -55,7 +59,7 @@ public class MainMenu extends AppCompatActivity {
             Log.e("DATABASE ERROR", "Problem creating database");
         }
     }
-*/
+//*/
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
@@ -66,7 +70,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        //createDatabase();                               //added by Zofi for debugging purposes
+        createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
 

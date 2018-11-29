@@ -15,8 +15,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE IF NOT EXISTS " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
     private static final String CREATE_TABLE_LISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTS + "(listName VARCHAR primary key);";
     private static final String CREATE_TABLE_DUMMYLIST = "CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);";
-    private static final String CREATE_TABLE_DUMMYPRODUCT = "CREATE TABLE IF NOT EXISTS  dummyProduct(brand VARCHAR primary key, size integer primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2) ) ";
-    private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE IF NOT EXISTS  settings(color integer default 0);";
+    private static final String CREATE_TABLE_DUMMYPRODUCT = "CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ";
+    private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE IF NOT EXISTS settings(color integer default 0);";
     private static final int DATABASE_VERSION = 1;
 
     //getInstance() ensures only one DBHandler will exist at any time.
