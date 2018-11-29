@@ -12,8 +12,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "shoppyDB";
     private static final String TABLE_MASTERLIST = "MasterList";
     private static final String TABLE_LISTS = "Lists";
-    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
-    private static final String CREATE_TABLE_LISTS = "CREATE TABLE " + TABLE_LISTS + "(listName VARCHAR primary key);";
+    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE IF NOT EXISTS " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
+    private static final String CREATE_TABLE_LISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTS + "(listName VARCHAR primary key);";
     private static final int DATABASE_VERSION = 1;
 
     //getInstance() ensures only one DBHandler will exist at any time.
@@ -71,8 +71,8 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //This creates a whole new row for the List.
-    public void createItemLists(String p){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public void createItemLists(SQLiteDatabase db, String p){
+      //  SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("listName", p);
         //insert row
@@ -113,6 +113,76 @@ public class DBHandler extends SQLiteOpenHelper {
         return n;
     }
 
+
+
+    //----- stuff for list/s -----
+
+    //creates a list table with the passed in name
+    public void createListTable(SQLiteDatabase db, String listname) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + listname + "(id INTEGER PRIMARY KEY, product VARCHAR unique, inCart int);");
+    }
+
+    //insert row into list table
+    public void addProduct(SQLiteDatabase db, String listname, String product) {
+        ContentValues values = new ContentValues();
+        values.put("product", product);
+        db.insert(listname, null, values);
+    }
+
+    //edit a product in list table
+    public void editProduct(SQLiteDatabase db, String listname, int id, String product) {
+      //needs to change the products text
+        ContentValues values = new ContentValues();
+        values.put("product", product);
+
+        db.update(listname, values, "id = ?", new String[] {Integer.toString(id)} );
+    }
+
+    //put product in cart (edit product row in list)
+    public void cart(SQLiteDatabase db, String listname, String product, int inCart) {
+      //needs to change the value of inCart int listname where product = product;
+        ContentValues values = new ContentValues();
+        values.put("inCart", inCart);
+
+        db.update(listname, values, "product = ?", new String[] {product} );
+    }
+
+    //remove product from list
+    public void deleteProd(SQLiteDatabase db, String listname, String product) {
+        db.delete(listname, "product = ?", new String[] {String.valueOf(product)} );
+    }
+
+    //remove list table and removes that row from lists
+    public void removeListTable(SQLiteDatabase db, String listname) {
+        db.execSQL("DROP TABLE IF EXISTS " + listname + ";");
+        db.delete("Lists", "listName = ?", new String[] {String.valueOf(listname)} );
+    }
+
+
+    //retrieve data from table
+    public Cursor getRows(SQLiteDatabase db, String table, String column) {
+        //used for list and lists, column will either be product or
+        //use in populateListView function
+
+        String query = "select " + column + " from " + table;
+        Cursor cur = db.rawQuery(query, null);
+        if (cur != null) {
+            cur.moveToFirst();
+        }
+        return cur;
+    }
+
+    public boolean findTable(SQLiteDatabase db, String tablename) {
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '"+tablename+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
 //============ REFERENCE CODE =============
     /*
     //information of database

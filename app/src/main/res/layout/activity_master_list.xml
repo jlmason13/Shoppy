@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:text="Displaying:"
                 android:textAlignment="textStart"
-                android:textColor="@color/BlackText"
+                android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -90,7 +90,7 @@
                 android:text=""
                 android:textAlignment="textStart"
                 android:textSize="16sp"
-                android:textColor="@color/DarkGreyText" />
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/AttributeTwo"
@@ -100,7 +100,7 @@
                 android:text=""
                 android:textAlignment="textStart"
                 android:textSize="16sp"
-                android:textColor="@color/DarkGreyText"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/AttributeThree"
@@ -110,7 +110,7 @@
                 android:text=""
                 android:textAlignment="textStart"
                 android:textSize="16sp"
-                android:textColor="@color/DarkGreyText"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/AttributeFour"
@@ -120,7 +120,7 @@
                 android:text=""
                 android:textAlignment="textStart"
                 android:textSize="16sp"
-                android:textColor="@color/DarkGreyText"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/AttributeFive"
@@ -130,7 +130,7 @@
                 android:text=""
                 android:textSize="16sp"
                 android:textAlignment="textStart"
-                android:textColor="@color/DarkGreyText"/>
+                android:textColor="@android:color/black"/>
 
         </LinearLayout>
 

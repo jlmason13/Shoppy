@@ -46,6 +46,7 @@ public class MainMenu extends AppCompatActivity {
         return mcontext.getPackageName();
     }*/
 
+                                 //was uncommented by Zofi
     public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
@@ -67,6 +68,7 @@ public class MainMenu extends AppCompatActivity {
             Log.e("DATABASE ERROR", "Problem creating database");
         }
     }
+
 
     protected void onDestroy(){
         shoppyDB.close();
@@ -94,7 +96,7 @@ public String getTableAsString(SQLiteDatabase db, String tableName){
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        createDatabase();                               //added by Zofi for debugging purposes
+        //createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
 /*

@@ -28,7 +28,6 @@ public class MasterList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("here0");
         openTheDatabase();
         setContentView(R.layout.activity_master_list);
         theTable = (TableLayout) findViewById(R.id.theTable);
@@ -106,7 +105,7 @@ public class MasterList extends AppCompatActivity {
         if (filters != null) {
             for (int i = 0, j = 0; i < filters.length - 1; i++) {
                 if (filters[i] == 1) {
-                    System.out.println( "Zofi: filters index " + i + " equals " + filters[i]);
+                    //System.out.println( "Zofi: filters index " + i + " equals " + filters[i]);    //for testing
                     attrLocales[j].setText(attrNames[i]);
                     j++;
                 }
@@ -224,7 +223,7 @@ public class MasterList extends AppCompatActivity {
             text.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
         text.setLayoutParams(aParam);
-        text.setTextColor(ContextCompat.getColor(this, R.color.GreyText));
+        text.setTextColor( Color.parseColor("#000000") );
         return text;
     }
 
