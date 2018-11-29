@@ -13,10 +13,12 @@ import android.widget.Toast;
 public class EnterDetails extends AppCompatActivity {
 
     SQLiteDatabase theDatabase;
-    String tableName;       //the name of the grocery list
+    //this assignment is temporary, SQLite complaining null is invalid for the setup of activity in testing
+    String tableName = "DummyTable";     //this stores the name of the grocery list    //temporarily set to dummyTable
     String product;
     int rowNum;
     int totalRow;
+    Button submitBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +29,21 @@ public class EnterDetails extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
-                tableName = null;
                 Toast.makeText(this, "No extras passed to enterDetails", Toast.LENGTH_LONG).show();
                 Intent returnIntent = new Intent( getApplicationContext(), List.class );   //TODO what key name does she store the list name?
                 startActivity(returnIntent);
 
             } else if (extras.containsKey("index") && extras.containsKey("tableName")) {
                 if (extras.getInt("index") > 0) {
-                    tableName = extras.getString("tableName");    //TODO check to make sure key name matches Kirstin's
+                    tableName = extras.getString("tablename");
                     rowNum = extras.getInt("index");
                 } else {
-                    tableName = extras.getString("tableName");    //TODO check to make sure key name matches Kirstin's
+                    tableName = extras.getString("tablename");
                     rowNum = 0;
                 }
             } else if (!extras.containsKey("index") && extras.containsKey("tableName")) {
                 rowNum = 0;
-                tableName = extras.getString("tableName");
+                tableName = extras.getString("tablename");
             } else {    // extras exists but no tableName key
                 // ??
                 Toast.makeText(this, "No products passed to enterDetails", Toast.LENGTH_LONG).show();
@@ -60,15 +61,15 @@ public class EnterDetails extends AppCompatActivity {
         // inform user how many items are left to enter
         Toast.makeText(this,  "" + rowNum + "" + totalRow + " Products Entered", Toast.LENGTH_LONG).show();
 
-        Button submitBtn = (Button) findViewById(R.id.saveData);
+        submitBtn = (Button) findViewById(R.id.saveData);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                retreiveAndSubmitData();
+                retrieveAndSubmitData();
                 updateMasterList();
                 rowNum++;
                 Intent iterativeIntent = new Intent( getApplicationContext(), EnterDetails.class );
-                iterativeIntent.putExtra("tableName", tableName);   //TODO make sure it matches Kirstin's
+                iterativeIntent.putExtra("tablename", tableName);   //TODO make sure it matches Kirstin's
                 iterativeIntent.putExtra("index", rowNum);
                 startActivity(iterativeIntent);
             }
@@ -78,8 +79,10 @@ public class EnterDetails extends AppCompatActivity {
 
     //retrieves the next product from the table to be entered
     protected String retrieveProductName(){
-        Cursor productQuery = theDatabase.rawQuery("select product from " + tableName + " where inCart = 1;", null ); //TODO check that "inCart" is the right attribute name
-        int productColumn = productQuery.getColumnIndex("product");
+        String aProduct = "";
+
+        Cursor productQuery = theDatabase.rawQuery("select product from " + tableName + " where inCart = 1;", null ); //TODO VERY IMPORTANT resolve database dilema
+        int productColumn = productQuery.getColumnIndex("product");         // TODO check that "inCart" is the right attribute name
         totalRow = productQuery.getCount();
         productQuery.moveToPosition(rowNum);
         if (rowNum >= totalRow ) {
@@ -87,12 +90,11 @@ public class EnterDetails extends AppCompatActivity {
             Toast.makeText(this, "All Done!", Toast.LENGTH_LONG).show();
             Intent returnIntent = new Intent( getApplicationContext(), List.class );   //TODO what key name does she store the list name?
             startActivity(returnIntent);
-            return "Done";
         } else {
-            String aProduct = productQuery.getString(productColumn);
+            aProduct = productQuery.getString(productColumn);
             productQuery.close();
-            return aProduct;
         }
+        return aProduct;
     }
 
     //name self-explanatory
@@ -107,22 +109,24 @@ public class EnterDetails extends AppCompatActivity {
     }
 
     // collects information on entered product, checking that there is data in the feilds, and passes values to updateProductDetails function
-    protected void retreiveAndSubmitData() {
+    protected int retrieveAndSubmitData() {
         TextView priceTxt = (TextView) findViewById(R.id.enterPrice);
         TextView sizeTxt  = (TextView) findViewById(R.id.enterSize);
         TextView brandTxt = (TextView) findViewById(R.id.enterBrand);
         TextView storeTxt = (TextView) findViewById(R.id.enterStore);
 
-        Float newPrice   = Float.parseFloat( (String) priceTxt.getText() );
-        Float newSize    = Float.parseFloat( (String) sizeTxt.getText() );
-        String newBrand    = (String) brandTxt.getText();
-        String newStore    = (String) storeTxt.getText();
 
-        System.out.println("ED here1");
-        if ( (newPrice != null) && (newSize != null) && (newBrand != null) && (newStore != null) ){     //basic check that all fields have content
-            updateProductDetails( product, newPrice, newSize, newBrand, newStore);
-        } else {
+        String newPrice   = priceTxt.getText().toString(); //TODO Throws Error, can't be cast to String
+        String newSize    =  sizeTxt.getText().toString();
+        String newBrand    = brandTxt.getText().toString();
+        String newStore    = storeTxt.getText().toString();
+
+        if ( newPrice.equals("") || newSize.equals("") || newBrand.equals("") || newStore.equals("") ){     //basic check that all fields have content
             Toast.makeText(this, "All fields must be entered", Toast.LENGTH_LONG).show();
+            return -1;
+        } else {
+            updateProductDetails( product, Float.parseFloat(newPrice), Float.parseFloat(newSize), newBrand, newStore);
+            return 1;
         }
     }
 
@@ -130,9 +134,8 @@ public class EnterDetails extends AppCompatActivity {
        this function updates or inserts the new product data
      */
     protected void updateProductDetails( String product, Float newPrice, Float newSize, String newBrand, String newStore) {
-        System.out.println("Zofi: ED here2");
-        Cursor productQuery = theDatabase.rawQuery("select from MasterList where product = '" + product + "';", null);
-        System.out.println("Zofi: ED here3");
+        if (product.equals("")) { return; }
+        Cursor productQuery = theDatabase.rawQuery("select * from MasterList where product = '" + product + "';", null);
         if( productQuery.getCount() > 0 ){
 
             Cursor checkBrandSize = theDatabase.rawQuery( "select from" + product +
@@ -190,8 +193,8 @@ public class EnterDetails extends AppCompatActivity {
 
             //create a table with that exact name of product
             theDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + product +
-                    "(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2) ) " +
-                    "primary key(brand, size) ;");
+                    "(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2) " +
+                    ") primary key(brand, size) );");
 
             //insert new data from into the new table data
             theDatabase.execSQL( "insert into " + product +
@@ -204,6 +207,7 @@ public class EnterDetails extends AppCompatActivity {
        since there will be a table for each product, this was coded instead of a trigger
      */
     protected void updateMasterList() {
+        if (product.equals("")) {return;}
         // create query to retreive all rows of product table, need columns frequency, lowestPrice, and totalSpent to update MasterList
         Cursor update = theDatabase.rawQuery( "select frequency, lowestPrice, totalSpent from " + product + ";", null);
         int freqColumn          = update.getColumnIndex("frequency");
