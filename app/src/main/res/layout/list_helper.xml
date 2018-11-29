@@ -5,11 +5,10 @@
 
 
     <!-- PRE-EXISTING LISTS -->
-    <TableRow
+    <LinearLayout
         android:id="@+id/existingList"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/nameOfList"
@@ -27,6 +26,6 @@
             android:background="@android:drawable/ic_delete"
             android:onClick="onDelete"/>
 
-    </TableRow>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
