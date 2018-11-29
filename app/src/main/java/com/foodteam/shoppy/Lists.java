@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 public class Lists extends AppCompatActivity {
     SQLiteDatabase shoppy;// = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null);
-    private LinearLayout parentLinearLayout;
     DBHandler shoppyHelp;
 
     private String listname = "";
@@ -48,7 +47,7 @@ public class Lists extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
-        parentLinearLayout = (LinearLayout) findViewById(R.id.listArea);
+
         newName = (EditText) findViewById(R.id.newListName);
         try {
             //connect to db
@@ -59,6 +58,7 @@ public class Lists extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
            // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
         populateListView();
     }
@@ -77,6 +77,7 @@ public class Lists extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("DATABASE ERROR", "Problem removing list from database");
             Toast.makeText(this, "ERROR REMOVING LIST", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
 
         //redraw the list o' lists
@@ -128,6 +129,7 @@ public class Lists extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.e("DATABASE ERROR", "Problem inserting new list into database");
                     Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
                 //let user know add was successful
                 Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
@@ -147,65 +149,22 @@ public class Lists extends AppCompatActivity {
 
     //function for adding all existing lists to the listView so they shoe up on screen
     private void populateListView() {
-        //LinearLayout list = (LinearLayout) findViewById(R.id.listOlists);
-       // list.removeAllViews();
-
-        //TableLayout list = (TableLayout) findViewById(R.id.listOlists);
-        //list.removeAllViews(); //clear it
-
         ListView list = (ListView)findViewById(R.id.listOlists);
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View list_item = inflater.inflate(R.layout.list_helper, null, false);
-
         LinearLayout row = list_item.findViewById(R.id.existingList);
-        //TextView name = (TextView)row.findViewById(R.id.nameOfList);
-        //TextView delete = (TextView)row.findViewById(R.id.delete_button);
-
         ArrayList<String> theList = new ArrayList<>();
 
         try {
             Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
             if (cur != null && cur.getCount() > 0) {
                 for( int i = 0; i < cur.getCount(); i++ ) {
-                   /* TableRow tr = new TableRow(this);
-
-
-                    if(row.getParent()!= null) {
-                       // ((ViewGroup) row.getParent()).removeView(row);
-                    }
-
-                    name = row.findViewById(R.id.nameOfList);
-                    name.setText(obj.toListName(cur.getString(cur.getColumnIndex("listName"))));
-
-                    tr.addView(name);  //add the views to the row
-                    tr.addView(delete);  //add the views to the row
-                    list.addView(tr); //add the row to list of lists
-                    */
                    theList.add(obj.toListName(cur.getString(cur.getColumnIndex("listName"))));
-                    cur.moveToNext();
+                   cur.moveToNext();
                 }
             }
-
-
-
-          /*  Cursor cur = db.rawQuery("select listName from Lists", null);
-            if (cur != null) {
-                cur.moveToFirst();
-            }
-
-            if (cur != null) {
-                if (cur.moveToFirst()) {
-                    do {
-                        String currentList = cur.getString(cur.getColumnIndex("listName"));
-                        results.add(currentList);
-                    } while (cur.moveToNext());
-                }
-            }
-            ListView list = (ListView) findViewById(R.id.listOlists);
-            list.setAdapter(new ArrayAdapter<String>(this, R.layout.list_helper));
-        */
             cur.close();
+
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_helper, R.id.nameOfList, theList);
             list.setAdapter(adapter);
         } catch ( Exception e) {

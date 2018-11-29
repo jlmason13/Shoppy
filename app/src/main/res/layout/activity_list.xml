@@ -11,14 +11,48 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
         android:text="Name O' List"
         android:textColor="@color/black"
         android:textSize="36sp"
-        app:layout_constraintStart_toEndOf="@+id/back"
-        app:layout_constraintTop_toTopOf="@+id/back" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        tools:layout_editor_absoluteY="16dp" />
 
+    <!-- CREATE LIST -->
+    <LinearLayout
+        android:id="@+id/addItem"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <EditText
+            android:id="@+id/newProdName"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="5"
+            android:cursorVisible="false"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:hint="New Item Name"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/addItemButton"
+            android:layout_width="28dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint='"new item name"'
+            android:onClick="addProduct"
+            android:text="Add"
+            android:textSize="24sp" />
+    </LinearLayout>
+    <!--
     <Button
         android:id="@+id/addItem"
         android:layout_width="wrap_content"
@@ -31,28 +65,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
+-->
+    <ListView
+        android:id="@+id/list"
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="125dp"
+        android:layout_marginBottom="60dp"
         android:isScrollContainer="false"
-        android:fadeScrollbars="false"
-        android:scrollbarStyle="outsideOverlay"
-
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
+        android:paddingLeft="5dp"
         app:layout_constraintBottom_toTopOf="@+id/doneShopping"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addItem">
+        app:layout_constraintTop_toBottomOf="@+id/addItem"
+        app:layout_constraintVertical_bias="1.0">
 
-        <TableLayout
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+
+    </ListView>
 
     <Button
         android:id="@+id/doneShopping"
