@@ -10,6 +10,8 @@ import android.widget.RadioButton;
 
 public class Filters extends AppCompatActivity {
 
+    //brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent
+
     int[] filters;
 
     @Override
@@ -30,14 +32,16 @@ public class Filters extends AppCompatActivity {
     }
 
     private void initializeArray() {
-        filters = new int[] {1, 1, 1, 1, 1, 1, 0};
+        filters = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 0};
     }
 
     public void onCheckBoxClicked(View view) {
         Boolean checked = ((CheckBox) view).isChecked();
 
+        //brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent
+
         switch(view.getId()) {
-            case R.id.Date:
+            case R.id.brand:
                 if(checked) {
                     filters[0] = 1;
                 } else {
@@ -45,7 +49,7 @@ public class Filters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.Store:
+            case R.id.size:
                 if(checked) {
                     filters[1] = 1;
                 } else {
@@ -53,7 +57,7 @@ public class Filters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.Brand:
+            case R.id.frequency:
                 if(checked) {
                     filters[2] = 1;
                 } else {
@@ -61,7 +65,7 @@ public class Filters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.LowestPrice:
+            case R.id.avgPrice:
                 if(checked) {
                     filters[3] = 1;
                 } else {
@@ -69,7 +73,7 @@ public class Filters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.AvgPrice:
+            case R.id.lowestPrice:
                 if(checked) {
                     filters[4] = 1;
                 } else {
@@ -77,11 +81,27 @@ public class Filters extends AppCompatActivity {
                 }
                 break;
 
-            case R.id.HighestPrice:
+            case R.id.highestPrice:
                 if(checked) {
                     filters[5] = 1;
                 } else {
                     filters[5] = 0;
+                }
+                break;
+
+            case R.id.store:
+                if(checked) {
+                    filters[6] = 1;
+                } else {
+                    filters[6] = 0;
+                }
+                break;
+
+            case R.id.totalSpent:
+                if(checked) {
+                    filters[7] = 1;
+                } else {
+                    filters[7] = 0;
                 }
                 break;
         }
@@ -93,43 +113,43 @@ public class Filters extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.MostRecentPurchase:
                 if(checked) {
-                    filters[6] = 0;
+                    filters[8] = 0;
                 }
                 break;
 
             case R.id.OldestPurchase:
                 if(checked) {
-                    filters[6] = 1;
+                    filters[8] = 1;
                 }
                 break;
 
             case R.id.StoreAlephabetical:
                 if(checked) {
-                    filters[6] = 2;
+                    filters[8] = 2;
                 }
                 break;
 
             case R.id.BrandAlephabetical:
                 if(checked) {
-                    filters[6] = 3;
+                    filters[8] = 3;
                 }
                 break;
 
             case R.id.PriceAverage:
                 if(checked) {
-                    filters[6] = 4;
+                    filters[8] = 4;
                 }
                 break;
 
             case R.id.PriceLowest:
                 if(checked) {
-                    filters[6] = 5;
+                    filters[8] = 5;
                 }
                 break;
 
             case R.id.PriceHeighest:
                 if(checked) {
-                    filters[6] = 6;
+                    filters[8] = 6;
                 }
                 break;
         }
