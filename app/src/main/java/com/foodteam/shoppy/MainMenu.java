@@ -32,21 +32,7 @@ public class MainMenu extends AppCompatActivity {
     public SQLiteDatabase getShoppyDB(){
         return this.shoppyDB;
     }
-
-
-//Context mcontext;
-
-/*public MainMenu(Context context){
-    mcontext = context;
-}*/
-    /*
-    public String hello(String product){
-        //With the massive unit test troubles we've been having,
-        //this method shows us that tests can work!!!!
-        return mcontext.getPackageName();
-    }*/
-
-                                 //was uncommented by Zofi
+//*
     public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
@@ -55,6 +41,11 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS MasterList " +
                     "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
+            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);");
+            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ");
+            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS settings(color integer default 0);");
+
+
             //db on file system
 
             File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi
@@ -68,44 +59,29 @@ public class MainMenu extends AppCompatActivity {
             Log.e("DATABASE ERROR", "Problem creating database");
         }
     }
-
-
+//*/
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
     }
-
-public String getTableAsString(SQLiteDatabase db, String tableName){
-    String tableString = String.format("Table %s:\n", tableName);
-    Cursor allRows = db.rawQuery(" SELECT * FROM " + tableName, null);
-    if (allRows.moveToFirst()){
-        String[] columnNames = allRows.getColumnNames();
-        do{
-            for (String name: columnNames){
-                tableString += String.format("%s: %s\n", name, allRows.getString(allRows.getColumnIndex(name)));
-            }
-            tableString += "\n";
-        }while (allRows.moveToNext());
-    }
-    allRows.close();
-    return tableString;
-}
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        //createDatabase();                               //added by Zofi for debugging purposes
+        createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
-/*
+
         //I'm using the database:
         DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
         //Toast.makeText(this, "Added to ML", Toast.LENGTH_SHORT).show(); //Use TOAST if you want to see a pop-up message
         Log.e("Create Item", "Create eggs in MasterList"); //Use LOG if you want to see it in file dump
-        dbHelper.createItemMasterList("eggs", 2, (float) 1.75, (float) 0.98, (float) 2.78); //add milk to MasterList
-
+        dbHelper.createItemMasterList("eggs", 2, (float) 1.75, (float) 0.98, (float) 2.78); //add eggs to MasterList
+        dbHelper.createItemMasterList("milk", 1, (float) 1.25, (float) 1.00, (float) 3.75); //add milk to MasterList
+        dbHelper.createItemMasterList("cheese", 3, (float) 4.25, (float) 3.15, (float) 5.55); //add milk to MasterList
+        /*
         //Toast.makeText(this, "Deleted in ML", Toast.LENGTH_SHORT).show();
         Log.e("Delete Item", "Delete eggs from MasterList"); //Use LOG if you want to see it in file dump
         dbHelper.deleteProductMasterList("eggs"); //Delete product from MasterList (whole row)
@@ -138,6 +114,7 @@ public String getTableAsString(SQLiteDatabase db, String tableName){
             }
         });
 
-        //TODO remove crazyness from MasterList
+        //Zofi Reminder: remove crazyness from MasterList
+
     }
 }
