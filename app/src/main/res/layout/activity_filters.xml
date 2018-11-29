@@ -11,97 +11,136 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="55dp"
         android:text="@string/display"
-        android:textSize="30sp"
+        android:textColor="@android:color/black"
+        android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/Date"
+        android:id="@+id/brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:checked="true"
-        android:text="@string/date"
+        android:text="Brand"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <CheckBox
-        android:id="@+id/Store"
-        android:layout_width="68dp"
+        android:id="@+id/size"
+        android:layout_width="108dp"
         android:layout_height="37dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
-        android:text="@string/store"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Date" />
+        android:text="Size"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/brand"
+        tools:layout_editor_absoluteX="24dp" />
 
     <CheckBox
-        android:id="@+id/Brand"
+        android:id="@+id/frequency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
         android:clickable="false"
         android:text="@string/brand"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Store" />
+        app:layout_constraintTop_toBottomOf="@+id/size" />
 
     <CheckBox
-        android:id="@+id/LowestPrice"
+        android:id="@+id/avgPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
         android:clickable="false"
-        android:text="@string/lowest_price"
+        android:text="Average Price"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Brand" />
+        app:layout_constraintTop_toBottomOf="@+id/frequency" />
 
     <CheckBox
-        android:id="@+id/AvgPrice"
+        android:id="@+id/lowestPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
         android:clickable="false"
-        android:text="@string/average_price"
+        android:text="Lowest Price"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LowestPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/avgPrice" />
 
     <CheckBox
-        android:id="@+id/HighestPrice"
+        android:id="@+id/highestPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
-        android:text="@string/highest_price"
+        android:text="Highest Price"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AvgPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/lowestPrice" />
+
+    <CheckBox
+        android:id="@+id/store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Store"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/highestPrice" />
+
+    <CheckBox
+        android:id="@+id/totalSpent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Total Spent"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/store" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="30dp"
         android:text="@string/sort_by"
-        android:textSize="30sp"
+        android:textColor="@android:color/black"
+        android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:layout_width="144dp"
-        android:layout_height="329dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
+        android:id="@+id/radioGroup"
+        android:layout_width="164dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
@@ -111,14 +150,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/most_recent_purchase" />
+            android:text="@string/most_recent_purchase"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/OldestPurchase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/oldest_purchase" />
+            android:text="@string/oldest_purchase"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/StoreAlephabetical"
@@ -126,21 +169,27 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="@string/store_alphabetical" />
+            android:text="@string/store_alphabetical"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/BrandAlephabetical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/brand_alphabetical" />
+            android:text="@string/brand_alphabetical"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/PriceAverage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/price_average" />
+            android:text="@string/price_average"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
 
         <RadioButton
@@ -148,15 +197,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/price_lowest" />
+            android:text="@string/price_lowest"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/PriceHeighest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/price_highest" />
+            android:text="@string/price_highest"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
     </RadioGroup>
+
+    <Button
+        android:id="@+id/applyFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply Filters"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="503dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/textView"
+        app:layout_constraintRight_toLeftOf="@id/textView4"/>
 
 </android.support.constraint.ConstraintLayout>

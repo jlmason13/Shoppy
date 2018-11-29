@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/productRow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+
+        <CheckBox
+            android:id="@+id/inCart"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="cart"/>
+
+        <TextView
+            android:id="@+id/productName"
+            android:text=""
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:textSize="18sp"
+            android:gravity="bottom"/>
+
+        <Button
+            android:id="@+id/prodDetailsButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:onClick="prodDetails"
+            android:text="Details" /> <!--if prod exists in masterList table then set clickable to true-->
+
+        <ImageButton
+            android:id="@+id/deleteProduct"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:drawable/ic_delete"
+            android:onClick="deleteProduct" />
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
