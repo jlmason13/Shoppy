@@ -12,8 +12,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "shoppyDB";
     private static final String TABLE_MASTERLIST = "MasterList";
     private static final String TABLE_LISTS = "Lists";
-    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
-    private static final String CREATE_TABLE_LISTS = "CREATE TABLE " + TABLE_LISTS + "(listName VARCHAR primary key);";
+    private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE IF NOT EXISTS " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
+    private static final String CREATE_TABLE_LISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTS + "(listName VARCHAR primary key);";
     private static final int DATABASE_VERSION = 1;
 
     //getInstance() ensures only one DBHandler will exist at any time.
@@ -119,7 +119,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //creates a list table with the passed in name
     public void createListTable(SQLiteDatabase db, String listname) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + listname + "(product VARCHAR primary key, inCart int);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + listname + "(id INTEGER PRIMARY KEY, product VARCHAR unique, inCart int);");
     }
 
     //insert row into list table
@@ -130,13 +130,21 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //edit a product in list table
-    public void editProduct(String listname, String product) {
+    public void editProduct(SQLiteDatabase db, String listname, int id, String product) {
       //needs to change the products text
+        ContentValues values = new ContentValues();
+        values.put("product", product);
+
+        db.update(listname, values, "id = ?", new String[] {Integer.toString(id)} );
     }
 
     //put product in cart (edit product row in list)
-    public void cart(String listname, String product, int inCart) {
+    public void cart(SQLiteDatabase db, String listname, String product, int inCart) {
       //needs to change the value of inCart int listname where product = product;
+        ContentValues values = new ContentValues();
+        values.put("inCart", inCart);
+
+        db.update(listname, values, "product = ?", new String[] {product} );
     }
 
     //remove product from list
@@ -164,6 +172,17 @@ public class DBHandler extends SQLiteOpenHelper {
         return cur;
     }
 
+    public boolean findTable(SQLiteDatabase db, String tablename) {
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '"+tablename+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
 //============ REFERENCE CODE =============
     /*
     //information of database

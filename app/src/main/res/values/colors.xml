@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
+    <!--<color name="colorPrimaryDark">#0E6655</color>-->
     <color name="colorAccent">#d81b60</color>
-
-    <!--Sophia's color-->
-    <color name="BlackText">#060606</color>
-    <color name="DarkGreyText">#343434</color>
-    <color name="GreyText">#494A49</color>
 
     <!--Settings usage-->
 
@@ -16,7 +12,7 @@
     <!--Background colors-->
     <color name="white">#ffffff</color>
     <color name="lightPink">#F48FB1</color>
-    <color name="lightPurple">#BB8FCE</color>
+    <color name="lightPurple">#e8deec</color>
     <color name="lightGreen">#2ECC71</color>
     <color name="lightBlue">#5DADE2</color>
     <color name="lightYellow">#FFEE58</color>

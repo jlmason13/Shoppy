@@ -6,37 +6,39 @@
         android:id="@+id/productRow"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        android:orientation="horizontal" >
+
 
         <CheckBox
             android:id="@+id/inCart"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:onClick="click"/>
+            android:onClick="cart"/>
 
-        <EditText
+        <TextView
             android:id="@+id/productName"
+            android:text=""
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:isScrollContainer="false" />
+            android:textSize="18sp"
+            android:gravity="bottom"/>
 
         <Button
             android:id="@+id/prodDetailsButton"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="false"
             android:onClick="prodDetails"
             android:text="Details" /> <!--if prod exists in masterList table then set clickable to true-->
 
-        <TextView
+        <ImageButton
             android:id="@+id/deleteProduct"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:drawable/ic_delete"
-            android:onClick="deleteProd"/>
+            android:onClick="deleteProduct" />
 
 
     </LinearLayout>
