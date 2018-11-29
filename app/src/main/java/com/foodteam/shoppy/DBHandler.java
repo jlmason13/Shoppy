@@ -14,6 +14,9 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_LISTS = "Lists";
     private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE IF NOT EXISTS " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
     private static final String CREATE_TABLE_LISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTS + "(listName VARCHAR primary key);";
+    private static final String CREATE_TABLE_DUMMYLIST = "CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);";
+    private static final String CREATE_TABLE_DUMMYPRODUCT = "CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ";
+    private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE IF NOT EXISTS settings(color integer default 0);";
     private static final int DATABASE_VERSION = 1;
 
     //getInstance() ensures only one DBHandler will exist at any time.
@@ -42,6 +45,20 @@ public class DBHandler extends SQLiteOpenHelper {
         //Create two tables, MasterList & Lists
         db.execSQL(CREATE_TABLE_MASTERLIST);
         db.execSQL(CREATE_TABLE_LISTS);
+        db.execSQL(CREATE_TABLE_DUMMYLIST);
+        db.execSQL(CREATE_TABLE_DUMMYPRODUCT);
+        db.execSQL(CREATE_TABLE_SETTINGS);
+
+
+        /* add to mainmenu
+        db.execSQL("CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS  dummyProduct(brand VARCHAR primary key, size integer primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2) ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS  settings(color integer default 0);");
+         */
+
+        ContentValues values = new ContentValues();
+        values.put("color", 0);
+        db.insert("settings", null, values);
     }
 
     @Override
@@ -57,6 +74,21 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 //---------------------------------------------
+    //change value of color
+    public void setColor(SQLiteDatabase db, int color) {
+        ContentValues values = new ContentValues();
+        values.put("color", color);
+        db.update("settings", values, "color != ?", new String[] {Integer.toString(color)}  );
+    }
+
+    public int getColor(SQLiteDatabase db) {
+        Cursor c = db.rawQuery("select color from settings", null);
+        c.moveToFirst();
+        int color = c.getInt(c.getColumnIndex("color"));
+        c.close();
+        return color;
+    }
+
     //This creates a whole new row for the product. TESTED
     public void createItemMasterList(String p, int f, float a, float l, float t){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -119,7 +151,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //creates a list table with the passed in name
     public void createListTable(SQLiteDatabase db, String listname) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + listname + "(id INTEGER PRIMARY KEY, product VARCHAR unique, inCart int);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + listname + "(/*id INTEGER PRIMARY KEY, */product VARCHAR unique, inCart int);");
     }
 
     //insert row into list table
