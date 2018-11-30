@@ -1,8 +1,10 @@
 package com.foodteam.shoppy;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,12 +15,28 @@ public class Filters extends AppCompatActivity {
     //brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent
 
     int[] filters;
+    SQLiteDatabase shoppy;
+    DBHandler shoppyHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filters);
         initializeArray();
+
+        try {
+            //connect to db
+            shoppy = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
+            shoppyHelp = DBHandler.getInstance(getApplicationContext());
+
+
+        } catch (Exception e) {
+            Log.e("ERROR GETTING DATABASE", "Problem getting database");
+            // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
+        }
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
 
         Button applyFilters = findViewById(R.id.applyFilters);
         applyFilters.setOnClickListener(new View.OnClickListener() {
