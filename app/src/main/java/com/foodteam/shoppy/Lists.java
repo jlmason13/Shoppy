@@ -60,6 +60,9 @@ public class Lists extends AppCompatActivity {
            // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
         populateListView();
     }
 
