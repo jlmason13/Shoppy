@@ -37,10 +37,10 @@ public class ProductDetails extends AppCompatActivity {
         openTheDatabase();
         Table = findViewById(R.id.TheTable);
 //RETAIN COLOR CHANGES BETWEEN PAGES:
-        //DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
-        //ColorChanges obj = new ColorChanges();
-        //View view = this.getWindow().getDecorView();
-        //obj.setWindowCOlor(shoppyDB, dbHelper, view, getWindow());
+        DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppyDB, dbHelper, view, getWindow());
 
         //Get product name from List activity
         String product;
@@ -297,7 +297,7 @@ public class ProductDetails extends AppCompatActivity {
             shoppyDB = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
             //Toast.makeText(this, "Database Linked", Toast.LENGTH_SHORT).show();
             //CREATE TEST TABLE FOR EGGS
-            /*shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS eggs (brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2), primary key(brand, size) );");
+/*            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS eggs (brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2), primary key(brand, size) );");
             //shoppyDB.execSQL("INSERT INTO eggs (brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent) VALUES (leggos, 12, 1, 2.22, 1.11, 3.33, Teeter, 2.22);");
             ContentValues c = new ContentValues();
             c.put("brand", "eggos");
@@ -310,7 +310,7 @@ public class ProductDetails extends AppCompatActivity {
             c.put("totalSpent", 5.00);
             shoppyDB.insert("eggs", null, c);
             //END TEST CODE
-            */
+*/
             return shoppyDB;
         } catch (Exception e) {
             System.out.println("DATABASE ERROR" + "Product Details: Error opening Database");
