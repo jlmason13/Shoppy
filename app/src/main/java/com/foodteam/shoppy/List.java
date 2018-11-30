@@ -1,31 +1,35 @@
 package com.foodteam.shoppy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class List extends AppCompatActivity {
-
+    SQLiteDatabase shoppy;
+    DBHandler shoppyHelp;
     String tablename;
-
-   /* @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-
-        savedInstanceState.putInt("MY_FIELD", 43);
-        // ... other fields
-        savedInstanceState.putString("", "");
-
-        super.onSaveInstanceState(savedInstanceState);
-    }*/
+    ListName obj = new ListName();
+    private String productname = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,94 +47,178 @@ public class List extends AppCompatActivity {
         }
 
         //set the title of the page to the lists name
-        ListName obj = new ListName();
         obj.setName(tablename);
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(obj.toListName(obj.getName()));
 
-        //connect to db
-        try (SQLiteDatabase sqLiteDatabase = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null)) {
-
-            //add item
-            Button addItem = findViewById(R.id.addItem);
-            addItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //add an item to the list, add to <listname> table in db
-                    //add a view with a text box and a product details button
-                }
-            });
-
-            // go to enter details page
-            Button done = findViewById(R.id.doneShopping);
-            done.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent enterdetails = new Intent( getApplicationContext(), EnterDetails.class );
-                    enterdetails.putExtra("", tablename);
-                    startActivity(enterdetails);
-                }
-            });
-
+        try {
+            //connect to db
+            shoppy = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
+            shoppyHelp = DBHandler.getInstance(getApplicationContext());
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("ERROR GETTING DATABASE", "Problem getting database");
+            // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
         }
-
+        populateListView();
     }
 
         // add check box, delete button, and prod details button per element in list
 
 
-    public void deleteItem() {
+    public void deleteProduct(View v) {
+        //get the name of the current product
+        TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.productName);
+        String prod = text.getText().toString();
+        prod = obj.toTableName(prod);
+        //SHOULD ADD AN ARE YOU SURE POP UP
 
+        try {
+            // remove item from list in shoppydb
+            shoppyHelp.deleteProd(shoppy, tablename, prod);
+            Toast.makeText(this, "list item "+ prod +" removed", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.e("DATABASE ERROR", "Problem removing item from list in database");
+            Toast.makeText(this, "ERROR REMOVING ITEM", Toast.LENGTH_LONG).show();
+        }
+
+        //redraw the list o' lists
+        populateListView();
     }
 
     //onclick for product details button
-    public void prodDets() {
+    public void prodDetails(View v) {
+        //get the name of the current product
+        TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.productName);
+        String prod = text.getText().toString();
+        prod = obj.toTableName(prod);
 
+        Intent details = new Intent( getApplicationContext(), ProductDetails.class );
+        details.putExtra("THEPRODUCTNAME", prod);
+        startActivity(details);
     }
 
     //onclick for adding products to list
-    public void addProduct(View view) {
-        //needs to add a row to <listnameTable>
+    public void addProduct(View v) {
+        EditText newItem = (EditText)findViewById(R.id.newProdName);
+        //dont do anything if the text feild is empty
+        if (!TextUtils.isEmpty(newItem.getText().toString())) {
+            productname = newItem.getText().toString();
+            productname = productname.trim();
 
-        //adda checkbox, Edit text, remove button, and product details button for product to a listView
+            boolean exists = false;
+            //Make sure no existing item shares the name
+            try {
+                Cursor cur = shoppyHelp.getRows(shoppy, tablename, "product");
+                if (cur != null && (cur.getCount() > 0)) {
+                    for( int i = 0; i < cur.getCount(); i++ ) {
+                        if (cur.getString(cur.getColumnIndex("product")).equals(tablename)) {
+                            exists = true;
+                        }
+                    }
+                }
+                cur.close();
+            } catch ( Exception e) {
+                e.printStackTrace();
+            }
+
+            if (!exists) {
+                try {
+                    shoppyHelp.addProduct(shoppy, tablename, obj.toTableName(productname));
+                } catch (Exception e) {
+                    Log.e("DATABASE ERROR", "Problem inserting new item into database");
+                    Toast.makeText(this, "ERROR ADDING ITEM", Toast.LENGTH_LONG).show();
+                }
+                //"re-draw" the list
+                populateListView();
+            } else {
+                Toast.makeText(this, productname + " already exists", Toast.LENGTH_LONG).show();
+            }
+
+            //empty the edittext
+            newItem.setText("");
+        } else {
+            Toast.makeText(this, "Type in the box please", Toast.LENGTH_LONG).show();
+        }
     }
-
-
-
-
 
     //suggestions will be an expandableTextView
 
 
     public void back(View v) {
-       // Intent showList = new Intent( getApplicationContext(), List.class );
-       // startActivity(showList);
         finish();
     }
 
 
     //set inCart depending on if checkbox is clicked
     public void cart(View v) {
+        //get the name of the current product
+        TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.productName);
+        String prod = text.getText().toString();
+        prod = obj.toTableName(prod);
+
         int cart;
 
         CheckBox check = (CheckBox)v;
         if(check.isChecked()){
             cart = 1;
+            Toast.makeText(this, prod+" in cart", Toast.LENGTH_LONG).show();
         } else {
             cart = 0;
         }
 
         //set inCart for specific product to be int cart
-
+        try {
+            shoppyHelp.cart(shoppy, tablename, prod, cart);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("DATABASE ERROR", "Problem changing inCart value");
+            Toast.makeText(this, "ERROR WITH CART ", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void doneShopping(View view) {
         Intent details = new Intent( getApplicationContext(), EnterDetails.class );
         details.putExtra("nameOfTable", tablename);
         startActivity(details);
+    }
+
+    private void populateListView() {
+        ListView list = (ListView)findViewById(R.id.list);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View list_item = inflater.inflate(R.layout.list_item, null, false);
+        LinearLayout row = list_item.findViewById(R.id.productRow);
+        ArrayList<String> theList = new ArrayList<>();
+
+        try {
+            Cursor cur = shoppyHelp.getRows(shoppy, tablename, "product");
+            if (cur != null && cur.getCount() > 0) {
+                for( int i = 0; i < cur.getCount(); i++ ) {
+                    theList.add(obj.toListName(cur.getString(cur.getColumnIndex("product"))));
+                    cur.moveToNext();
+                }
+            }
+            cur.close();
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.productName, theList);
+            list.setAdapter(adapter);
+
+            /*
+            //if a product table doesnt exist yet then dont have a product details button
+            for (int i = 0; i < list.getCount(); i++) {
+                //Button b = list.getChildAt(i).findViewById(R.id.prodDetailsButton);
+                TextView tv = list.getChildAt(i).findViewById(R.id.productName);
+
+                if (!shoppyHelp.findTable(shoppy, tv.getText().toString() )) {
+                   // ((ViewGroup)b.getParent()).removeView(b);
+                    ((ViewGroup)list.getChildAt(i)).removeView(this.findViewById(R.id.prodDetailsButton));
+                }
+            }*/
+        } catch ( Exception e ) {
+            Log.e("POPULATE ERROR", "Problem with populateListView");
+            e.printStackTrace();
+            Toast.makeText(this, "populate Error", Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -1,9 +1,10 @@
 package com.foodteam.shoppy;
 
+import android.widget.Button;
+
 public class ListName {
     private String name;
-
-    public void setName( String s ) {
+        public void setName( String s ) {
         name = s;
     }
 

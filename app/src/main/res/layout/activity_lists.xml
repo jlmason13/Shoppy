@@ -34,6 +34,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Space
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:onClick="back"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/listArea"
         android:layout_width="match_parent"
@@ -47,6 +66,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="1.0"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
         tools:ignore="ExtraText">>
 
 
@@ -63,8 +85,8 @@
                 android:layout_height="50dp"
                 android:layout_weight="5"
                 android:cursorVisible="false"
-                android:hint="New List Name"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                android:hint="New List Name"
                 android:maxLines="1"
                 android:singleLine="true" />
 
@@ -79,54 +101,20 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
-        <ScrollView
-            android:id="@+id/scroll"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:isScrollContainer="false"
-            android:fadeScrollbars="false"
-            android:scrollbarStyle="outsideOverlay">
-
-            <TableLayout
-                android:id="@+id/listOlists"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-
-        </ScrollView>
-        <!--
         <ListView
             android:id="@+id/listOlists"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+
+            android:paddingLeft="5dp"
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:isScrollContainer="false">
 
 
         </ListView>
 
-
-
-        <LinearLayout
-                android:id="@+id/listOlists"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-        -->
     </LinearLayout>
-
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:onClick="back"
-        android:text="Back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:layout_width="match_parent"
+            android:layout_height="wrap_content"-->
 
 </android.support.constraint.ConstraintLayout>
