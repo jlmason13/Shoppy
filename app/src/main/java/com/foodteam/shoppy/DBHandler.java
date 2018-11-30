@@ -49,16 +49,9 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DUMMYPRODUCT);
         db.execSQL(CREATE_TABLE_SETTINGS);
 
-
-        /* add to mainmenu
-        db.execSQL("CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS  dummyProduct(brand VARCHAR primary key, size integer primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2) ) ");
-        db.execSQL("CREATE TABLE IF NOT EXISTS  settings(color integer default 0);");
-         */
-
-        ContentValues values = new ContentValues();
-        values.put("color", 0);
-        db.insert("settings", null, values);
+        //ContentValues values = new ContentValues();
+        //values.put("color", 0);
+        //db.insert("settings", null, values);
     }
 
     @Override
