@@ -32,7 +32,7 @@ public class MainMenu extends AppCompatActivity {
     public SQLiteDatabase getShoppyDB(){
         return this.shoppyDB;
     }
-//*
+
     public void createDatabase(){
         try{
             //Create/open shoppy.db and make it exclusive to the app
@@ -45,9 +45,7 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS settings(color integer default 0);");
 
-
             //db on file system
-
             File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi
             //Show if file was actually set to shoppyDB
             if (database.exists()){
@@ -59,7 +57,7 @@ public class MainMenu extends AppCompatActivity {
             Log.e("DATABASE ERROR", "Problem creating database");
         }
     }
-//*/
+
     protected void onDestroy(){
         shoppyDB.close();
         super.onDestroy();
@@ -73,7 +71,7 @@ public class MainMenu extends AppCompatActivity {
         createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
-
+/*
         //I'm using the database:
         DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
         //Toast.makeText(this, "Added to ML", Toast.LENGTH_SHORT).show(); //Use TOAST if you want to see a pop-up message
@@ -88,6 +86,11 @@ public class MainMenu extends AppCompatActivity {
 
         Log.e("Number Items", "Items in MasterList " + dbHelper.countMasterList()); //Use LOG if you want to see it in file dump
 */
+
+//RETAIN COLOR CHANGES BETWEEN PAGES:
+        //ColorChanges obj = new ColorChanges();
+        //View view = this.getWindow().getDecorView();
+        //obj.setWindowCOlor(shoppyDB, dbHelper, view, getWindow());
 
 //BUTTONS:
         //Main Menu Button: "LISTS"
