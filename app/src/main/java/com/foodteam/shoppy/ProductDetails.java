@@ -36,6 +36,11 @@ public class ProductDetails extends AppCompatActivity {
         setContentView(R.layout.activity_product_details);
         openTheDatabase();
         Table = findViewById(R.id.TheTable);
+//RETAIN COLOR CHANGES BETWEEN PAGES:
+        DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppyDB, dbHelper, view, getWindow());
 
         //Get product name from List activity
         String product;
@@ -51,7 +56,7 @@ public class ProductDetails extends AppCompatActivity {
         }else {
             product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
         }
-        product = "eggs"; //TESTING STRING
+        //product = "eggs"; //TESTING STRING
 
         //Set title of page to the name of the product
         TextView PN = findViewById(R.id.ProductTitle);
@@ -112,7 +117,7 @@ public class ProductDetails extends AppCompatActivity {
             TextView colTotal = findViewById(R.id.colTotal);
 
             //Since the filter can change the order of the columns, change based on filters array
-            String[] attrNames = {    "brand",  "size",  "frequency", "avgPrice", "lowestPrice", "highestPrice", "store",  "totalSpent"};
+            String[] attrNames = {    "brand",  "size",  "freq-\nuency", "avg\nPrice", "lowest\nPrice", "highest\nPrice", "store",  "total\nSpent"};
             TextView[] attrLocales = {colBrand, colSize,  colFreq,     colAvgP,      colLowP,      colHighP,     colStore,  colTotal};
             if (filters != null) {
                 for (int i = 0, j = 0; i < filters.length - 1; i++) {
@@ -131,31 +136,31 @@ public class ProductDetails extends AppCompatActivity {
             //Adjusts query based on last element of filters array
             String query = "SELECT * FROM " + product + " ORDER BY ";
             if (filters != null) {
-                switch (filters[6]) {
+                switch (filters[8]) {
                     case 0:
-                        query = query + "brand ASC;";
+                        query = query + "brand ASC;"; //Most Recent Purchase: Sort By Time
                         break;
                     case 1:
-                        query = query + "size ASC;";
+                        query = query + "size ASC;"; //Oldest Purchase: Sort by Time
                         break;
                     case 2:
-                        query = query + "frequency ASC";
+                        query = query + "frequency ASC"; //Store Alphabetical: Sort By Store
                         break;
                     case 3:
-                        query = query + "avgPrice DESC;";
+                        query = query + "avgPrice DESC;"; //Brand Alphabetical: Sorty By Brand
                         break;
                     case 4:
-                        query = query + "lowestPrice ASC;";
+                        query = query + "lowestPrice ASC;"; //Price Average: Lowest to Highest
                         break;
                     case 5:
-                        query = query + "highestPrice ASC;";
+                        query = query + "highestPrice ASC;"; //Price Lowest: Lowest to Highest
                         break;
                     case 6:
-                        query = query + "store DESC;";
+                        query = query + "store DESC;"; //Price Highest: Lowest to Highest
                         break;
-                    case 7:
-                        query = query + "totalSpent ASC;";
-                        break;
+                    //case 7:
+                        //query = query + "totalSpent ASC;";
+                        //break;
                     default:
                         query = query + "brand ASC;";
                 }
@@ -183,35 +188,35 @@ public class ProductDetails extends AppCompatActivity {
                 for( int r = 0; r < iterate.getCount(); r++ ) {
                     TableRow row = new TableRow(this);
                     if ( filters != null ) {
-                        if (filters[0] == 1) {
+                        if (filters[0] == 1) { //If "brand" is visible
                             TextView curBrand = createTextView( textViewParam, iterate.getString(brand),false );
                             row.addView(curBrand);
                         }
-                        if (filters[1] == 1) {
+                        if (filters[1] == 1) { //If "size" is visible
                             TextView curSize = createTextView( numTextViewParam, iterate.getString(size),true );
                             row.addView(curSize);
                         }
-                        if (filters[2] == 1) {
+                        if (filters[2] == 1) { //If "frequency" is visible
                             TextView curFreq = createTextView( numTextViewParam, iterate.getString(freq),true );
                             row.addView(curFreq);
                         }
-                        if (filters[3] == 1) {
+                        if (filters[3] == 1) { //If "avg price" is visible
                             TextView curAvg = createTextView( numTextViewParam, iterate.getString(avgP),true );
                             row.addView(curAvg);
                         }
-                        if (filters[4] == 1) {
+                        if (filters[4] == 1) { //If "lowest price" is visible
                             TextView curLow = createTextView( numTextViewParam, iterate.getString(lowP),true );
                             row.addView(curLow);
                         }
-                        if (filters[5] == 1) {
+                        if (filters[5] == 1) { //If "highest price" is visible
                             TextView curHigh = createTextView( numTextViewParam, iterate.getString(highP),true );
                             row.addView(curHigh);
                         }
-                        if (filters[6] == 1) {
+                        if (filters[6] == 1) { //If "store" is visible
                             TextView curStore = createTextView( numTextViewParam, iterate.getString(store),false );
                             row.addView(curStore);
                         }
-                        if (filters[7] == 1) {
+                        if (filters[7] == 1) { //If "total" is visible
                             TextView curTotal = createTextView( numTextViewParam, iterate.getString(total),true );
                             row.addView(curTotal);
                         }
@@ -292,20 +297,20 @@ public class ProductDetails extends AppCompatActivity {
             shoppyDB = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
             //Toast.makeText(this, "Database Linked", Toast.LENGTH_SHORT).show();
             //CREATE TEST TABLE FOR EGGS
-            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS eggs (brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2), primary key(brand, size) );");
+/*            shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS eggs (brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2), primary key(brand, size) );");
             //shoppyDB.execSQL("INSERT INTO eggs (brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent) VALUES (leggos, 12, 1, 2.22, 1.11, 3.33, Teeter, 2.22);");
             ContentValues c = new ContentValues();
-            c.put("brand", "Humpty");
-            c.put("size", 8);
-            c.put("frequency", 1);
-            c.put("avgPrice", 3.02);
-            c.put("lowestPrice", 1.55);
-            c.put("highestPrice", 3.02);
+            c.put("brand", "eggos");
+            c.put("size", 12);
+            c.put("frequency", 2);
+            c.put("avgPrice", 5.00);
+            c.put("lowestPrice", 2.00);
+            c.put("highestPrice", 5.00);
             c.put("store", "Target");
-            c.put("totalSpent", 3.02);
+            c.put("totalSpent", 5.00);
             shoppyDB.insert("eggs", null, c);
             //END TEST CODE
-
+*/
             return shoppyDB;
         } catch (Exception e) {
             System.out.println("DATABASE ERROR" + "Product Details: Error opening Database");
