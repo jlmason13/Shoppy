@@ -56,6 +56,7 @@ public class MainMenu extends AppCompatActivity {
             }
 
             //db on file system
+
             File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi
             //Show if file was actually set to shoppyDB
             if (database.exists()){
@@ -81,6 +82,7 @@ public class MainMenu extends AppCompatActivity {
         createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
+
         //I'm using the database:
         DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
         //Toast.makeText(this, "Added to ML", Toast.LENGTH_SHORT).show(); //Use TOAST if you want to see a pop-up message
@@ -125,8 +127,5 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(new Intent(MainMenu.this, Settings.class));
             }
         });
-
-        //Zofi Reminder: remove crazyness from MasterList
-
     }
 }
