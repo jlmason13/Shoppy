@@ -24,11 +24,19 @@ public class MasterList extends AppCompatActivity {
     SQLiteDatabase theDatabase;
     TableLayout theTable;
     int[] filters;
+    DBHandler Handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         openTheDatabase();
+
+        //assigns colors
+        Handler = DBHandler.getInstance(getApplicationContext());
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(theDatabase, Handler, view, getWindow());
+
         setContentView(R.layout.activity_master_list);
         theTable = (TableLayout) findViewById(R.id.theTable);
 
