@@ -44,9 +44,16 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS settings(color integer default 0);");
-            ContentValues values = new ContentValues();
-            values.put("color", 0);
-            shoppyDB.insert("settings", null, values);
+
+            int settingsExists = 0;
+            Cursor c = shoppyDB.rawQuery("select color from settings", null);
+            settingsExists = c.getCount();
+            c.close();
+            if (settingsExists == 0) {
+                ContentValues values = new ContentValues();
+                values.put("color", 0);
+                shoppyDB.insert("settings", null, values);
+            }
 
             //db on file system
             File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi

@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class List extends AppCompatActivity {
     SQLiteDatabase shoppy;
     DBHandler shoppyHelp;
@@ -61,6 +63,10 @@ public class List extends AppCompatActivity {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
             // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
         }
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
+
         populateListView();
     }
 
