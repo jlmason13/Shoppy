@@ -56,9 +56,9 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS  settings(color integer default 0);");
          */
 
-        ContentValues values = new ContentValues();
-        values.put("color", 0);
-        db.insert("settings", null, values);
+        //ContentValues values = new ContentValues();
+        //values.put("color", 0);
+        //db.insert("settings", null, values);
     }
 
     @Override
