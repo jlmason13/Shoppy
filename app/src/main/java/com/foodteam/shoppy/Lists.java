@@ -84,6 +84,8 @@ public class Lists extends AppCompatActivity {
         populateListView();
     }
 
+
+
     public void gotoList(View v) {
         //get the name of the current list
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
