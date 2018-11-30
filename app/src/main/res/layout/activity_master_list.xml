@@ -136,7 +136,8 @@
 
     </LinearLayout>
 
-    <View style="@style/dividerHoriz"/>      <!-- see styles.xml for dimensions and etc -->
+    <View style="@style/dividerHoriz"
+          android:background="@android:color/black"/>      <!-- see styles.xml for dimensions and etc -->
 
     <ScrollView
         android:layout_width="match_parent"
