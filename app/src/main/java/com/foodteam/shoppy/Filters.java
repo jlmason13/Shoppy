@@ -15,6 +15,7 @@ public class Filters extends AppCompatActivity {
     //brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent
 
     int[] filters;
+    String product;
     SQLiteDatabase shoppy;
     DBHandler shoppyHelp;
 
@@ -38,12 +39,24 @@ public class Filters extends AppCompatActivity {
         View view = this.getWindow().getDecorView();
         obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
 
+        if(savedInstanceState == null) {
+            Bundle extra = getIntent().getExtras();
+            if(extra == null) {
+                product = null;
+            } else {
+                product = extra.getString("THEPRODUCTNAME");
+            }
+        } else {
+            product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
+        }
+
         Button applyFilters = findViewById(R.id.applyFilters);
         applyFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent whatever = new Intent(Filters.this, ProductDetails.class);
                 whatever.putExtra("filterslist", filters);
+                whatever.putExtra("THEPRODUCTNAME", product);
                 startActivity(whatever);
             }
         });
