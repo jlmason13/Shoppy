@@ -10,15 +10,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+
 public class EnterDetails extends AppCompatActivity {
 
     SQLiteDatabase theDatabase;
     //this assignment is temporary, SQLite complaining null is invalid for the setup of activity in testing
-    String tableName = "DummyTable";     //this stores the name of the grocery list    //temporarily set to dummyTable
+    String tableName = "dummyList";     //this stores the name of the grocery list    //temporarily set to dummyTable
     String product;
     int rowNum;
     int totalRow;
     Button submitBtn;
+    DBHandler Handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +35,25 @@ public class EnterDetails extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
                 Toast.makeText(this, "No extras passed to enterDetails", Toast.LENGTH_LONG).show();
-                Intent returnIntent = new Intent( getApplicationContext(), List.class );   //TODO what key name does she store the list name?
+                Intent returnIntent = new Intent( getApplicationContext(), List.class );
+                returnIntent.putExtra("nameOfTable", tableName);
                 startActivity(returnIntent);
 
-            } else if (extras.containsKey("index") && extras.containsKey("tableName")) {
+            } else if (extras.containsKey("index") && extras.containsKey("nameOfTable")) {
                 if (extras.getInt("index") > 0) {
-                    tableName = extras.getString("tablename");
+                    tableName = extras.getString("nameOfTable");
                     rowNum = extras.getInt("index");
                 } else {
-                    tableName = extras.getString("tablename");
+                    tableName = extras.getString("nameOfTable");
                     rowNum = 0;
                 }
-            } else if (!extras.containsKey("index") && extras.containsKey("tableName")) {
+            } else if (!extras.containsKey("index") && extras.containsKey("nameOfTable")) {
                 rowNum = 0;
-                tableName = extras.getString("tablename");
+                tableName = extras.getString("nameOfTable");
             } else {    // extras exists but no tableName key
                 // ??
                 Toast.makeText(this, "No products passed to enterDetails", Toast.LENGTH_LONG).show();
-                Intent returnIntent = new Intent( getApplicationContext(), List.class );   //TODO what key name does she store the list name?
+                Intent returnIntent = new Intent( getApplicationContext(), Lists.class );
                 startActivity(returnIntent);
             }
         }
@@ -58,6 +64,14 @@ public class EnterDetails extends AppCompatActivity {
         TextView productName = (TextView) findViewById(R.id.productName);
         productName.setText(product);
 
+        //assigns colors
+        Handler = DBHandler.getInstance(getApplicationContext());
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        if ( true ) {
+            obj.setWindowCOlor(theDatabase, Handler, view, getWindow());      //causes error when testing but not when using emulator
+        }
+
         // inform user how many items are left to enter
         Toast.makeText(this,  "" + rowNum + "" + totalRow + " Products Entered", Toast.LENGTH_LONG).show();
 
@@ -65,11 +79,12 @@ public class EnterDetails extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Zofi: submit button has been clicked");
                 retrieveAndSubmitData();
-                updateMasterList();
+                System.out.println("Zofi: retrieveAndSubmitData() finished, product = " + product + ".");
                 rowNum++;
                 Intent iterativeIntent = new Intent( getApplicationContext(), EnterDetails.class );
-                iterativeIntent.putExtra("tablename", tableName);   //TODO make sure it matches Kirstin's
+                iterativeIntent.putExtra("tablename", tableName);
                 iterativeIntent.putExtra("index", rowNum);
                 startActivity(iterativeIntent);
             }
@@ -81,14 +96,15 @@ public class EnterDetails extends AppCompatActivity {
     protected String retrieveProductName(){
         String aProduct = "";
 
-        Cursor productQuery = theDatabase.rawQuery("select product from " + tableName + " where inCart = 1;", null ); //TODO VERY IMPORTANT resolve database dilema
-        int productColumn = productQuery.getColumnIndex("product");         // TODO check that "inCart" is the right attribute name
+        Cursor productQuery = theDatabase.rawQuery("select product from " + tableName + " where inCart = 1;", null );
+        int productColumn = productQuery.getColumnIndex("product");
         totalRow = productQuery.getCount();
         productQuery.moveToPosition(rowNum);
         if (rowNum >= totalRow ) {
             productQuery.close();
             Toast.makeText(this, "All Done!", Toast.LENGTH_LONG).show();
-            Intent returnIntent = new Intent( getApplicationContext(), List.class );   //TODO what key name does she store the list name?
+            Intent returnIntent = new Intent( getApplicationContext(), List.class );
+            returnIntent.putExtra("nameOfTable", tableName);
             startActivity(returnIntent);
         } else {
             aProduct = productQuery.getString(productColumn);
@@ -116,7 +132,7 @@ public class EnterDetails extends AppCompatActivity {
         TextView storeTxt = (TextView) findViewById(R.id.enterStore);
 
 
-        String newPrice   = priceTxt.getText().toString(); //TODO Throws Error, can't be cast to String
+        String newPrice   = priceTxt.getText().toString();
         String newSize    =  sizeTxt.getText().toString();
         String newBrand    = brandTxt.getText().toString();
         String newStore    = storeTxt.getText().toString();
@@ -125,27 +141,41 @@ public class EnterDetails extends AppCompatActivity {
             Toast.makeText(this, "All fields must be entered", Toast.LENGTH_LONG).show();
             return -1;
         } else {
-            updateProductDetails( product, Float.parseFloat(newPrice), Float.parseFloat(newSize), newBrand, newStore);
+            int result = updateProductDetails( product, Float.parseFloat(newPrice), Float.parseFloat(newSize), newBrand, newStore);
+            if (result == 1) {
+                updateMasterList();
+            }
             return 1;
         }
     }
 
+    //TODO fix, product is showing up as null for some reason
+    //TODO check date stamp works
+
     /* Depending on whether the product exists in MasterList, as well as the combo of brand ad size exists,
        this function updates or inserts the new product data
      */
-    protected void updateProductDetails( String product, Float newPrice, Float newSize, String newBrand, String newStore) {
-        if (product.equals("")) { return; }
+    protected int updateProductDetails( String product, Float newPrice, Float newSize, String newBrand, String newStore) {
+        if (product.equals("")) { return 0; }
         Cursor productQuery = theDatabase.rawQuery("select * from MasterList where product = '" + product + "';", null);
+
+        //code to get the current time
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+        Date todayDate = new Date();
+        String newDate = currentDate.format(todayDate);
+
+        System.out.println("Zofi: Entering if, checking if productQuery.getcount() == 1, productQuery.getCount() = " + productQuery.getCount() );   //TODO delete me
         if( productQuery.getCount() > 0 ){
 
-            Cursor checkBrandSize = theDatabase.rawQuery( "select from" + product +
-                " where brand = '" + newBrand + "', size = '" + newSize + "';", null);
+            Cursor checkBrandSize = theDatabase.rawQuery( "select * from " + product +
+                " where brand = '" + newBrand + "' and size = '" + newSize + "';", null);
             int freqColumn          = checkBrandSize.getColumnIndex("frequency");
-            int highestPriceColumn   = checkBrandSize.getColumnIndex("highestPrice");
+            int highestPriceColumn  = checkBrandSize.getColumnIndex("highestPrice");
             int lowestPriceColumn   = checkBrandSize.getColumnIndex("lowestPrice");
             int totalSpentColumn    = checkBrandSize.getColumnIndex("totalSpent");
             checkBrandSize.moveToFirst();
 
+            System.out.println("Zofi: Entering if, checking if checkBrandSize.getcount() == 1");   //TODO delete me
             if (checkBrandSize.getCount() == 1) {   //must update existing row if row of brand and size already exist
                 float lowest = Float.parseFloat( checkBrandSize.getString(lowestPriceColumn) );
                 float highest = Float.parseFloat( checkBrandSize.getString(highestPriceColumn) );
@@ -163,6 +193,7 @@ public class EnterDetails extends AppCompatActivity {
                                ", lowestPrice = " + newPrice +
                                ", store = " + newStore +
                                ", totalSpent = " + newTotal +
+                               ", date = " + newDate +
                             " where brand = '" + newBrand + "' and size = " + newSize + " ;");
                 } else if ( newPrice > highest) {                    // newPrice > highest price
                     theDatabase.execSQL("update " + product +
@@ -170,22 +201,26 @@ public class EnterDetails extends AppCompatActivity {
                                ", avgPrice = " + newAverage +
                                ", highestPrice = " + newPrice +
                                ", totalSpent = " + newTotal +
+                               ", date = " + newDate +
                             " where brand = '" + newBrand + "' and size = " + newSize + " ;");
                 } else {
                     theDatabase.execSQL("update " + product +
                             " set frequency = " + newFreq +
                                ", avgPrice = " + newAverage +
                                ", totalSpent = " + newTotal +
+                               ", date = " + newDate +
                             " where brand = '" + newBrand + "' and size = " + newSize + " ;");
                 }
 
             } else {    //combo of brand and size does not exist so create new row in product
-                theDatabase.execSQL("insert into" + product + "(brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent)" +
-                        "values ( " + newBrand + ", " + newSize + ", 1, " + newPrice + ", " + newPrice + ", " + newPrice + ", " + newStore + ", " + newPrice + ");" );
+                theDatabase.execSQL("insert into" + product + "(brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent, date)" +
+                        "values ( " + newBrand + ", " + newSize + ", 1, " + newPrice + ", " + newPrice + ", " + newPrice + ", " + newStore + ", " + newPrice + ", '" + newDate + "');" );
             }
             checkBrandSize.close();
+            return 1;
 
         } else {
+            System.out.println("Zofi: table does not exist yet reached");   //TODO delete me
             //add product to MasterList
             theDatabase.execSQL("insert into MasterList " +
                     "(product, frequency, avgPrice, lowestPrice, totalSpent) " +
@@ -193,13 +228,14 @@ public class EnterDetails extends AppCompatActivity {
 
             //create a table with that exact name of product
             theDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + product +
-                    "(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2) " +
-                    ") primary key(brand, size) );");
+                    "(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2), date Text " +
+                    ", primary key(brand, size) );");
 
             //insert new data from into the new table data
             theDatabase.execSQL( "insert into " + product +
-                    "(brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent ) " +
-                    "values ( '" + newBrand + "', " + newSize + ", 1, " + newPrice + ", " + newPrice + ", " + newPrice + ", '" + newStore + "', " + newPrice + ");" );
+                    "(brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent, date ) " +
+                    "values ( '" + newBrand + "', " + newSize + ", 1, " + newPrice + ", " + newPrice + ", " + newPrice + ", '" + newStore + "', " + newPrice + ", '" + newDate + "');" );
+            return 1;
         }
     }
 
@@ -213,6 +249,7 @@ public class EnterDetails extends AppCompatActivity {
         int freqColumn          = update.getColumnIndex("frequency");
         int lowestPriceColumn   = update.getColumnIndex("lowestPrice");
         int totalSpentColumn    = update.getColumnIndex("totalSpent");
+        update.moveToFirst();
 
         // create variables to hold the sum or min of frequency, lowestPrice, and totalSpent in product table
         int sumFreq = 0;
@@ -227,11 +264,13 @@ public class EnterDetails extends AppCompatActivity {
             if ( check < lowestLow ) {
                 lowestLow = check;
             }
+            update.moveToNext();
         }
         update.close();
 
         // divide totalSpent by frequency to create MasterList avgPrice
         float avgForMaster = sumTotalSpent / sumFreq;
+
         // use update query to change product row in MasterList (product, frequency, avgPrice, lowestPrice, totalSpent)
         theDatabase.execSQL("update MasterList" +
                 " set frequency = " + sumFreq +

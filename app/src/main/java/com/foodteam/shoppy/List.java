@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class List extends AppCompatActivity {
     SQLiteDatabase shoppy;
     DBHandler shoppyHelp;
@@ -61,6 +63,10 @@ public class List extends AppCompatActivity {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
             // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
         }
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
+
         populateListView();
     }
 
@@ -208,13 +214,31 @@ public class List extends AppCompatActivity {
             //if a product table doesnt exist yet then dont have a product details button
             for (int i = 0; i < list.getCount(); i++) {
                 //Button b = list.getChildAt(i).findViewById(R.id.prodDetailsButton);
+                final TextView tv = list.getChildAt(i).findViewById(R.id.productName);
+
+                if (shoppyHelp.findTable(shoppy, tv.getText().toString() )) {
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            prodDetails(v);
+                        }
+                    });
+                }
+            }
+            */
+
+            /*
+            //if a product table doesnt exist yet then dont have a product details button
+            for (int i = 0; i < list.getCount(); i++) {
+                //Button b = list.getChildAt(i).findViewById(R.id.prodDetailsButton);
                 TextView tv = list.getChildAt(i).findViewById(R.id.productName);
 
                 if (!shoppyHelp.findTable(shoppy, tv.getText().toString() )) {
                    // ((ViewGroup)b.getParent()).removeView(b);
                     ((ViewGroup)list.getChildAt(i)).removeView(this.findViewById(R.id.prodDetailsButton));
                 }
-            }*/
+            }
+            */
         } catch ( Exception e ) {
             Log.e("POPULATE ERROR", "Problem with populateListView");
             e.printStackTrace();

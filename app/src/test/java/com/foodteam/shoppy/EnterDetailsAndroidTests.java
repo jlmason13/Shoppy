@@ -25,6 +25,9 @@ package com.foodteam.shoppy;
         import org.robolectric.annotation.Config;
 
 
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
+
         import static org.hamcrest.core.AllOf.allOf;
         import static org.junit.Assert.assertEquals;
         import static org.junit.Assert.assertThat;
@@ -37,38 +40,38 @@ package com.foodteam.shoppy;
 //@Config(constants = BuildConfig.class)
 public class EnterDetailsAndroidTests {
     SQLiteDatabase theDatabase;
+    EnterDetails activityED;
 
-//TODO CONT working with Robolectric
+
     @Before
     public void prepareForTesting() {
+        //These four lines is how you setup the Database for Robolectic, kindof awkward but works
         MainMenu activityMM = Robolectric.setupActivity(MainMenu.class);
-        activityMM.createDatabase();
+        DBHandler Handler = DBHandler.getInstance(activityMM.getApplicationContext());
         theDatabase = activityMM.shoppyDB;
+        Handler.onCreate(theDatabase);
 
+        // prep a table for testing
         theDatabase.execSQL("CREATE TABLE IF NOT EXISTS GroceryList" +
                 "( product VARCHAR primary key, inCart int) ;");
         theDatabase.execSQL( "insert into GroceryList (product, inCart) values ('lembasBread', 1);");
 
-        theDatabase.execSQL("CREATE TABLE IF NOT EXISTS DummyTable" +
-                "( product VARCHAR primary key, inCart int) ;");
+        //setup the activity I want to test
+        activityED = Robolectric.setupActivity(EnterDetails.class);
+        activityED.tableName = "GroceryList";
     }
 
     @Test
     public void testRetrieveProductName() {
-
-        EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
-        activityED.tableName = "GroceryList";
         String answer = activityED.retrieveProductName();
+        System.out.println( "Zofi: [testRetrieveProductName] product = " + answer );    //TODO why does retrieveProductName only work here? but not within the activity?
 
+        TextView text = activityED.findViewById(R.id.productName);
         assertEquals("lembasBread", answer);
     }
 
     @Test
     public void testRetrieveAndSubmitData_EmptyFields() {
-
-        EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
-        activityED.tableName = "GroceryList";
-
         int result = activityED.retrieveAndSubmitData();
 
         assertEquals( -1, result);
@@ -98,11 +101,32 @@ public class EnterDetailsAndroidTests {
         assertEquals( 1, result);
     }
 
-//    @Test
-//    public void testUpdateMasterList_NOTEmptyMasterList() {
-//        fail("Unimplemented");
-//    }
+    //TODO error [CursorIndexOutOfBoundsException: Index -1 requested, with a size of 1] at EnterDetails 253
+    @Test
+    public void testUpdatemasterList() {
+        EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
+        activityED.tableName = "GroceryList";
+        activityED.product = "lembasBread";
+        activityED.retrieveProductName();
 
+        //code to get the current time
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+        Date todayDate = new Date();
+        String newDate = currentDate.format(todayDate);
+
+        // setup a product table "lembasBread" with one row of data to test with
+        theDatabase.execSQL("CREATE TABLE IF NOT EXISTS lembasBread" +
+                "(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2), date Text " +
+                ", primary key(brand, size) );");
+        theDatabase.execSQL( "insert into lembasBread" +
+                "(brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent, date ) " +
+                "values ( 'WoodEleves Bakery', 12, 1, 4.42, 4.42, 4.42, 'Lothlorien', 4.42, '" + newDate + "');" );
+
+        // test method
+        activityED.updateMasterList();
+    }
+
+    //TODO address contents of database are not permanent when using Roboelectic
     @Test
     public void testSubmitButton() {
         //test clicking the button
@@ -128,28 +152,6 @@ public class EnterDetailsAndroidTests {
         boolean masterLooksGood  = false;
         boolean productLooksGood = false;
 
-        //for some reason, there is no being entered product in EnterDetails
-
-        // check Master table
-        Cursor fromMaster = theDatabase.rawQuery("select * from MasterList where product = 'lembasBread';", null);
-//        if ( fromMaster.getCount() == 0 ) {
-//            fail("Zofi: masterList had no data when it should have");
-//        }
-        int freqColumn          = fromMaster.getColumnIndex("frequency");
-        int highestPriceColumn   = fromMaster.getColumnIndex("highestPrice");
-        int lowestPriceColumn   = fromMaster.getColumnIndex("lowestPrice");
-        int totalSpentColumn    = fromMaster.getColumnIndex("totalSpent");
-        fromMaster.moveToFirst();
-
-        if (
-                (fromMaster.getInt(freqColumn) == 1) &&
-                (fromMaster.getFloat(highestPriceColumn) == 4.42) &&
-                (fromMaster.getFloat(lowestPriceColumn) == 4.42) &&
-                (fromMaster.getFloat(totalSpentColumn) == 4.42)
-                ) {
-            masterLooksGood = true;
-        }
-
         // check Product (lembasBread) table
         Cursor fromProduct = theDatabase.rawQuery("select * from lembasBread;", null);
 //        if ( fromProduct.getCount() == 0 ) {
@@ -167,20 +169,40 @@ public class EnterDetailsAndroidTests {
 
         if (
                 (fromProduct.getString(brandColumnP) == "WoodElves Bakery") &&
-                (fromProduct.getInt(sizeColumnP) == 12) &&
-                (fromProduct.getInt(freqColumnP) == 1) &&
-                (fromProduct.getFloat(avgColumnP) == 4.42) &&
-                (fromProduct.getFloat(highestColumnP) == 4.42) &&
-                (fromProduct.getFloat(lowestColumnP) == 4.42) &&
-                (fromProduct.getString(storeColumnP) == "Lothlorien") &&
-                (fromProduct.getFloat(totalSpentColumnP) == 4.42)
+                        (fromProduct.getInt(sizeColumnP) == 12) &&
+                        (fromProduct.getInt(freqColumnP) == 1) &&
+                        (fromProduct.getFloat(avgColumnP) == 4.42) &&
+                        (fromProduct.getFloat(highestColumnP) == 4.42) &&
+                        (fromProduct.getFloat(lowestColumnP) == 4.42) &&
+                        (fromProduct.getString(storeColumnP) == "Lothlorien") &&
+                        (fromProduct.getFloat(totalSpentColumnP) == 4.42)
                 ) {
             productLooksGood = true;
         }
 
+        // check Master table
+        Cursor fromMaster = theDatabase.rawQuery("select * from MasterList where product = 'lembasBread';", null);
+//        if ( fromMaster.getCount() == 0 ) {
+//            fail("Zofi: masterList had no data when it should have");
+//        }
+        int freqColumn          = fromMaster.getColumnIndex("frequency");
+        int highestPriceColumn   = fromMaster.getColumnIndex("highestPrice");
+        int lowestPriceColumn   = fromMaster.getColumnIndex("lowestPrice");
+        int totalSpentColumn    = fromMaster.getColumnIndex("totalSpent");
+        fromMaster.moveToFirst();
+
+        if (
+                (fromMaster.getInt(freqColumn) == 1) &&
+                        (fromMaster.getFloat(highestPriceColumn) == 4.42) &&
+                        (fromMaster.getFloat(lowestPriceColumn) == 4.42) &&
+                        (fromMaster.getFloat(totalSpentColumn) == 4.42)
+                ) {
+            masterLooksGood = true;
+        }
+
+
         // return result
         assertTrue(productLooksGood && masterLooksGood);
     }
-
 }
 

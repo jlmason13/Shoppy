@@ -45,7 +45,18 @@ public class MainMenu extends AppCompatActivity {
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ");
             shoppyDB.execSQL("CREATE TABLE IF NOT EXISTS settings(color integer default 0);");
 
+            int settingsExists = 0;
+            Cursor c = shoppyDB.rawQuery("select color from settings", null);
+            settingsExists = c.getCount();
+            c.close();
+            if (settingsExists == 0) {
+                ContentValues values = new ContentValues();
+                values.put("color", 0);
+                shoppyDB.insert("settings", null, values);
+            }
+
             //db on file system
+
             File database = getApplicationContext().getDatabasePath("shoppyDB");    //altered by Zofi
             //Show if file was actually set to shoppyDB
             if (database.exists()){
@@ -71,11 +82,11 @@ public class MainMenu extends AppCompatActivity {
         createDatabase();                               //added by Zofi for debugging purposes
 
 //USE THIS CODE TO USE THE DATABASE:
-/*
+
         //I'm using the database:
         DBHandler dbHelper = DBHandler.getInstance(getApplicationContext()); //Only one instance can be active at a time. Protect race conditions
         //Toast.makeText(this, "Added to ML", Toast.LENGTH_SHORT).show(); //Use TOAST if you want to see a pop-up message
-        Log.e("Create Item", "Create eggs in MasterList"); //Use LOG if you want to see it in file dump
+/*        Log.e("Create Item", "Create eggs in MasterList"); //Use LOG if you want to see it in file dump
         dbHelper.createItemMasterList("eggs", 2, (float) 1.75, (float) 0.98, (float) 2.78); //add eggs to MasterList
         dbHelper.createItemMasterList("milk", 1, (float) 1.25, (float) 1.00, (float) 3.75); //add milk to MasterList
         dbHelper.createItemMasterList("cheese", 3, (float) 4.25, (float) 3.15, (float) 5.55); //add milk to MasterList
@@ -88,9 +99,9 @@ public class MainMenu extends AppCompatActivity {
 */
 
 //RETAIN COLOR CHANGES BETWEEN PAGES:
-        //ColorChanges obj = new ColorChanges();
-        //View view = this.getWindow().getDecorView();
-        //obj.setWindowCOlor(shoppyDB, dbHelper, view, getWindow());
+        ColorChanges obj = new ColorChanges();
+        View view = this.getWindow().getDecorView();
+        obj.setWindowCOlor(shoppyDB, dbHelper, view, getWindow());
 
 //BUTTONS:
         //Main Menu Button: "LISTS"
@@ -116,8 +127,5 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(new Intent(MainMenu.this, Settings.class));
             }
         });
-
-        //Zofi Reminder: remove crazyness from MasterList
-
     }
 }
