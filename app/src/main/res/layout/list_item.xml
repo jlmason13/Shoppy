@@ -16,13 +16,15 @@
 
         <TextView
             android:id="@+id/productName"
-            android:text=""
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:textSize="18sp"
-            android:gravity="bottom"/>
+            android:gravity="bottom"
+            android:text=""
+            android:onClick="prodDetails"
+            android:textSize="18sp" />
 
+        <!--
         <Button
             android:id="@+id/prodDetailsButton"
             android:layout_width="40dp"
@@ -30,7 +32,7 @@
             android:layout_weight="1"
             android:clickable="false"
             android:onClick="prodDetails"
-            android:text="Details" /> <!--if prod exists in masterList table then set clickable to true-->
+            android:text="Details" /> --><!--if prod exists in masterList table then set clickable to true-->
 
         <ImageButton
             android:id="@+id/deleteProduct"
