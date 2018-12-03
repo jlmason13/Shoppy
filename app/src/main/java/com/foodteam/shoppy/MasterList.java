@@ -25,11 +25,13 @@ public class MasterList extends AppCompatActivity {
     TableLayout theTable;
     int[] filters;
     DBHandler Handler;
+    ListName conversion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         openTheDatabase();
+        conversion = new ListName();
 
         //assigns colors
         Handler = DBHandler.getInstance(getApplicationContext());
@@ -161,6 +163,7 @@ public class MasterList extends AppCompatActivity {
         int lowestPriceColumn   = itterate.getColumnIndex("lowestPrice");
         int totalSpentColumn    = itterate.getColumnIndex("totalSpent");
 
+        //TODO figure out how to truncate float to only 2 digits
         //create rows based on data from cursor and the filters array, only includes columns that were selected via the filters page
         itterate.moveToFirst();
         if (itterate != null && (itterate.getCount() > 0)) {
@@ -168,15 +171,15 @@ public class MasterList extends AppCompatActivity {
                 TableRow row = new TableRow(this);
                 if ( filters != null ) {
                     if (filters[0] == 1) {
-                        TextView curProduct     = createTextView( textViewParam,    itterate.getString(productColumn),     false );
+                        TextView curProduct     = createTextView( textViewParam,    conversion.toListName(itterate.getString(productColumn)),false );
                         row.addView(curProduct);
                     }
                     if (filters[1] == 1) {
-                        TextView curFreq        = createTextView( numTextViewParam, itterate.getString(freqColumn),        true );
+                        TextView curFreq        = createTextView( numTextViewParam, itterate.getString(freqColumn),    true );
                         row.addView(curFreq);
                     }
                     if (filters[2] == 1) {
-                        TextView curAvg         = createTextView( numTextViewParam, itterate.getString(avgPriceColumn),    true );
+                        TextView curAvg         = createTextView( numTextViewParam, itterate.getString(avgPriceColumn),true );
                         row.addView(curAvg);
                     }
                     if (filters[3] == 1) {
@@ -207,7 +210,7 @@ public class MasterList extends AppCompatActivity {
     }
 
     //handles creating a new row when filters array is not initialized
-    private void createNewRow ( TextView curProduct, TextView curFreq, TextView curAvg, TextView curLow, TextView curTotalSpent, Button detailsButton ) {
+    protected TableRow createNewRow ( TextView curProduct, TextView curFreq, TextView curAvg, TextView curLow, TextView curTotalSpent, Button detailsButton ) {
         TableRow row = new TableRow(this);
 
         row.addView(curProduct);
@@ -218,10 +221,11 @@ public class MasterList extends AppCompatActivity {
         row.addView(detailsButton);
 
         theTable.addView(row);
+        return row;
     }
 
     //name is self-explanatory
-    private TextView createTextView (TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
+    protected TextView createTextView (TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
         TextView text = new TextView( this );
         text.setText( toDisplay );
         text.setTextSize(16);
@@ -236,7 +240,7 @@ public class MasterList extends AppCompatActivity {
     }
 
     //name is self-explanatory
-    private Button createNewButton(TableRow.LayoutParams buttonParam, String productName) {
+    protected Button createNewButton(TableRow.LayoutParams buttonParam, String productName) {
         final String product = productName;
         Button detailsButton = new Button(this);
         detailsButton.setText("Details");

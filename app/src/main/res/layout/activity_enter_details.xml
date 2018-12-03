@@ -102,7 +102,7 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="0 floz, lb, etc"
-                        android:inputType="text" />
+                        android:inputType="numberDecimal" />
 
                 </TableRow>
 
