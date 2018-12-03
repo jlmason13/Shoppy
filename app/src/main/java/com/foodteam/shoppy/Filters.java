@@ -50,7 +50,7 @@ public class Filters extends AppCompatActivity {
     }
 
     private void initializeArray() {
-        filters = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 0};
+        filters = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 0};
     }
 
     public void onCheckBoxClicked(View view) {
@@ -122,6 +122,13 @@ public class Filters extends AppCompatActivity {
                     filters[7] = 0;
                 }
                 break;
+
+            case R.id.date:
+                if(checked) {
+                    filters[8] = 1;
+                } else {
+                    filters[8] = 0;
+                }
         }
     }
 
@@ -131,43 +138,43 @@ public class Filters extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.MostRecentPurchase:
                 if(checked) {
-                    filters[8] = 0;
+                    filters[9] = 0;
                 }
                 break;
 
             case R.id.OldestPurchase:
                 if(checked) {
-                    filters[8] = 1;
+                    filters[9] = 1;
                 }
                 break;
 
             case R.id.StoreAlephabetical:
                 if(checked) {
-                    filters[8] = 2;
+                    filters[9] = 2;
                 }
                 break;
 
             case R.id.BrandAlephabetical:
                 if(checked) {
-                    filters[8] = 3;
+                    filters[9] = 3;
                 }
                 break;
 
             case R.id.PriceAverage:
                 if(checked) {
-                    filters[8] = 4;
+                    filters[9] = 4;
                 }
                 break;
 
             case R.id.PriceLowest:
                 if(checked) {
-                    filters[8] = 5;
+                    filters[9] = 5;
                 }
                 break;
 
             case R.id.PriceHeighest:
                 if(checked) {
-                    filters[8] = 6;
+                    filters[9] = 6;
                 }
                 break;
         }
