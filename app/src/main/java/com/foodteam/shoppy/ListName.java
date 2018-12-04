@@ -3,14 +3,13 @@ package com.foodteam.shoppy;
 import android.widget.Button;
 
 public class ListName {
-    private String name;
-        public void setName( String s ) {
+    /*private String name;
+    public void setName( String s ) {
         name = s;
     }
-
     public String getName() {
         return name;
-    }
+    }*/
 
     public String toTableName(String s) {
         String newS = "";
