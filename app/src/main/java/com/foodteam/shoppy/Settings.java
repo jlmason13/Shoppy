@@ -2,7 +2,6 @@ package com.foodteam.shoppy;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,33 +24,6 @@ public class Settings extends AppCompatActivity {
     DBHandler db;
     Cursor cur;
 
-    public void stuff(){
-        //Deletes the list
-        cur = shoppyDB.rawQuery("select listName from Lists", new String [] {});
-        while (cur.moveToNext()) {
-            shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("listName")) );
-
-        }
-
-        //Deletes the product details
-        cur = shoppyDB.rawQuery("select product from MasterList", new String [] {});
-        while (cur.moveToNext()) {
-            shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("product")) );
-        }
-
-        //Empty's the master list
-        shoppyDB.execSQL("DELETE FROM MasterList" );
-        shoppyDB.execSQL("VACUUM");
-
-        //Empty's the list of list
-        shoppyDB.execSQL("DELETE FROM Lists" );
-        shoppyDB.execSQL("VACUUM");
-
-        //close cur
-        cur.close();
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,34 +37,30 @@ public class Settings extends AppCompatActivity {
         startFresh.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Deletes the list
-                cur = shoppyDB.rawQuery("select listName from Lists", new String[]
-
+                cur = shoppyDB.rawQuery("select listName from Lists;", new String[]
                         {
                         });
                 while (cur.moveToNext())
-
                 {
-                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("listName")));
+                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("listName")) +';');
                 }
 
                 //Deletes the product details
-                cur = shoppyDB.rawQuery("select product from MasterList", new String[]
-
+                cur = shoppyDB.rawQuery("select product from MasterList;", new String[]
                         {
                         });
                 while (cur.moveToNext())
-
                 {
-                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("product")));
+                    shoppyDB.execSQL("DROP TABLE IF EXISTS " + cur.getString(cur.getColumnIndex("product")) +';');
                 }
 
                 //Empty's the master list
-                shoppyDB.execSQL("DELETE FROM MasterList");
-                shoppyDB.execSQL("VACUUM");
+                shoppyDB.execSQL("DELETE FROM MasterList;");
+                shoppyDB.execSQL("VACUUM;");
 
                 //Empty's thw list of list
-                shoppyDB.execSQL("DELETE FROM Lists");
-                shoppyDB.execSQL("VACUUM");
+                shoppyDB.execSQL("DELETE FROM Lists;");
+                shoppyDB.execSQL("VACUUM;");
 
                 //close cur
                 cur.close();
@@ -113,9 +81,6 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        //Default text color
-       // text.setTextColor(getResources().getColor(R.color.black));
-        //text.setTextColor(ContextCompat.getColor(this, R.color.darkGreen));
 
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -165,8 +130,6 @@ public class Settings extends AppCompatActivity {
     //Changes the background color on the button click
     public void goWhite(View v)
     {
-        //view.setBackgroundResource(R.color.white);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         db.setColor(shoppyDB, 0);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -178,8 +141,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goPink(View v) {
-        //view.setBackgroundResource(R.color.lightPink);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkPink));
         db.setColor(shoppyDB, 1);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -191,8 +152,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goPurple(View v) {
-        //view.setBackgroundResource(R.color.lightPurple);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkPurple));
         db.setColor(shoppyDB, 2);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -204,8 +163,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goGreen(View v) {
-        //view.setBackgroundResource(R.color.lightGreen);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkGreen));
         db.setColor(shoppyDB, 3);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -217,8 +174,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goBlue(View v) {
-        //view.setBackgroundResource(R.color.lightBlue);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkBlue));
         db.setColor(shoppyDB, 4);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -230,8 +185,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goYellow(View v) {
-        //view.setBackgroundResource(R.color.lightYellow);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkYellow));
         db.setColor(shoppyDB, 5);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -243,8 +196,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goOrange(View v) {
-        //view.setBackgroundResource(R.color.lightOrange);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkOrange));
         db.setColor(shoppyDB, 6);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
@@ -256,8 +207,6 @@ public class Settings extends AppCompatActivity {
     }
 
     public void goRed(View v) {
-        //view.setBackgroundResource(R.color.lightRed);
-        //getWindow().setStatusBarColor(getResources().getColor(R.color.darkRed));
         db.setColor(shoppyDB, 7);
         try {
             obj.setWindowCOlor(shoppyDB, db, view, getWindow());
