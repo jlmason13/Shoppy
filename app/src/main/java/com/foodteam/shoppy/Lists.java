@@ -7,37 +7,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.SimpleCursorAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
-import android.app.ListActivity;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 
 public class Lists extends AppCompatActivity {
     SQLiteDatabase shoppy;// = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null);
     DBHandler shoppyHelp;
-
     private String listname = "";
     private String tablename = "";
     EditText newName;
@@ -57,7 +40,6 @@ public class Lists extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
-           // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         ColorChanges obj = new ColorChanges();
@@ -71,7 +53,6 @@ public class Lists extends AppCompatActivity {
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
         String name = text.getText().toString();
         name = obj.toTableName(name);
-        //SHOULD ADD AN ARE YOU SURE POP UP
 
         try {
             // remove list from shoppydb
@@ -87,8 +68,6 @@ public class Lists extends AppCompatActivity {
         populateListView();
     }
 
-
-
     public void gotoList(View v) {
         //get the name of the current list
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
@@ -98,9 +77,6 @@ public class Lists extends AppCompatActivity {
         showList.putExtra("nameOfTable", name);
         startActivity(showList);
     }
-
-
-
 
     //on click function for addlist button to add the new list to the database
     public void addList(View v) {
@@ -153,7 +129,7 @@ public class Lists extends AppCompatActivity {
     }
 
     //function for adding all existing lists to the listView so they shoe up on screen
-    private void populateListView() {
+    public void populateListView() {
         ListView list = (ListView)findViewById(R.id.listOlists);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View list_item = inflater.inflate(R.layout.list_helper, null, false);
@@ -179,20 +155,15 @@ public class Lists extends AppCompatActivity {
         }
     }
 
-    private void checkNumLists(){
-        Button add = (Button)findViewById(R.id.createList);
-        int count = shoppyHelp.countLists();
-
-        if (count < 10) {
-            add.setClickable(true);
-        } else {
-            add.setClickable(false);
-        }
-        //return count;
-    }
-
     public void back(View view) {
         Intent home = new Intent( getApplicationContext(), MainMenu.class );
         startActivity(home);
+    }
+
+    public void testdelete(String s) {
+        TextView b = findViewById(R.id.delete_button);
+        TextView  text = (TextView) ((LinearLayout)b.getParent()).findViewById(R.id.nameOfList);
+        text.setText(s);
+        onDelete(b);
     }
 }
