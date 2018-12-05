@@ -48,6 +48,14 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DUMMYLIST);
         db.execSQL(CREATE_TABLE_DUMMYPRODUCT);
         db.execSQL(CREATE_TABLE_SETTINGS);
+
+        //necessary for testing
+        addProduct(db, "dummyList", "dummyProduct");
+
+        //ContentValues values = new ContentValues();
+        //values.put("color", 0);
+        //db.insert("settings", null, values);
+
     }
 
     @Override

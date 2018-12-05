@@ -36,7 +36,7 @@
             android:layout_height="50dp"
             android:layout_weight="5"
             android:cursorVisible="false"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:digits="abcdefghijklmnopqrstuvwxyz "
             android:hint="New Item Name"
             android:maxLines="1"
             android:singleLine="true" />
