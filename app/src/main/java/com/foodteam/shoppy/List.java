@@ -29,6 +29,7 @@ public class List extends AppCompatActivity {
     ListName obj = new ListName();
     String productname = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,35 +111,41 @@ public class List extends AppCompatActivity {
             productname = newItem.getText().toString();
             productname = productname.trim();
 
-            boolean exists = false;
-            //Make sure no existing item shares the name
-            try {
-                Cursor cur = shoppyHelp.getRows(shoppy, tablename, "product");
-                if (cur != null && (cur.getCount() > 0)) {
-                    for( int i = 0; i < cur.getCount(); i++ ) {
-                        if (cur.getString(cur.getColumnIndex("product")).equals(tablename)) {
-                            exists = true;
+            boolean good = false;
+            //productname cant be any sqlite terms
+            if (obj.validName(obj.toListName(productname))) {
+
+                boolean exists = false;
+                //Make sure no existing item shares the name
+                try {
+                    Cursor cur = shoppyHelp.getRows(shoppy, tablename, "product");
+                    if (cur != null && (cur.getCount() > 0)) {
+                        for (int i = 0; i < cur.getCount(); i++) {
+                            if (cur.getString(cur.getColumnIndex("product")).equals(tablename)) {
+                                exists = true;
+                            }
                         }
                     }
-                }
-                cur.close();
-            } catch ( Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!exists) {
-                try {
-                    shoppyHelp.addProduct(shoppy, tablename, obj.toTableName(productname));
+                    cur.close();
                 } catch (Exception e) {
-                    Log.e("DATABASE ERROR", "Problem inserting new item into database");
-                    Toast.makeText(this, "ERROR ADDING ITEM", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
-                //"re-draw" the list
-                populateListView();
-            } else {
-                Toast.makeText(this, productname + " already exists", Toast.LENGTH_LONG).show();
-            }
 
+                if (!exists) {
+                    try {
+                        shoppyHelp.addProduct(shoppy, tablename, obj.toTableName(productname));
+                    } catch (Exception e) {
+                        Log.e("DATABASE ERROR", "Problem inserting new item into database");
+                        Toast.makeText(this, "ERROR ADDING ITEM", Toast.LENGTH_LONG).show();
+                    }
+                    //"re-draw" the list
+                    populateListView();
+                } else {
+                    Toast.makeText(this, productname + " already exists", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, productname+ " is not valid", Toast.LENGTH_LONG).show();
+            }
             //empty the edittext
             newItem.setText("");
         } else {

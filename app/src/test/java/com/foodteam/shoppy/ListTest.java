@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class ListTest {
         //setup the activity I want to test
         listActiv = Robolectric.setupActivity(List.class);
         listActiv.tablename = "dummyList";
+        listActiv.productname = "dummyProd";
     }
 
     @Test
@@ -53,6 +55,8 @@ public class ListTest {
     @Test
     public void addProduct() {
         Button b = listActiv.findViewById(R.id.addItemButton);
+        EditText e = listActiv.findViewById(R.id.newProdName);
+        e.setText("dummy item");
         listActiv.addProduct(b);
     }
 
@@ -71,6 +75,7 @@ public class ListTest {
     @Test
     public void testCart() {
         CheckBox c = listActiv.findViewById(R.id.inCart);
+        c.setChecked(true);
         listActiv.cart(c);
     }
 
@@ -84,6 +89,7 @@ public class ListTest {
     public void addSuggestion() {
         //when click on suggestion
         Button b = listActiv.findViewById(R.id.suggestProd);
+        b.setText("suggestion");
         listActiv.addSuggestion(b);
     }
 

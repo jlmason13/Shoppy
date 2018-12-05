@@ -2,6 +2,7 @@ package com.foodteam.shoppy;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.junit.After;
@@ -45,6 +46,8 @@ public class ListsTest {
     @Test
     public void addList() {
         Button b = listsActiv.findViewById(R.id.createList);
+        EditText e = listsActiv.findViewById(R.id.newListName);
+        e.setText("dummy list");
         listsActiv.addList(b);
     }
 
