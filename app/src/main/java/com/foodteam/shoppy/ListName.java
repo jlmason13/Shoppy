@@ -42,7 +42,7 @@ public class ListName {
         String[] nameAsWords = name.split(" ");
         for (int s = 0; s < nameAsWords.length; s++) {
             for (int bad = 0; bad < badNames.length; bad++) {
-                if (nameAsWords[s].equals(badNames[bad])) {
+                if (nameAsWords[s].equalsIgnoreCase(badNames[bad])) {
                     return false;
                 }
             }

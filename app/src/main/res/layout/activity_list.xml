@@ -11,12 +11,12 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         android:text="Name O' List"
         android:textColor="@color/black"
         android:textSize="36sp"
-        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CREATE ITEM -->
@@ -24,7 +24,8 @@
         android:id="@+id/addItem"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toTopOf="@+id/list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,11 +35,12 @@
             android:id="@+id/newProdName"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="5"
-            android:cursorVisible="false"
-            android:digits="abcdefghijklmnopqrstuvwxyz "
+            android:layout_weight="4"
+            android:cursorVisible="true"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:hint="New Item Name"
             android:maxLines="1"
+            android:paddingLeft="10dp"
             android:singleLine="true" />
 
         <Button
@@ -46,7 +48,6 @@
             android:layout_width="28dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:hint='"new item name"'
             android:onClick="addProduct"
             android:text="Add"
             android:textSize="24sp" />
@@ -69,13 +70,15 @@
         android:id="@+id/list"
 
         android:layout_width="0dp"
-        android:layout_height="332dp"
+        android:layout_height="306dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginBottom="117dp"
         android:isScrollContainer="false"
         android:paddingLeft="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/title">
 
 
     </ListView>
@@ -84,10 +87,7 @@
         android:id="@+id/suggestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/doneShopping"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/list">
@@ -138,9 +138,11 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:onClick="back"
-        android:text="Back"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="return"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
