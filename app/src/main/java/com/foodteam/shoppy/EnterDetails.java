@@ -144,6 +144,25 @@ public class EnterDetails extends AppCompatActivity {
             Toast.makeText(this, "All fields must be entered", Toast.LENGTH_LONG).show();
             return -1;
         } else {
+            //check that numbers are valid
+            if ( !conversion.validateNumber(newPrice) ) {
+                Toast.makeText(this, "Invalid Number Entered", Toast.LENGTH_LONG).show();
+                return -1;
+            }
+            if ( !conversion.validateNumber(newSize) ) {
+                Toast.makeText(this, "Invalid Number Entered", Toast.LENGTH_LONG).show();
+                return -1;
+            }
+            //check that names are valid
+            if ( !conversion.validName(newBrand)) {
+                Toast.makeText(this, "Unacceptable Name Entered", Toast.LENGTH_LONG).show();
+                return -1;
+            }
+            if ( !conversion.validName(newBrand)) {
+                Toast.makeText(this, "Unacceptable Name Entered", Toast.LENGTH_LONG).show();
+                return -1;
+            }
+
             //convert user input into table friendly format
             newBrand = conversion.toTableName( newBrand );
             newStore = conversion.toTableName( newStore );

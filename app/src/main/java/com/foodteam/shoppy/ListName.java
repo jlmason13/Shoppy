@@ -2,6 +2,7 @@ package com.foodteam.shoppy;
 
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,44 @@ public class ListName {
                 if (nameAsWords[s].equals(badNames[bad])) {
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+    public boolean validateNumber(String s) {
+        int decCount = 0;
+        for (int i = 0; i < s.length(); i++) {
+            switch (s.charAt(i)) {
+                case '.':
+                    decCount++;
+                    break;
+                case '1':
+                    break;
+                case '2':
+                    break;
+                case '3':
+                    break;
+                case '4':
+                    break;
+                case '5':
+                    break;
+                case '6':
+                    break;
+                case '7':
+                    break;
+                case '8':
+                    break;
+                case '9':
+                    break;
+                case '0':
+                    break;
+                default:
+                    //invalid input
+                    return false;
+            }
+            if (decCount > 1) {
+                return false;
             }
         }
         return true;
