@@ -31,8 +31,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-//Despite saying Android Test, it must stay in current folder to function
-
 @RunWith(RobolectricTestRunner.class)
 //@Config(constants = BuildConfig.class)
 public class MasterListAndroidTests {
