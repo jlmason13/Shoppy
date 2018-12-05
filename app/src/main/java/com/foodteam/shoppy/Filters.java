@@ -62,7 +62,7 @@ public class Filters extends AppCompatActivity {
         });
     }
 
-    private void initializeArray() {
+    protected void initializeArray() {
         filters = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 0};
     }
 
@@ -142,6 +142,9 @@ public class Filters extends AppCompatActivity {
                 } else {
                     filters[8] = 0;
                 }
+                break;
+
+            default: break;
         }
     }
 
@@ -190,6 +193,8 @@ public class Filters extends AppCompatActivity {
                     filters[9] = 6;
                 }
                 break;
+
+            default: break;
         }
     }
 }
