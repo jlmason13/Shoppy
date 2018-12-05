@@ -7,41 +7,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.SimpleCursorAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
-import android.app.ListActivity;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 
 public class Lists extends AppCompatActivity {
     SQLiteDatabase shoppy;// = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null);
     DBHandler shoppyHelp;
-
-    private String listname = "";
-    private String tablename = "";
+    String listname = "";
+    String tablename = "";
     EditText newName;
     ListName obj = new ListName();
+    ColorChanges clr = new ColorChanges();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +38,13 @@ public class Lists extends AppCompatActivity {
             shoppy = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
             shoppyHelp = DBHandler.getInstance(getApplicationContext());
 
-
+            View view = this.getWindow().getDecorView();
+            clr.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
         } catch (Exception e) {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
-           // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-        ColorChanges obj = new ColorChanges();
-        View view = this.getWindow().getDecorView();
-        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
+
         populateListView();
     }
 
@@ -71,7 +53,6 @@ public class Lists extends AppCompatActivity {
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
         String name = text.getText().toString();
         name = obj.toTableName(name);
-        //SHOULD ADD AN ARE YOU SURE POP UP
 
         try {
             // remove list from shoppydb
@@ -87,8 +68,6 @@ public class Lists extends AppCompatActivity {
         populateListView();
     }
 
-
-
     public void gotoList(View v) {
         //get the name of the current list
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.nameOfList);
@@ -99,52 +78,54 @@ public class Lists extends AppCompatActivity {
         startActivity(showList);
     }
 
-
-
-
     //on click function for addlist button to add the new list to the database
     public void addList(View v) {
         //dont do anything if the text feild is empty
-        if (!TextUtils.isEmpty(newName.getText().toString())) {
-            listname = newName.getText().toString();
-            listname = listname.trim();
+        listname = newName.getText().toString();
+        listname = listname.trim();
+        if (!listname.equals("")) {//!TextUtils.isEmpty(newName.getText().toString())) {
+            //listname = newName.getText().toString();
+            //listname = listname.trim();
             //get rid of spaces in listname for saving purposes
             tablename = obj.toTableName(listname);
 
-            boolean exists = false;
-            //Make sure no existing lists share the name
-            try {
-                Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
-                if (cur != null && (cur.getCount() > 0)) {
-                    for( int i = 0; i < cur.getCount(); i++ ) {
-                        if (cur.getString(cur.getColumnIndex("listName")).equals(tablename)) {
-                            exists = true;
+            if (obj.validName(obj.toListName(tablename))) {
+                boolean exists = false;
+                //Make sure no existing lists share the name
+                try {
+                    Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
+                    if (cur != null && (cur.getCount() > 0)) {
+                        for (int i = 0; i < cur.getCount(); i++) {
+                            if (cur.getString(cur.getColumnIndex("listName")).equals(tablename)) {
+                                exists = true;
+                            }
                         }
                     }
-                }
-                cur.close();
-            } catch ( Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!exists) {
-                try {
-                    shoppyHelp.createItemLists(shoppy, tablename); //adds the list to Lists table
-                    shoppyHelp.createListTable(shoppy, tablename); //creates a table called tablename
+                    cur.close();
                 } catch (Exception e) {
-                    Log.e("DATABASE ERROR", "Problem inserting new list into database");
-                    Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
-                //let user know add was successful
-                Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
 
-                //"re-draw" the list of lists
-                populateListView();
+                if (!exists) {
+                    try {
+                        shoppyHelp.createItemLists(shoppy, tablename); //adds the list to Lists table
+                        shoppyHelp.createListTable(shoppy, tablename); //creates a table called tablename
+                    } catch (Exception e) {
+                        Log.e("DATABASE ERROR", "Problem inserting new list into database");
+                        Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                    //let user know add was successful
+                    Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
+
+                    //"re-draw" the list of lists
+                    populateListView();
+                } else {
+                    Toast.makeText(this, listname + " already exists", Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(this, listname + " already exists", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, listname + " is not valid", Toast.LENGTH_LONG).show();
             }
-
             //empty the edittext
             newName.setText("");
         } else {
@@ -153,7 +134,7 @@ public class Lists extends AppCompatActivity {
     }
 
     //function for adding all existing lists to the listView so they shoe up on screen
-    private void populateListView() {
+    public void populateListView() {
         ListView list = (ListView)findViewById(R.id.listOlists);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View list_item = inflater.inflate(R.layout.list_helper, null, false);
@@ -179,20 +160,15 @@ public class Lists extends AppCompatActivity {
         }
     }
 
-    private void checkNumLists(){
-        Button add = (Button)findViewById(R.id.createList);
-        int count = shoppyHelp.countLists();
-
-        if (count < 10) {
-            add.setClickable(true);
-        } else {
-            add.setClickable(false);
-        }
-        //return count;
-    }
-
     public void back(View view) {
         Intent home = new Intent( getApplicationContext(), MainMenu.class );
         startActivity(home);
+    }
+
+    public void testdelete(String s) {
+        TextView b = findViewById(R.id.delete_button);
+        TextView  text = (TextView) ((LinearLayout)b.getParent()).findViewById(R.id.nameOfList);
+        text.setText(s);
+        onDelete(b);
     }
 }

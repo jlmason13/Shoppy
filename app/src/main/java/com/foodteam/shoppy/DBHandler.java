@@ -49,6 +49,9 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DUMMYPRODUCT);
         db.execSQL(CREATE_TABLE_SETTINGS);
 
+        //necessary for testing
+        addProduct(db, "dummyList", "dummyProduct");
+
         //ContentValues values = new ContentValues();
         //values.put("color", 0);
         //db.insert("settings", null, values);
@@ -138,9 +141,23 @@ public class DBHandler extends SQLiteOpenHelper {
         return n;
     }
 
-
-
     //----- stuff for list/s -----
+
+    //get suggestions
+    public String getSuggestion(SQLiteDatabase db, String tablename) {
+        //String query = "SELECT product FROM Masterlist WHERE NOT EXISTS (SELECT product from " + tablename + " ) ORDER BY RANDOM() /*LIMIT 1*/;";//"select product, MAX(frequency) from MasterList;";
+        String query = "SELECT MasterList.product as prod FROM Masterlist LEFT JOIN " + tablename + " ON MasterList.product = "+ tablename + ".product WHERE " + tablename + ".product is null ORDER BY RANDOM();";
+        Cursor cur = db.rawQuery(query, null);
+        if (cur.getCount() > 0) {
+            if (cur != null) {
+                cur.moveToFirst();
+            }
+            if (cur.getString(cur.getColumnIndex("prod")) != null) {
+                return cur.getString(cur.getColumnIndex("prod"));
+            }
+        }
+        return "no suggestions";
+    }
 
     //creates a list table with the passed in name
     public void createListTable(SQLiteDatabase db, String listname) {
@@ -152,15 +169,6 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("product", product);
         db.insert(listname, null, values);
-    }
-
-    //edit a product in list table
-    public void editProduct(SQLiteDatabase db, String listname, int id, String product) {
-      //needs to change the products text
-        ContentValues values = new ContentValues();
-        values.put("product", product);
-
-        db.update(listname, values, "id = ?", new String[] {Integer.toString(id)} );
     }
 
     //put product in cart (edit product row in list)
@@ -182,7 +190,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + listname + ";");
         db.delete("Lists", "listName = ?", new String[] {String.valueOf(listname)} );
     }
-
 
     //retrieve data from table
     public Cursor getRows(SQLiteDatabase db, String table, String column) {
