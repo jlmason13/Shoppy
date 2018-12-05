@@ -81,10 +81,11 @@ public class ProductDetails extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnIntent = new Intent( getApplicationContext(), Filters.class );
+                Intent returnI = new Intent( getApplicationContext(), Filters.class );
                 ListName convertSpace = new ListName(); //replace spaces with underscores
-                returnIntent.putExtra("THEPRODUCTNAME", convertSpace.toTableName(product));
-                startActivity(returnIntent);
+                returnI.putExtra("THEPRODUCTNAME", convertSpace.toTableName(product));
+                returnI.putExtra("nameOfTable", returnIntent);
+                startActivity(returnI);
             }
         });
     }
