@@ -16,6 +16,7 @@ public class Filters extends AppCompatActivity {
 
     int[] filters;
     String product;
+    String origin;
     SQLiteDatabase shoppy;
     DBHandler shoppyHelp;
 
@@ -45,9 +46,11 @@ public class Filters extends AppCompatActivity {
                 product = null;
             } else {
                 product = extra.getString("THEPRODUCTNAME");
+                origin = extra.getString("nameOfTable");
             }
         } else {
             product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
+            origin = (String) savedInstanceState.getSerializable("nameOfTable");
         }
 
         Button applyFilters = findViewById(R.id.applyFilters);
@@ -57,6 +60,7 @@ public class Filters extends AppCompatActivity {
                 Intent whatever = new Intent(Filters.this, ProductDetails.class);
                 whatever.putExtra("filterslist", filters);
                 whatever.putExtra("THEPRODUCTNAME", product);
+                whatever.putExtra("nameOfTable", origin);
                 startActivity(whatever);
             }
         });
