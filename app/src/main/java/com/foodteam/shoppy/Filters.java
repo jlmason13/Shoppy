@@ -15,6 +15,7 @@ public class Filters extends AppCompatActivity {
     //brand, size, frequency, avgPrice, lowestPrice, highestPrice, store, totalSpent
 
     int[] filters;
+    String product;
     SQLiteDatabase shoppy;
     DBHandler shoppyHelp;
 
@@ -38,19 +39,31 @@ public class Filters extends AppCompatActivity {
         View view = this.getWindow().getDecorView();
         obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
 
+        if(savedInstanceState == null) {
+            Bundle extra = getIntent().getExtras();
+            if(extra == null) {
+                product = null;
+            } else {
+                product = extra.getString("THEPRODUCTNAME");
+            }
+        } else {
+            product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
+        }
+
         Button applyFilters = findViewById(R.id.applyFilters);
         applyFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent whatever = new Intent(Filters.this, ProductDetails.class);
                 whatever.putExtra("filterslist", filters);
+                whatever.putExtra("THEPRODUCTNAME", product);
                 startActivity(whatever);
             }
         });
     }
 
     private void initializeArray() {
-        filters = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 0};
+        filters = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 0};
     }
 
     public void onCheckBoxClicked(View view) {
@@ -122,6 +135,13 @@ public class Filters extends AppCompatActivity {
                     filters[7] = 0;
                 }
                 break;
+
+            case R.id.date:
+                if(checked) {
+                    filters[8] = 1;
+                } else {
+                    filters[8] = 0;
+                }
         }
     }
 
@@ -131,43 +151,43 @@ public class Filters extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.MostRecentPurchase:
                 if(checked) {
-                    filters[8] = 0;
+                    filters[9] = 0;
                 }
                 break;
 
             case R.id.OldestPurchase:
                 if(checked) {
-                    filters[8] = 1;
+                    filters[9] = 1;
                 }
                 break;
 
             case R.id.StoreAlephabetical:
                 if(checked) {
-                    filters[8] = 2;
+                    filters[9] = 2;
                 }
                 break;
 
             case R.id.BrandAlephabetical:
                 if(checked) {
-                    filters[8] = 3;
+                    filters[9] = 3;
                 }
                 break;
 
             case R.id.PriceAverage:
                 if(checked) {
-                    filters[8] = 4;
+                    filters[9] = 4;
                 }
                 break;
 
             case R.id.PriceLowest:
                 if(checked) {
-                    filters[8] = 5;
+                    filters[9] = 5;
                 }
                 break;
 
             case R.id.PriceHeighest:
                 if(checked) {
-                    filters[8] = 6;
+                    filters[9] = 6;
                 }
                 break;
         }

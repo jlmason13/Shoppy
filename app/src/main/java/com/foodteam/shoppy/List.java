@@ -6,17 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,14 +22,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class List extends AppCompatActivity {
     SQLiteDatabase shoppy;
     DBHandler shoppyHelp;
-    String tablename;
+    String tablename = "dummyList";
     ListName obj = new ListName();
-    private String productname = "";
+    String productname = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +38,15 @@ public class List extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                tablename = null;
+                //tablename = null;
             } else {
                 tablename = extras.getString("nameOfTable");
             }
         }
 
-        //set the title of the page to the lists name
-        obj.setName(tablename);
+        //set title of page
         TextView title = (TextView) findViewById(R.id.title);
-        title.setText(obj.toListName(obj.getName()));
+        title.setText(obj.toListName(tablename));
 
         try {
             //connect to db
@@ -67,23 +62,20 @@ public class List extends AppCompatActivity {
         View view = this.getWindow().getDecorView();
         obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
 
+        setSuggestion();
         populateListView();
     }
-
-        // add check box, delete button, and prod details button per element in list
-
 
     public void deleteProduct(View v) {
         //get the name of the current product
         TextView  text = (TextView) ((LinearLayout)v.getParent()).findViewById(R.id.productName);
         String prod = text.getText().toString();
         prod = obj.toTableName(prod);
-        //SHOULD ADD AN ARE YOU SURE POP UP
 
         try {
             // remove item from list in shoppydb
             shoppyHelp.deleteProd(shoppy, tablename, prod);
-            Toast.makeText(this, "list item "+ prod +" removed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "list item "+ obj.toListName(prod) +" removed", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e("DATABASE ERROR", "Problem removing item from list in database");
             Toast.makeText(this, "ERROR REMOVING ITEM", Toast.LENGTH_LONG).show();
@@ -100,15 +92,20 @@ public class List extends AppCompatActivity {
         String prod = text.getText().toString();
         prod = obj.toTableName(prod);
 
-        Intent details = new Intent( getApplicationContext(), ProductDetails.class );
-        details.putExtra("THEPRODUCTNAME", prod);
-        startActivity(details);
+        boolean exists = shoppyHelp.findTable(shoppy, prod );
+        if(exists) {
+            Intent details = new Intent(getApplicationContext(), ProductDetails.class);
+            details.putExtra("THEPRODUCTNAME", prod);
+            startActivity(details);
+        } else {
+            Toast.makeText(this, "You have no data for "+obj.toListName(prod), Toast.LENGTH_LONG).show();
+        }
     }
 
     //onclick for adding products to list
     public void addProduct(View v) {
         EditText newItem = (EditText)findViewById(R.id.newProdName);
-        //dont do anything if the text feild is empty
+        //dont do anything if the text field is empty
         if (!TextUtils.isEmpty(newItem.getText().toString())) {
             productname = newItem.getText().toString();
             productname = productname.trim();
@@ -149,13 +146,9 @@ public class List extends AppCompatActivity {
         }
     }
 
-    //suggestions will be an expandableTextView
-
-
     public void back(View v) {
         finish();
     }
-
 
     //set inCart depending on if checkbox is clicked
     public void cart(View v) {
@@ -190,7 +183,8 @@ public class List extends AppCompatActivity {
         startActivity(details);
     }
 
-    private void populateListView() {
+    //public for testing
+    public void populateListView() {
         ListView list = (ListView)findViewById(R.id.list);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View list_item = inflater.inflate(R.layout.list_item, null, false);
@@ -210,39 +204,54 @@ public class List extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.productName, theList);
             list.setAdapter(adapter);
 
-            /*
-            //if a product table doesnt exist yet then dont have a product details button
-            for (int i = 0; i < list.getCount(); i++) {
-                //Button b = list.getChildAt(i).findViewById(R.id.prodDetailsButton);
-                final TextView tv = list.getChildAt(i).findViewById(R.id.productName);
-
-                if (shoppyHelp.findTable(shoppy, tv.getText().toString() )) {
-                    tv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            prodDetails(v);
-                        }
-                    });
-                }
-            }
-            */
-
-            /*
-            //if a product table doesnt exist yet then dont have a product details button
-            for (int i = 0; i < list.getCount(); i++) {
-                //Button b = list.getChildAt(i).findViewById(R.id.prodDetailsButton);
-                TextView tv = list.getChildAt(i).findViewById(R.id.productName);
-
-                if (!shoppyHelp.findTable(shoppy, tv.getText().toString() )) {
-                   // ((ViewGroup)b.getParent()).removeView(b);
-                    ((ViewGroup)list.getChildAt(i)).removeView(this.findViewById(R.id.prodDetailsButton));
-                }
-            }
-            */
         } catch ( Exception e ) {
             Log.e("POPULATE ERROR", "Problem with populateListView");
             e.printStackTrace();
             Toast.makeText(this, "populate Error", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void addSuggestion(View v) {
+        //when click on suggestion
+        Button b = findViewById(R.id.suggestProd);
+        String prod = obj.toTableName(b.getText().toString());
+        prod = prod.trim();
+
+        if (!prod.equals("no_suggestions") && !prod.equals("no suggestions")) {
+            //need to add to the list
+            shoppyHelp.addProduct(shoppy, tablename, prod);
+
+            //re draw list
+            populateListView();
+
+            //set new suggestion
+            setSuggestion();
+        }
+    }
+
+    public void setSuggestion() {
+        Button b = findViewById(R.id.suggestProd);
+        try {
+            b.setText(obj.toListName(shoppyHelp.getSuggestion(shoppy, tablename)));
+        } catch (Exception e) {
+            Log.e("Suggestion ERROR", "Problem with setSuggestion");
+            e.printStackTrace();
+        }
+    }
+
+    public void newSug(View v) {
+        setSuggestion();
+    }
+
+    public void testpopulateListView(String s) {
+        tablename = s;
+        populateListView();
+    }
+
+    public void testdelete(String s) {
+        ImageButton b = findViewById(R.id.deleteProduct);
+        TextView  text = (TextView) ((LinearLayout)b.getParent()).findViewById(R.id.productName);
+        text.setText(s);
+        deleteProduct(b);
     }
 }
