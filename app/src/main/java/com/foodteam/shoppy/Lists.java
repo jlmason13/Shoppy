@@ -21,10 +21,11 @@ import android.widget.Toast;
 public class Lists extends AppCompatActivity {
     SQLiteDatabase shoppy;// = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null);
     DBHandler shoppyHelp;
-    private String listname = "";
-    private String tablename = "";
+    String listname = "";
+    String tablename = "";
     EditText newName;
     ListName obj = new ListName();
+    ColorChanges clr = new ColorChanges();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,13 @@ public class Lists extends AppCompatActivity {
             shoppy = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
             shoppyHelp = DBHandler.getInstance(getApplicationContext());
 
-
+            View view = this.getWindow().getDecorView();
+            clr.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
         } catch (Exception e) {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
             e.printStackTrace();
         }
-        ColorChanges obj = new ColorChanges();
-        View view = this.getWindow().getDecorView();
-        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
+
         populateListView();
     }
 
@@ -81,9 +81,11 @@ public class Lists extends AppCompatActivity {
     //on click function for addlist button to add the new list to the database
     public void addList(View v) {
         //dont do anything if the text feild is empty
-        if (!TextUtils.isEmpty(newName.getText().toString())) {
-            listname = newName.getText().toString();
-            listname = listname.trim();
+        listname = newName.getText().toString();
+        listname = listname.trim();
+        if (!listname.equals("")) {//!TextUtils.isEmpty(newName.getText().toString())) {
+            //listname = newName.getText().toString();
+            //listname = listname.trim();
             //get rid of spaces in listname for saving purposes
             tablename = obj.toTableName(listname);
 
