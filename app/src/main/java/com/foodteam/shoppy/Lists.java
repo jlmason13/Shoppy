@@ -19,7 +19,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class Lists extends AppCompatActivity {
-    SQLiteDatabase shoppy;// = openOrCreateDatabase("shoppyDB.db", MODE_PRIVATE, null);
+    SQLiteDatabase shoppy;// = openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null);
     DBHandler shoppyHelp;
     String listname = "";
     String tablename = "";
