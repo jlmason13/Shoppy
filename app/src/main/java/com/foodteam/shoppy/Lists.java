@@ -87,40 +87,43 @@ public class Lists extends AppCompatActivity {
             //get rid of spaces in listname for saving purposes
             tablename = obj.toTableName(listname);
 
-            boolean exists = false;
-            //Make sure no existing lists share the name
-            try {
-                Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
-                if (cur != null && (cur.getCount() > 0)) {
-                    for( int i = 0; i < cur.getCount(); i++ ) {
-                        if (cur.getString(cur.getColumnIndex("listName")).equals(tablename)) {
-                            exists = true;
+            if (obj.validName(obj.toListName(tablename))) {
+                boolean exists = false;
+                //Make sure no existing lists share the name
+                try {
+                    Cursor cur = shoppyHelp.getRows(shoppy, "Lists", "listName");
+                    if (cur != null && (cur.getCount() > 0)) {
+                        for (int i = 0; i < cur.getCount(); i++) {
+                            if (cur.getString(cur.getColumnIndex("listName")).equals(tablename)) {
+                                exists = true;
+                            }
                         }
                     }
-                }
-                cur.close();
-            } catch ( Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!exists) {
-                try {
-                    shoppyHelp.createItemLists(shoppy, tablename); //adds the list to Lists table
-                    shoppyHelp.createListTable(shoppy, tablename); //creates a table called tablename
+                    cur.close();
                 } catch (Exception e) {
-                    Log.e("DATABASE ERROR", "Problem inserting new list into database");
-                    Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
-                //let user know add was successful
-                Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
 
-                //"re-draw" the list of lists
-                populateListView();
+                if (!exists) {
+                    try {
+                        shoppyHelp.createItemLists(shoppy, tablename); //adds the list to Lists table
+                        shoppyHelp.createListTable(shoppy, tablename); //creates a table called tablename
+                    } catch (Exception e) {
+                        Log.e("DATABASE ERROR", "Problem inserting new list into database");
+                        Toast.makeText(this, "ERROR ADDING LIST", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                    //let user know add was successful
+                    Toast.makeText(this, "list " + listname + " added", Toast.LENGTH_LONG).show();
+
+                    //"re-draw" the list of lists
+                    populateListView();
+                } else {
+                    Toast.makeText(this, listname + " already exists", Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(this, listname + " already exists", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, listname + " is not valid", Toast.LENGTH_LONG).show();
             }
-
             //empty the edittext
             newName.setText("");
         } else {
