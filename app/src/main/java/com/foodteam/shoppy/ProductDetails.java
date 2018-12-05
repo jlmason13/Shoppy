@@ -1,6 +1,5 @@
 package com.foodteam.shoppy;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,15 +14,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 public class ProductDetails extends AppCompatActivity {
     /*When ProductDetails is used, it should already have been linked
     to a specific product. This product should be the name of the table
     so getDetails() can pull directly from that table.*/
     SQLiteDatabase shoppyDB;
     TableLayout Table;
-    String product;
+    String product = "product";
+    String returnIntent = "returnIntent";
     int[] filters;
 
     @Override
@@ -42,11 +40,12 @@ public class ProductDetails extends AppCompatActivity {
         if (savedInstanceState == null){
             Bundle extra = getIntent().getExtras();
             if (extra == null){
-                product = null;
+                product = "";
                 filters = null;
             }else{
                 product = extra.getString("THEPRODUCTNAME");
                 filters = extra.getIntArray("filterslist");
+                returnIntent = extra.getString("RETURN");
             }
         }else {
             product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
@@ -56,6 +55,7 @@ public class ProductDetails extends AppCompatActivity {
         ListName convertSpace = new ListName();
         TextView PN = findViewById(R.id.ProductTitle);
         PN.setText(convertSpace.toListName(product));
+        //PN.setText(product);
 
         //Once product name is acquired, get details on it to display
         getDetails(product);
@@ -65,9 +65,14 @@ public class ProductDetails extends AppCompatActivity {
         returnToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent returnIntent = new Intent( getApplicationContext(), List.class );
-                //startActivity(returnIntent);
-                finish();
+                if (returnIntent.equals("MasterList")) {
+                    Intent returnIntent = new Intent(getApplicationContext(), MasterList.class);
+                    startActivity(returnIntent);
+                }else{
+                    Intent returni = new Intent(getApplicationContext(), List.class);
+                    returni.putExtra("nameOfTable", returnIntent);
+                    startActivity(returni);
+                }
             }
         });
 
@@ -84,7 +89,7 @@ public class ProductDetails extends AppCompatActivity {
         });
     }
 
-    public void getDetails(String product){
+    public int getDetails(String product){
         try{
             if (product == null){
                 //Did not successfully receive product name from List.java
@@ -186,53 +191,53 @@ public class ProductDetails extends AppCompatActivity {
                     TableRow row = new TableRow(this);
                     if ( filters != null ) {
                         if (filters[0] == 1) { //If "brand" is visible
-                            TextView curBrand = createTextView( textViewParam, iterate.getString(brand),false );
+                            TextView curBrand = createTextViewPD( textViewParam, iterate.getString(brand),false );
                             row.addView(curBrand);
                         }
                         if (filters[1] == 1) { //If "size" is visible
-                            TextView curSize = createTextView( numTextViewParam, iterate.getString(size),true );
+                            TextView curSize = createTextViewPD( numTextViewParam, iterate.getString(size),true );
                             row.addView(curSize);
                         }
                         if (filters[2] == 1) { //If "frequency" is visible
-                            TextView curFreq = createTextView( numTextViewParam, iterate.getString(freq),true );
+                            TextView curFreq = createTextViewPD( numTextViewParam, iterate.getString(freq),true );
                             row.addView(curFreq);
                         }
                         if (filters[3] == 1) { //If "avg price" is visible
-                            TextView curAvg = createTextView( numTextViewParam, iterate.getString(avgP),true );
+                            TextView curAvg = createTextViewPD( numTextViewParam, iterate.getString(avgP),true );
                             row.addView(curAvg);
                         }
                         if (filters[4] == 1) { //If "lowest price" is visible
-                            TextView curLow = createTextView( numTextViewParam, iterate.getString(lowP),true );
+                            TextView curLow = createTextViewPD( numTextViewParam, iterate.getString(lowP),true );
                             row.addView(curLow);
                         }
                         if (filters[5] == 1) { //If "highest price" is visible
-                            TextView curHigh = createTextView( numTextViewParam, iterate.getString(highP),true );
+                            TextView curHigh = createTextViewPD( numTextViewParam, iterate.getString(highP),true );
                             row.addView(curHigh);
                         }
                         if (filters[6] == 1) { //If "store" is visible
-                            TextView curStore = createTextView( textViewParam, iterate.getString(store),false );
+                            TextView curStore = createTextViewPD( textViewParam, iterate.getString(store),false );
                             row.addView(curStore);
                         }
                         if (filters[7] == 1) { //If "total" is visible
-                            TextView curTotal = createTextView( numTextViewParam, iterate.getString(total),true );
+                            TextView curTotal = createTextViewPD( numTextViewParam, iterate.getString(total),true );
                             row.addView(curTotal);
                         }
                         if (filters[8] == 1) { //If "date" is visible
-                            TextView curTotal = createTextView( textViewParam, iterate.getString(date), false );
+                            TextView curTotal = createTextViewPD( textViewParam, iterate.getString(date), false );
                             row.addView(curTotal);
                         }
                         Table.addView(row);
                     } else {
-                        TextView curBrand = createTextView( textViewParam, iterate.getString(brand),false );
-                        TextView curSize = createTextView( numTextViewParam, iterate.getString(size),true );
-                        TextView curFreq = createTextView( numTextViewParam, iterate.getString(freq),true );
-                        TextView curAvg = createTextView( numTextViewParam, iterate.getString(avgP),true );
-                        TextView curLow = createTextView( numTextViewParam, iterate.getString(lowP),true );
-                        TextView curHigh = createTextView( numTextViewParam, iterate.getString(highP),true );
-                        TextView curStore = createTextView( textViewParam, iterate.getString(store),false );
-                        TextView curTotal = createTextView( numTextViewParam, iterate.getString(total),true );
-                        TextView curDate = createTextView( textViewParam, iterate.getString(date),false );
-                        createNewRow( curBrand, curSize, curFreq, curAvg, curLow, curHigh, curStore, curTotal, curDate);
+                        TextView curBrand = createTextViewPD( textViewParam, iterate.getString(brand),false );
+                        TextView curSize = createTextViewPD( numTextViewParam, iterate.getString(size),true );
+                        TextView curFreq = createTextViewPD( numTextViewParam, iterate.getString(freq),true );
+                        TextView curAvg = createTextViewPD( numTextViewParam, iterate.getString(avgP),true );
+                        TextView curLow = createTextViewPD( numTextViewParam, iterate.getString(lowP),true );
+                        TextView curHigh = createTextViewPD( numTextViewParam, iterate.getString(highP),true );
+                        TextView curStore = createTextViewPD( textViewParam, iterate.getString(store),false );
+                        TextView curTotal = createTextViewPD( numTextViewParam, iterate.getString(total),true );
+                        TextView curDate = createTextViewPD( textViewParam, iterate.getString(date),false );
+                        createNewRowPD( curBrand, curSize, curFreq, curAvg, curLow, curHigh, curStore, curTotal, curDate);
                     }
                     iterate.moveToNext();
                 }
@@ -242,10 +247,11 @@ public class ProductDetails extends AppCompatActivity {
         }catch(Exception e){
             Log.e("PRODDETAIL ERROR", "Problem getting product details for " + product + ". Error: " + e);
         }
+        return 1;
     }
 
     //Create a new row
-    private void createNewRow ( TextView brand, TextView size, TextView freq, TextView avgP, TextView lowP, TextView highP, TextView store, TextView total, TextView date) {
+    public TableRow createNewRowPD(TextView brand, TextView size, TextView freq, TextView avgP, TextView lowP, TextView highP, TextView store, TextView total, TextView date) {
         TableRow row = new TableRow(this);
 
         row.addView(brand);
@@ -259,10 +265,11 @@ public class ProductDetails extends AppCompatActivity {
         row.addView(date);
 
         Table.addView(row);
+        return row;
     }
 
     //Create Text View
-    private TextView createTextView (TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
+    public TextView createTextViewPD(TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
         TextView text = new TextView( this );
         text.setText( toDisplay );
         text.setTextSize(16);
