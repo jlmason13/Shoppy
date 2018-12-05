@@ -1,5 +1,6 @@
 package com.foodteam.shoppy;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 
 import static org.junit.Assert.*;
 @RunWith(RobolectricTestRunner.class)
@@ -33,11 +35,28 @@ public class ListTest {
         for (int i = 0; i < 5; i++) {
             Handler.addProduct(db, "dummyList", "item" + i);
         }
+        Handler.addProduct(db, "dummyList", "dummyProduct");
 
-        //setup the activity I want to test
+        //setup the activity to test
         listActiv = Robolectric.setupActivity(List.class);
         listActiv.tablename = "dummyList";
         listActiv.productname = "dummyProd";
+    }
+
+    @Test
+    public void onCreate() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        ActivityController<List> activity = Robolectric.buildActivity(List.class, intent);
+        List list = activity.get();
+        list.clr = null;
+        list.onCreate(new Bundle());
+    }
+
+    @Test
+    public void onCreateWithIntent() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.putExtra("nameOfTable", "dummyList");
+        Activity activity = Robolectric.buildActivity(List.class, intent).create().get();
     }
 
     @Test
@@ -47,8 +66,24 @@ public class ListTest {
     }
 
     @Test
+    public void baddeleteItem() {
+        DBHandler save = listActiv.shoppyHelp;
+        listActiv.shoppyHelp = null;
+        listActiv.testdelete("and");
+        listActiv.shoppyHelp = save;
+    }
+
+    @Test
     public void prodDets() {
         TextView tv = listActiv.findViewById(R.id.productName);
+        tv.setText("doesnt exist");
+        listActiv.prodDetails(tv);
+    }
+
+    @Test
+    public void prodDetsforExisting() {
+        TextView tv = listActiv.findViewById(R.id.productName);
+        tv.setText("dummyProduct");
         listActiv.prodDetails(tv);
     }
 
@@ -57,6 +92,51 @@ public class ListTest {
         Button b = listActiv.findViewById(R.id.addItemButton);
         EditText e = listActiv.findViewById(R.id.newProdName);
         e.setText("dummy item");
+        listActiv.addProduct(b);
+    }
+
+    @Test
+    public void addBadProduct() {
+        Button b = listActiv.findViewById(R.id.addItemButton);
+        EditText e = listActiv.findViewById(R.id.newProdName);
+        e.setText("update");
+        listActiv.addProduct(b);
+    }
+
+    @Test
+    public void addExistingProduct() {
+        listActiv.tablename = "dummyList";
+        Button b = listActiv.findViewById(R.id.addItemButton);
+        EditText e = listActiv.findViewById(R.id.newProdName);
+        e.setText("dummyProduct");
+        listActiv.addProduct(b);
+    }
+
+    @Test
+    public void badaddProduct() {
+        Button b = listActiv.findViewById(R.id.addItemButton);
+        EditText e = listActiv.findViewById(R.id.newProdName);
+        DBHandler save = listActiv.shoppyHelp;
+        listActiv.shoppyHelp = null;
+        e.setText("stuff");
+        listActiv.addProduct(b);
+        listActiv.shoppyHelp = save;
+    }
+
+    @Test
+    public void otherbadaddProduct() {
+        Button b = listActiv.findViewById(R.id.addItemButton);
+        EditText e = listActiv.findViewById(R.id.newProdName);
+        listActiv.tablename = "badTable";
+        e.setText("dummyProduct");
+        listActiv.addProduct(b);
+    }
+
+    @Test
+    public void addEmptyProduct() {
+        Button b = listActiv.findViewById(R.id.addItemButton);
+        EditText e = listActiv.findViewById(R.id.newProdName);
+        e.setText("");
         listActiv.addProduct(b);
     }
 
@@ -73,9 +153,24 @@ public class ListTest {
     }
 
     @Test
-    public void testCart() {
+    public void testInCart() {
         CheckBox c = listActiv.findViewById(R.id.inCart);
         c.setChecked(true);
+        listActiv.cart(c);
+    }
+
+    @Test
+    public void testCart() {
+        CheckBox c = listActiv.findViewById(R.id.inCart);
+        c.setChecked(false);
+        listActiv.cart(c);
+    }
+
+    @Test
+    public void badtestCart() {
+        CheckBox c = listActiv.findViewById(R.id.inCart);
+        c.setChecked(false);
+        listActiv.tablename = "badTable";
         listActiv.cart(c);
     }
 
@@ -94,7 +189,21 @@ public class ListTest {
     }
 
     @Test
+    public void addBadSuggestion() {
+        //when click on suggestion
+        Button b = listActiv.findViewById(R.id.suggestProd);
+        b.setText("no suggestions");
+        listActiv.addSuggestion(b);
+    }
+
+    @Test
     public void setSuggestion() {
+        listActiv.setSuggestion();
+    }
+
+    @Test
+    public void badsetSuggestion() {
+        listActiv.tablename = "badTable";
         listActiv.setSuggestion();
     }
 

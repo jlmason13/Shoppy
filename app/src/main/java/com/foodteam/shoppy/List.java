@@ -28,7 +28,7 @@ public class List extends AppCompatActivity {
     String tablename = "dummyList";
     ListName obj = new ListName();
     String productname = "";
-
+    ColorChanges clr = new ColorChanges();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +54,13 @@ public class List extends AppCompatActivity {
             shoppy = this.openOrCreateDatabase("shoppyDB", MODE_PRIVATE, null );
             shoppyHelp = DBHandler.getInstance(getApplicationContext());
 
-
+            View view = this.getWindow().getDecorView();
+            clr.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
         } catch (Exception e) {
             Log.e("ERROR GETTING DATABASE", "Problem getting database");
             // Toast.makeText(this, "uh oh!", Toast.LENGTH_LONG).show();
         }
-        ColorChanges obj = new ColorChanges();
-        View view = this.getWindow().getDecorView();
-        obj.setWindowCOlor(shoppy, shoppyHelp, view, getWindow());
+
 
         setSuggestion();
         populateListView();
@@ -107,9 +106,11 @@ public class List extends AppCompatActivity {
     public void addProduct(View v) {
         EditText newItem = (EditText)findViewById(R.id.newProdName);
         //dont do anything if the text field is empty
-        if (!TextUtils.isEmpty(newItem.getText().toString())) {
-            productname = newItem.getText().toString();
-            productname = productname.trim();
+        productname = newItem.getText().toString();
+        productname = productname.trim();
+        if (!productname.equals("")) {//(!TextUtils.isEmpty(newItem.getText().toString())) {
+            //productname = newItem.getText().toString();
+            //productname = productname.trim();
 
             boolean good = false;
             //productname cant be any sqlite terms
@@ -121,7 +122,7 @@ public class List extends AppCompatActivity {
                     Cursor cur = shoppyHelp.getRows(shoppy, tablename, "product");
                     if (cur != null && (cur.getCount() > 0)) {
                         for (int i = 0; i < cur.getCount(); i++) {
-                            if (cur.getString(cur.getColumnIndex("product")).equals(tablename)) {
+                            if (cur.getString(cur.getColumnIndex("product")).equals(productname)) {
                                 exists = true;
                             }
                         }
