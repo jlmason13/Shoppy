@@ -14,7 +14,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_LISTS = "Lists";
     private static final String CREATE_TABLE_MASTERLIST = "CREATE TABLE IF NOT EXISTS " + TABLE_MASTERLIST + "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));";
     private static final String CREATE_TABLE_LISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTS + "(listName VARCHAR primary key);";
-    private static final String CREATE_TABLE_DUMMYLIST = "CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);";
+    private static final String CREATE_TABLE_DUMMYLIST = "CREATE TABLE IF NOT EXISTS dummyList(product VARCHAR unique, inCart int);"; //Used for testing
     private static final String CREATE_TABLE_DUMMYPRODUCT = "CREATE TABLE IF NOT EXISTS dummyProduct(brand VARCHAR, size integer, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), highestPrice float(9,2), store VARCHAR, totalSpent float(9,2),  primary key (brand, size)); ";
     private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE IF NOT EXISTS settings(color integer default 0);";
     private static final int DATABASE_VERSION = 1;
@@ -48,10 +48,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DUMMYLIST);
         db.execSQL(CREATE_TABLE_DUMMYPRODUCT);
         db.execSQL(CREATE_TABLE_SETTINGS);
-
-        //ContentValues values = new ContentValues();
-        //values.put("color", 0);
-        //db.insert("settings", null, values);
     }
 
     @Override
@@ -81,7 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
         c.close();
         return color;
     }
-
+/*
     //This creates a whole new row for the product. TESTED
     public void createItemMasterList(String p, int f, float a, float l, float t){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -94,16 +90,15 @@ public class DBHandler extends SQLiteOpenHelper {
         //insert row
         db.insert("MasterList", null, values);
     }
-
+*/
     //This creates a whole new row for the List.
     public void createItemLists(SQLiteDatabase db, String p){
-      //  SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("listName", p);
         //insert row
         db.insert("Lists", null, values);
     }
-
+/*
     //Update "product" in MasterList. UNTESTED
     public void updateProductMasterList(String p){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -137,7 +132,7 @@ public class DBHandler extends SQLiteOpenHelper {
         c.close();
         return n;
     }
-
+*/
     //----- stuff for list/s -----
 
     //get suggestions
@@ -153,6 +148,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 return cur.getString(cur.getColumnIndex("prod"));
             }
         }
+        cur.close();
         return "no suggestions";
     }
 
@@ -212,104 +208,5 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return false;
     }
-//============ REFERENCE CODE =============
-    /*
-    //information of database
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "shoppyDB";
-    //public static final String TABLE_NAME = "MasterList";
-    //public static final String COLUMN_ID = "StudentID";
-    //public static final String COLUMN_NAME = "StudentName";
-
-    //initialize the database
-    public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
-
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        //Create two tables, MasterList & Lists
-        db.execSQL("CREATE TABLE IF NOT EXISTS MasterList " +
-                "(product VARCHAR primary key, frequency integer, avgPrice float(9,2), lowestPrice float (9,2), totalSpent float(9,2));");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Lists " + "(listName VARCHAR primary key);");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {}
-
-    //USED TO LOAD DATA FROM DATABASE
-    /*public String loadMasterList() {
-        String result = "";
-        SQLiteDatabase db = this.getWritableDatabase();
-        //Implement SQL Statement  & display result to cursor object
-        Cursor cursor = db.rawQuery("SELECT * FROM MasterList" , null);
-        while (cursor.moveToNext()) {
-            int result_0 = cursor.getInt(0);
-            String result_1 = cursor.getString(1);
-            result += String.valueOf(result_0) + " " + result_1 +
-                    System.getProperty("line.separator");
-        }
-        cursor.close();
-        db.close();
-        return result;
-    }*/
-
-    //ADD TO THE DATABASE
-    /*public void addHandler(Lists lists) {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, lists);
-        values.put(COLUMN_NAME, student.getStudentName());
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_NAME, null, values);
-        db.close();
-    }*/
-
-    //FIND SPECIFIC ITEMS IN DATABASE
-    /*public MainMenu findHandler(String studentname) {
-        Stringquery = "Select * FROM " + TABLE_NAME + "WHERE" + COLUMN_NAME + " = " + "'" + studentname + "'";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        Student student = new Student();
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            student.setID(Integer.parseInt(cursor.getString(0)));
-            student.setStudentName(cursor.getString(1));
-            cursor.close();
-        } else {
-            student = null;
-        }
-        db.close();
-        return student;
-    }*/
-
-    //DELETE FROM DATABASE
-    /*public boolean deleteHandler(int ID) {
-        booleanresult = false;
-        Stringquery = "Select*FROM" + TABLE_NAME + "WHERE" + COLUMN_ID + "= '" + String.valueOf(ID) + "'";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        Student student = new Student();
-        if (cursor.moveToFirst()) {
-            student.setID(Integer.parseInt(cursor.getString(0)));
-            db.delete(TABLE_NAME, COLUMN_ID + "=?",
-                    newString[] {
-                String.valueOf(student.getID())
-            });
-            cursor.close();
-            result = true;
-        }
-        db.close();
-        return result;
-    }*/
-
-    //UPDATE A RECORD IN THE DATABASE
-    /*public boolean updateHandler(int ID, String name) {SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues args = new ContentValues();
-        args.put(COLUMN_ID, ID);
-        args.put(COLUMN_NAME, name);
-        return db.update(TABLE_NAME, args, COLUMN_ID + "=" + ID, null) > 0;
-    }*/
-
 
 }
