@@ -94,6 +94,9 @@ public class MasterListFilters extends AppCompatActivity {
                 } else {
                     filters[4] = 0;
                 }
+                break;
+
+            default: break;
         }
 
         //testing to make ensure that the proper checkbox is affecting the array
@@ -148,6 +151,8 @@ public class MasterListFilters extends AppCompatActivity {
                     filters[5] = 5;
                 }
                 break;
+
+            default: break;
         }
 
         //testing to make ensure that the proper checkbox is affecting the array
