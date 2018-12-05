@@ -21,6 +21,7 @@ public class ProductDetails extends AppCompatActivity {
     SQLiteDatabase shoppyDB;
     TableLayout Table;
     String product = "product";
+    String returnIntent = "returnIntent";
     int[] filters;
 
     @Override
@@ -44,6 +45,7 @@ public class ProductDetails extends AppCompatActivity {
             }else{
                 product = extra.getString("THEPRODUCTNAME");
                 filters = extra.getIntArray("filterslist");
+                returnIntent = extra.getString("RETURN");
             }
         }else {
             product = (String) savedInstanceState.getSerializable("THEPRODUCTNAME");
@@ -63,9 +65,14 @@ public class ProductDetails extends AppCompatActivity {
         returnToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent returnIntent = new Intent( getApplicationContext(), List.class );
-                //startActivity(returnIntent);
-                finish();
+                if (returnIntent.equals("MasterList")) {
+                    Intent returnIntent = new Intent(getApplicationContext(), MasterList.class);
+                    startActivity(returnIntent);
+                }else{
+                    Intent returni = new Intent(getApplicationContext(), List.class);
+                    returni.putExtra("nameOfTable", returnIntent);
+                    startActivity(returni);
+                }
             }
         });
 

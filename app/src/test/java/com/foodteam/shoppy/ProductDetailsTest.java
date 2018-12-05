@@ -87,7 +87,9 @@ public class ProductDetailsTest {
         TableRow.LayoutParams viewParam = (TableRow.LayoutParams) check.getLayoutParams();
         assertTrue( (viewName.equals(name)) && (viewParam.equals(numTextViewParam)) );
     }
-/*
+
+    //WIP TEST
+    /*
     @Test
     public void testNewRowPD() {
         //get Table
