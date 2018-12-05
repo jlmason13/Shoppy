@@ -11,7 +11,7 @@ public class ListName {
             "primary", "unique", "default", "set", "into", "when", "values", "as", "join", "distinct", "aliases",
             "between", "except", "exists", "group", "having", "in", "insert", "intersect", "is", "limit",
             "subquery", "truncate", "union", "alter", "analyze", "attach", "database", "detach", "indexes", "literals",
-            "system", "constraints", "views", "foreign"};
+            "system", "constraints", "views", "foreign", "of"};
 
     public String toTableName(String s) {
         String newS = "";

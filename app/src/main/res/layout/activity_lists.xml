@@ -80,9 +80,10 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="5"
-                android:cursorVisible="false"
+                android:cursorVisible="true"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:hint="New List Name"
+                android:paddingStart="10dp"
                 android:maxLines="1"
                 android:singleLine="true" />
 
