@@ -62,10 +62,9 @@ public class ProductDetailsTest {
     public void testNewTextView_TextPD() {
         // create string, and boolean
         String name = "bread";
-        boolean num = false;
 
         //call the function
-        TextView check = activityPD.createTextViewPD( textViewParam, name, num );
+        TextView check = activityPD.createTextViewPD( textViewParam, name, 0 );
 
         // check that text view was created and set to proper values
         String viewName = check.getText().toString();
@@ -77,10 +76,9 @@ public class ProductDetailsTest {
     public void testNewTextView_NumPD() {
         // create string, and boolean
         String name = "bread";
-        boolean num = true;
 
         //call the function
-        TextView check = activityPD.createTextViewPD( numTextViewParam, name, num );
+        TextView check = activityPD.createTextViewPD( numTextViewParam, name, 0 );
 
         // check that text view was created and set to proper values
         String viewName = check.getText().toString();
