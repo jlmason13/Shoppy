@@ -172,7 +172,7 @@ public class List extends AppCompatActivity {
         CheckBox check = (CheckBox)v;
         if(check.isChecked()){
             cart = 1;
-            Toast.makeText(this, prod+" in cart", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, obj.toListName(prod)+" in cart", Toast.LENGTH_LONG).show();
         } else {
             cart = 0;
         }
