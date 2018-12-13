@@ -96,7 +96,7 @@ public class List extends AppCompatActivity {
         if(exists) {
             Intent details = new Intent(getApplicationContext(), ProductDetails.class);
             details.putExtra("THEPRODUCTNAME", prod);
-            details.putExtra("RETURN", tablename);
+            details.putExtra("RETURN", obj.toTableName(tablename));
             startActivity(details);
         } else {
             Toast.makeText(this, "You have no data for "+obj.toListName(prod), Toast.LENGTH_LONG).show();
@@ -156,7 +156,8 @@ public class List extends AppCompatActivity {
     }
 
     public void back(View v) {
-        finish();
+        Intent list = new Intent( getApplicationContext(), Lists.class );
+        startActivity(list);
     }
 
     //set inCart depending on if checkbox is clicked
