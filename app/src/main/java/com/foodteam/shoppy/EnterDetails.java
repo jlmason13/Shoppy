@@ -318,5 +318,9 @@ public class EnterDetails extends AppCompatActivity {
 
         // get next product
         retrieveProductName();
+
+        // inform user how many items are left to enter
+        Toast.makeText(this,  "There are " + rowNum + " / " + totalRow + " Products Entered", Toast.LENGTH_LONG).show();
+
     }
 }
