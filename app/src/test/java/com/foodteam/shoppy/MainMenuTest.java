@@ -2,12 +2,16 @@ package com.foodteam.shoppy;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Button;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,61 +19,46 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 //Tell Mockito to validate if usage of framework is right.
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class MainMenuTest {
-    //@Mock
-    //Context mcontext;
-    //String test = "test";
-    //SQLiteDatabase shoppyDB;
+    SQLiteDatabase theDatabase;
+    MainMenu activityMM;
 
-    @Mock //Get an active & real version of mainMenu to be used.
-    private MainMenu mainMenu = Mockito.spy(new MainMenu());
-    //This must be done because one cannot simply call
-    //MainMenu m = new MainMenu(); and expect it to work.
-    //Android Studio doesn't play by normal JUnit rules.
-
-    @Test
-    public void testAlwaysTrueTest(){
-        assertEquals("Hello Gradle", "Hello Gradle");
-    }
-
-    @Test
-    public void createDatabase(){
-        MainMenu mainMenu = new MainMenu(/*mcontext*/);
-        assertNotNull(mainMenu.shoppyDB.getPath());
-        //mainMenu.shoppyDB.execSQL("SELECT * FROM MasterList");
-    }
-
-    @Test
-    public void onCreate(){
-
+    @Before
+    public void prepareForTesting() {
+        activityMM = Robolectric.setupActivity(MainMenu.class);
+        DBHandler Handler = DBHandler.getInstance(activityMM.getApplicationContext());
+        theDatabase = activityMM.shoppyDB;
+        Handler.onCreate(theDatabase);
     }
 
     @Test
     public void createDatabaseTest() {
-        //Create object of MainMenu with mock context
-        MainMenu mainMenu = new MainMenu(/*mcontext*/);
-        //Check if there was a database file created by the name of "shoppyDB".
-        //assertEquals("Database Created?", "shoppyDB.db", mainMenu.getApplicationContext().getDatabasePath("shoppyDB.db"));
-        //assertNotNull("Database Created?", mainMenu.shoppyDB);
-        assertNotNull("Database Created?", mainMenu.getDatabasePath("shoppyDB"));
-
+        activityMM = Robolectric.setupActivity(MainMenu.class);
+        DBHandler Handler = DBHandler.getInstance(activityMM.getApplicationContext());
+        theDatabase = activityMM.shoppyDB;
+        Handler.onCreate(theDatabase);
     }
 
     @Test
-    public void onCreateButtonLists() {
-        assertNotNull("Button 'Lists' Exists?", mainMenu.findViewById(R.id.buttLists));
-        //assertTrue(mainMenu.findViewById(R.id.buttLists).hasOnClickListeners());
+    public void clickList(){
+        //click button
+        Button goToLists = activityMM.findViewById(R.id.buttLists);
+        goToLists.performClick();
     }
 
     @Test
-    public void onCreateButtonMasterList() {
-        assertNotNull("Button 'MasterList' Exists?", mainMenu.findViewById(R.id.buttMasterList));
+    public void clickSettings(){
+        //click button
+        Button submit = activityMM.findViewById(R.id.buttSettings);
+        submit.performClick();
     }
 
     @Test
-    public void onCreateButtonSettings() {
-        assertNotNull("Button 'Lists' Exists?", mainMenu.findViewById(R.id.buttSettings));
+    public void clickMList(){
+        //click button
+        Button submit = activityMM.findViewById(R.id.buttMasterList);
+        submit.performClick();
     }
-
 }
