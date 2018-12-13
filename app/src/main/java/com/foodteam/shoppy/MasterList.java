@@ -208,7 +208,7 @@ public class MasterList extends AppCompatActivity {
                     String displayLow = String.format( Locale.getDefault(), "%.2f", itterate.getFloat(lowestPriceColumn) );
                     String displayTot = String.format( Locale.getDefault(), "%.2f", itterate.getFloat(totalSpentColumn) );
 
-                    TextView curProduct      = createTextView( textViewParam,    itterate.getString(productColumn), 0 );
+                    TextView curProduct      = createTextView( textViewParam,    conversion.toListName(itterate.getString(productColumn)), 0 );
                     TextView curFreq         = createTextView( intTextViewParam, itterate.getString(freqColumn),    1 );
                     TextView curAvg          = createTextView( floatTextViewParam, displayAvg,                        2 );
                     TextView curLow          = createTextView( floatTextViewParam, displayLow,                        2 );

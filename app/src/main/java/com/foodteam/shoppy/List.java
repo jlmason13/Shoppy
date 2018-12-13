@@ -64,6 +64,7 @@ public class List extends AppCompatActivity {
 
         setSuggestion();
         populateListView();
+        checkBoxes();
     }
 
     public void deleteProduct(View v) {
@@ -83,6 +84,7 @@ public class List extends AppCompatActivity {
 
         //redraw the list o' lists
         populateListView();
+        checkBoxes();
     }
 
     //onclick for product details button
@@ -142,6 +144,7 @@ public class List extends AppCompatActivity {
                     }
                     //"re-draw" the list
                     populateListView();
+                    checkBoxes();
                 } else {
                     Toast.makeText(this, productname + " already exists", Toast.LENGTH_LONG).show();
                 }
@@ -172,7 +175,7 @@ public class List extends AppCompatActivity {
         CheckBox check = (CheckBox)v;
         if(check.isChecked()){
             cart = 1;
-            Toast.makeText(this, prod+" in cart", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, obj.toListName(prod)+" in cart", Toast.LENGTH_LONG).show();
         } else {
             cart = 0;
         }
@@ -219,6 +222,42 @@ public class List extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "populate Error", Toast.LENGTH_LONG).show();
         }
+
+
+    }
+
+    public void checkBoxes() {
+       /* String s;
+        TextView tv;
+        CheckBox cb;
+        int cart = 0;
+        ListView list = (ListView)findViewById(R.id.list);
+        if (list.getCount() > 0) {
+            for (int i = 0; i < list.getCount(); i++) {
+                try {
+                    View v = list/.getAdapter().getView(i, null, list);
+                    if (v!=null) {
+                        View V = v.findViewById(R.id.productRow);
+                        tv = (TextView) V.findViewById(R.id.productName);
+                        s = obj.toTableName(tv.getText().toString());
+                        Cursor cur = shoppy.rawQuery(" SELECT * FROM " + obj.toTableName(tablename) + " WHERE product = \"" + s +"\";", null);
+                        cur.moveToFirst();
+                        cart = cur.getInt(cur.getColumnIndex("inCart"));
+                        cur.close();
+
+                        cb = ((CheckBox) V.findViewById(R.id.inCart));
+                        if (cart == 1) {
+                            cb.setChecked(true);
+                        } else {
+                            cb.setChecked(true);
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("CHECK BOXES", "Problem with checkboxes");
+                    e.printStackTrace();
+                }
+            }
+        }*/
     }
 
     public void addSuggestion(View v) {
@@ -233,6 +272,7 @@ public class List extends AppCompatActivity {
 
             //re draw list
             populateListView();
+            checkBoxes();
 
             //set new suggestion
             setSuggestion();
