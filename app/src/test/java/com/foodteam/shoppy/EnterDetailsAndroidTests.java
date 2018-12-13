@@ -100,6 +100,78 @@ public class EnterDetailsAndroidTests {
     }
 
     @Test
+    public void testRetrieveAndSubmitData_InvalidNumber_ExtraDecimal() {
+        //Also tests UpdateMasterList when empty
+
+        EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
+        activityED.tableName = "GroceryList";
+
+        //fill the feilds
+        TextView store = activityED.findViewById(R.id.enterStore);
+        TextView price = activityED.findViewById(R.id.enterPrice);
+        TextView brand = activityED.findViewById(R.id.enterBrand);
+        TextView size  = activityED.findViewById(R.id.enterSize);
+
+        store.setText("Lothlorien");
+        price.setText("91230456.78.9");      //this is the bad number
+        brand.setText("WoodElves Bakery");
+        size.setText("12");
+
+        //get result from entering fields
+        int result = activityED.retrieveAndSubmitData();
+
+        assertEquals( -1, result);
+    }
+
+    @Test
+    public void testRetrieveAndSubmitData_InvalidNumber_UnsupportedSymbol() {
+        //Also tests UpdateMasterList when empty
+
+        EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
+        activityED.tableName = "GroceryList";
+
+        //fill the feilds
+        TextView store = activityED.findViewById(R.id.enterStore);
+        TextView price = activityED.findViewById(R.id.enterPrice);
+        TextView brand = activityED.findViewById(R.id.enterBrand);
+        TextView size  = activityED.findViewById(R.id.enterSize);
+
+        store.setText("Lothlorien");
+        price.setText("91/37");      //this is the bad number
+        brand.setText("WoodElves Bakery");
+        size.setText("12");
+
+        //get result from entering fields
+        int result = activityED.retrieveAndSubmitData();
+
+        assertEquals( -1, result);
+    }
+
+    @Test
+    public void testRetrieveAndSubmitData_InvalidName() {
+        //Also tests UpdateMasterList when empty
+
+        EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
+        activityED.tableName = "GroceryList";
+
+        //fill the feilds
+        TextView store = activityED.findViewById(R.id.enterStore);
+        TextView price = activityED.findViewById(R.id.enterPrice);
+        TextView brand = activityED.findViewById(R.id.enterBrand);
+        TextView size  = activityED.findViewById(R.id.enterSize);
+
+        store.setText("Lothlorien");
+        price.setText("4.42");      //this is the bad number
+        brand.setText("system");
+        size.setText("12");
+
+        //get result from entering fields
+        int result = activityED.retrieveAndSubmitData();
+
+        assertEquals( -1, result);
+    }
+
+    @Test
     public void testUpdatemasterList() {
         EnterDetails activityED = Robolectric.setupActivity(EnterDetails.class);
         activityED.tableName = "GroceryList";
