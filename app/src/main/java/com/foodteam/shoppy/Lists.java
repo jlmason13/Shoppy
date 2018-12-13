@@ -74,7 +74,7 @@ public class Lists extends AppCompatActivity {
         String name = text.getText().toString();
 
         Intent showList = new Intent( getApplicationContext(), List.class );
-        showList.putExtra("nameOfTable", name);
+        showList.putExtra("nameOfTable", obj.toTableName(name));
         startActivity(showList);
     }
 
