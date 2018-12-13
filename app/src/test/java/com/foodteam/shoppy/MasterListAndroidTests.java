@@ -31,8 +31,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-//Despite saying Android Test, it must stay in current folder to function
-
 @RunWith(RobolectricTestRunner.class)
 //@Config(constants = BuildConfig.class)
 public class MasterListAndroidTests {
@@ -69,6 +67,18 @@ public class MasterListAndroidTests {
     }
 
     @Test
+    public void testReturnButton() {
+        Button returnBtn = activityML.findViewById(R.id.returnToMainMenu);
+        returnBtn.performClick();
+    }
+
+    @Test
+    public void testFiltersButton() {
+        Button returnBtn = activityML.findViewById(R.id.gotoFilters);
+        returnBtn.performClick();
+    }
+
+    @Test
     public void testNewButton() {
         // initialize parameters
         String name = "bread";
@@ -87,10 +97,9 @@ public class MasterListAndroidTests {
     public void testNewTextView_Text() {
         // create string, and boolean
         String name = "bread";
-        boolean num = false;
 
         //call the function
-        TextView check = activityML.createTextView( textViewParam, name, num );
+        TextView check = activityML.createTextView( textViewParam, name, 0 );
 
         // check that text view was created and set to proper values
         String viewName = check.getText().toString();
@@ -101,11 +110,11 @@ public class MasterListAndroidTests {
     @Test
     public void testNewTextView_Num() {
         // create string, and boolean
-        String name = "bread";
+        String name = "2.33";
         boolean num = true;
 
         //call the function
-        TextView check = activityML.createTextView( numTextViewParam, name, num );
+        TextView check = activityML.createTextView( numTextViewParam, name, 2 );
 
         // check that text view was created and set to proper values
         String viewName = check.getText().toString();
@@ -123,11 +132,11 @@ public class MasterListAndroidTests {
         boolean num = false;
 
         //create textviews and button
-        TextView curProduct = activityML.createTextView( textViewParam, name, num );
-        TextView curFreq = activityML.createTextView( textViewParam, name, num );
-        TextView curAvg = activityML.createTextView( textViewParam, name, num );
-        TextView curLow = activityML.createTextView( textViewParam, name, num );
-        TextView curTotalSpent = activityML.createTextView( textViewParam, name, num );
+        TextView curProduct = activityML.createTextView( textViewParam, name, 0 );
+        TextView curFreq = activityML.createTextView( textViewParam, name, 1 );
+        TextView curAvg = activityML.createTextView( textViewParam, name, 2 );
+        TextView curLow = activityML.createTextView( textViewParam, name, 2 );
+        TextView curTotalSpent = activityML.createTextView( textViewParam, name, 2 );
         Button detailsButton = activityML.createNewButton( buttonParam, name);
 
         //call function

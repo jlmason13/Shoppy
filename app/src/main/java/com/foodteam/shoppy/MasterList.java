@@ -18,6 +18,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 
 public class MasterList extends AppCompatActivity {
 
@@ -95,18 +97,23 @@ public class MasterList extends AppCompatActivity {
                 TableRow.LayoutParams.MATCH_PARENT,
                 1.0f
         );
-        TableRow.LayoutParams numTextViewParam = new TableRow.LayoutParams(
-                35,
+        TableRow.LayoutParams floatTextViewParam = new TableRow.LayoutParams(
+                70,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f
+        );
+        TableRow.LayoutParams intTextViewParam = new TableRow.LayoutParams(
+                5,
                 TableRow.LayoutParams.MATCH_PARENT,
                 1.0f
         );
 
         //retreive textViews of Attribute titles
-        TextView attrOne = (TextView) findViewById(R.id.AttributeOne);
-        TextView attrTwo = (TextView) findViewById(R.id.AttributeTwo);
+        TextView attrOne   = (TextView) findViewById(R.id.AttributeOne);
+        TextView attrTwo   = (TextView) findViewById(R.id.AttributeTwo);
         TextView attrThree = (TextView) findViewById(R.id.AttributeThree);
-        TextView attrFour = (TextView) findViewById(R.id.AttributeFour);
-        TextView attrFive = (TextView) findViewById(R.id.AttributeFive);
+        TextView attrFour  = (TextView) findViewById(R.id.AttributeFour);
+        TextView attrFive  = (TextView) findViewById(R.id.AttributeFive);
 
 
         // label the attributes based on filters array
@@ -163,7 +170,7 @@ public class MasterList extends AppCompatActivity {
         int lowestPriceColumn   = itterate.getColumnIndex("lowestPrice");
         int totalSpentColumn    = itterate.getColumnIndex("totalSpent");
 
-        //TODO figure out how to truncate float to only 2 digits
+
         //create rows based on data from cursor and the filters array, only includes columns that were selected via the filters page
         itterate.moveToFirst();
         if (itterate != null && (itterate.getCount() > 0)) {
@@ -171,34 +178,41 @@ public class MasterList extends AppCompatActivity {
                 TableRow row = new TableRow(this);
                 if ( filters != null ) {
                     if (filters[0] == 1) {
-                        TextView curProduct     = createTextView( textViewParam,    conversion.toListName(itterate.getString(productColumn)),false );
+                        TextView curProduct     = createTextView( textViewParam,    conversion.toListName(itterate.getString(productColumn)),0 );
                         row.addView(curProduct);
                     }
                     if (filters[1] == 1) {
-                        TextView curFreq        = createTextView( numTextViewParam, itterate.getString(freqColumn),    true );
+                        TextView curFreq        = createTextView( intTextViewParam, itterate.getString(freqColumn),1 );
                         row.addView(curFreq);
                     }
                     if (filters[2] == 1) {
-                        TextView curAvg         = createTextView( numTextViewParam, itterate.getString(avgPriceColumn),true );
+                        String toDisplay = String.format( Locale.getDefault(),"%.2f", itterate.getFloat(avgPriceColumn) );
+                        TextView curAvg         = createTextView( floatTextViewParam, toDisplay,2 );
                         row.addView(curAvg);
                     }
                     if (filters[3] == 1) {
-                        TextView curLow         = createTextView( numTextViewParam, itterate.getString(lowestPriceColumn), true );
+                        String toDisplay = String.format( Locale.getDefault(), "%.2f", itterate.getFloat(lowestPriceColumn) );
+                        TextView curLow         = createTextView( floatTextViewParam, toDisplay, 2 );
                         row.addView(curLow);
                     }
                     if (filters[4] == 1) {
-                        TextView curTotalSpent  = createTextView( numTextViewParam, itterate.getString(totalSpentColumn),  true );
+                        String toDisplay = String.format( Locale.getDefault(), "%.2f", itterate.getFloat(totalSpentColumn) );
+                        TextView curTotalSpent  = createTextView( floatTextViewParam, toDisplay,  2 );
                         row.addView(curTotalSpent);
                     }
                     Button detailsButton        = createNewButton( buttonParam, itterate.getString(productColumn) );
                     row.addView(detailsButton);
                     theTable.addView(row);
                 } else {
-                    TextView curProduct      = createTextView( textViewParam,    itterate.getString(productColumn),     false );
-                    TextView curFreq         = createTextView( numTextViewParam, itterate.getString(freqColumn),        true );
-                    TextView curAvg          = createTextView( numTextViewParam, itterate.getString(avgPriceColumn),    true );
-                    TextView curLow          = createTextView( numTextViewParam, itterate.getString(lowestPriceColumn), true );
-                    TextView curTotalSpent   = createTextView( numTextViewParam, itterate.getString(totalSpentColumn),  true );
+                    String displayAvg = String.format( Locale.getDefault(),"%.2f", itterate.getFloat(avgPriceColumn) );
+                    String displayLow = String.format( Locale.getDefault(), "%.2f", itterate.getFloat(lowestPriceColumn) );
+                    String displayTot = String.format( Locale.getDefault(), "%.2f", itterate.getFloat(totalSpentColumn) );
+
+                    TextView curProduct      = createTextView( textViewParam,    itterate.getString(productColumn), 0 );
+                    TextView curFreq         = createTextView( intTextViewParam, itterate.getString(freqColumn),    1 );
+                    TextView curAvg          = createTextView( floatTextViewParam, displayAvg,                        2 );
+                    TextView curLow          = createTextView( floatTextViewParam, displayLow,                        2 );
+                    TextView curTotalSpent   = createTextView( floatTextViewParam, displayTot,                        2 );
                     Button detailsButton     = createNewButton( buttonParam, itterate.getString(productColumn) );
                     createNewRow( curProduct, curFreq, curAvg, curLow, curTotalSpent, detailsButton);
                 }
@@ -225,12 +239,14 @@ public class MasterList extends AppCompatActivity {
     }
 
     //name is self-explanatory
-    protected TextView createTextView (TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
+    protected TextView createTextView (TableRow.LayoutParams aParam, String toDisplay, int type ){
         TextView text = new TextView( this );
         text.setText( toDisplay );
         text.setTextSize(16);
-        if ( !isNum ) {
-            text.setEms(5);     //wraps the text
+        if ( type == 0 ) {
+            text.setEms(3);     //wraps the text
+        } else if ( type == 1) {
+            text.setEms(1);
         } else {
             text.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
@@ -249,6 +265,7 @@ public class MasterList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent transferIntent = new Intent(getApplicationContext(), ProductDetails.class);
+                transferIntent.putExtra("RETURN", "MasterList");
                 transferIntent.putExtra("THEPRODUCTNAME", product);
                 startActivity(transferIntent);
             }
