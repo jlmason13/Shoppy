@@ -2,6 +2,7 @@ package com.foodteam.shoppy;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Button;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,16 +26,39 @@ public class MainMenuTest {
     MainMenu activityMM;
 
     @Before
-    public void preparingForTesting() {
-        MainMenu activityMM = Robolectric.setupActivity(MainMenu.class);
+    public void prepareForTesting() {
+        activityMM = Robolectric.setupActivity(MainMenu.class);
         DBHandler Handler = DBHandler.getInstance(activityMM.getApplicationContext());
         theDatabase = activityMM.shoppyDB;
         Handler.onCreate(theDatabase);
     }
 
     @Test
-    public void createDatabaseTest(){
+    public void createDatabaseTest() {
+        activityMM = Robolectric.setupActivity(MainMenu.class);
+        DBHandler Handler = DBHandler.getInstance(activityMM.getApplicationContext());
         theDatabase = activityMM.shoppyDB;
-        assertNotNull(theDatabase);
+        Handler.onCreate(theDatabase);
+    }
+
+    @Test
+    public void clickList(){
+        //click button
+        Button goToLists = activityMM.findViewById(R.id.buttLists);
+        goToLists.performClick();
+    }
+
+    @Test
+    public void clickSettings(){
+        //click button
+        Button submit = activityMM.findViewById(R.id.buttSettings);
+        submit.performClick();
+    }
+
+    @Test
+    public void clickMList(){
+        //click button
+        Button submit = activityMM.findViewById(R.id.buttMasterList);
+        submit.performClick();
     }
 }

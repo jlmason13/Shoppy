@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="very Long Product Name"
+                android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="28sp" />
 
@@ -102,6 +102,7 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="0 floz, lb, etc"
+                        android:digits="1234567890."
                         android:inputType="numberDecimal" />
 
                 </TableRow>
@@ -124,6 +125,7 @@
                         android:layout_weight="1 "
                         android:ems="10"
                         android:hint="Brand Name"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                         android:inputType="text" />
 
                 </TableRow>
@@ -146,6 +148,7 @@
                         android:layout_weight="1 "
                         android:ems="10"
                         android:hint="Store Name"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                         android:inputType="text" />
 
                 </TableRow>
