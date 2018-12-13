@@ -3,6 +3,7 @@ package com.foodteam.shoppy;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class ProductDetails extends AppCompatActivity {
     /*When ProductDetails is used, it should already have been linked
     to a specific product. This product should be the name of the table
@@ -23,6 +26,7 @@ public class ProductDetails extends AppCompatActivity {
     String product = "product";
     String returnIntent = "returnIntent";
     int[] filters;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,54 +194,79 @@ public class ProductDetails extends AppCompatActivity {
             if (iterate != null && (iterate.getCount() > 0)) {
                 for( int r = 0; r < iterate.getCount(); r++ ) {
                     TableRow row = new TableRow(this);
+                    ListName conversion = new ListName();
                     if ( filters != null ) {
                         if (filters[0] == 1) { //If "brand" is visible
-                            TextView curBrand = createTextViewPD( textViewParam, iterate.getString(brand),false );
+                            TextView curBrand = createTextViewPD( textViewParam, conversion.toListName(iterate.getString(brand)),0 );
                             row.addView(curBrand);
                         }
                         if (filters[1] == 1) { //If "size" is visible
-                            TextView curSize = createTextViewPD( numTextViewParam, iterate.getString(size),true );
+                            String toDisplay = String.format( Locale.getDefault(),"%.2f", iterate.getFloat(avgP) );
+                            TextView curSize = createTextViewPD( numTextViewParam, toDisplay,2 );
                             row.addView(curSize);
+
+                            //TextView curSize = createTextViewPD( numTextViewParam, iterate.getString(size),true );
+                            //row.addView(curSize);
                         }
                         if (filters[2] == 1) { //If "frequency" is visible
-                            TextView curFreq = createTextViewPD( numTextViewParam, iterate.getString(freq),true );
+                            String toDisplay = String.format( Locale.getDefault(),"%.2f", iterate.getFloat(avgP) );
+                            TextView curFreq = createTextViewPD( numTextViewParam, toDisplay,2 );
                             row.addView(curFreq);
+
+                            //TextView curFreq = createTextViewPD( numTextViewParam, iterate.getString(freq),true );
+                            //row.addView(curFreq);
                         }
                         if (filters[3] == 1) { //If "avg price" is visible
-                            TextView curAvg = createTextViewPD( numTextViewParam, iterate.getString(avgP),true );
+                            String toDisplay = String.format( Locale.getDefault(),"%.2f", iterate.getFloat(avgP) );
+                            TextView curAvg = createTextViewPD( numTextViewParam, toDisplay,2 );
                             row.addView(curAvg);
+
+                            //TextView curAvg = createTextViewPD( numTextViewParam, iterate.getString(avgP),true );
+                            //row.addView(curAvg);
                         }
                         if (filters[4] == 1) { //If "lowest price" is visible
-                            TextView curLow = createTextViewPD( numTextViewParam, iterate.getString(lowP),true );
+                            String toDisplay = String.format( Locale.getDefault(),"%.2f", iterate.getFloat(avgP) );
+                            TextView curLow = createTextViewPD( numTextViewParam, toDisplay,2 );
                             row.addView(curLow);
+
+                            //TextView curLow = createTextViewPD( numTextViewParam, iterate.getString(lowP),true );
+                            //row.addView(curLow);
                         }
                         if (filters[5] == 1) { //If "highest price" is visible
-                            TextView curHigh = createTextViewPD( numTextViewParam, iterate.getString(highP),true );
+                            String toDisplay = String.format( Locale.getDefault(),"%.2f", iterate.getFloat(avgP) );
+                            TextView curHigh = createTextViewPD( numTextViewParam, toDisplay,2 );
                             row.addView(curHigh);
+
+                            //TextView curHigh = createTextViewPD( numTextViewParam, iterate.getString(highP),true );
+                            //row.addView(curHigh);
                         }
                         if (filters[6] == 1) { //If "store" is visible
-                            TextView curStore = createTextViewPD( textViewParam, iterate.getString(store),false );
+                            TextView curStore = createTextViewPD( textViewParam,  conversion.toListName(iterate.getString(store)),0 );
                             row.addView(curStore);
                         }
                         if (filters[7] == 1) { //If "total" is visible
-                            TextView curTotal = createTextViewPD( numTextViewParam, iterate.getString(total),true );
+                            String toDisplay = String.format( Locale.getDefault(),"%.2f", iterate.getFloat(avgP) );
+                            TextView curTotal = createTextViewPD( numTextViewParam, toDisplay,2 );
                             row.addView(curTotal);
+
+                            //TextView curTotal = createTextViewPD( numTextViewParam, iterate.getString(total),true );
+                            //row.addView(curTotal);
                         }
                         if (filters[8] == 1) { //If "date" is visible
-                            TextView curTotal = createTextViewPD( textViewParam, iterate.getString(date), false );
+                            TextView curTotal = createTextViewPD( textViewParam, iterate.getString(date), 0 );
                             row.addView(curTotal);
                         }
                         Table.addView(row);
                     } else {
-                        TextView curBrand = createTextViewPD( textViewParam, iterate.getString(brand),false );
-                        TextView curSize = createTextViewPD( numTextViewParam, iterate.getString(size),true );
-                        TextView curFreq = createTextViewPD( numTextViewParam, iterate.getString(freq),true );
-                        TextView curAvg = createTextViewPD( numTextViewParam, iterate.getString(avgP),true );
-                        TextView curLow = createTextViewPD( numTextViewParam, iterate.getString(lowP),true );
-                        TextView curHigh = createTextViewPD( numTextViewParam, iterate.getString(highP),true );
-                        TextView curStore = createTextViewPD( textViewParam, iterate.getString(store),false );
-                        TextView curTotal = createTextViewPD( numTextViewParam, iterate.getString(total),true );
-                        TextView curDate = createTextViewPD( textViewParam, iterate.getString(date),false );
+                        TextView curBrand = createTextViewPD( textViewParam, iterate.getString(brand),0 );
+                        TextView curSize = createTextViewPD( numTextViewParam, iterate.getString(size),2 );
+                        TextView curFreq = createTextViewPD( numTextViewParam, iterate.getString(freq),2 );
+                        TextView curAvg = createTextViewPD( numTextViewParam, iterate.getString(avgP),2 );
+                        TextView curLow = createTextViewPD( numTextViewParam, iterate.getString(lowP),2 );
+                        TextView curHigh = createTextViewPD( numTextViewParam, iterate.getString(highP),2 );
+                        TextView curStore = createTextViewPD( textViewParam, iterate.getString(store),0 );
+                        TextView curTotal = createTextViewPD( numTextViewParam, iterate.getString(total),2 );
+                        TextView curDate = createTextViewPD( textViewParam, iterate.getString(date),0 );
                         createNewRowPD( curBrand, curSize, curFreq, curAvg, curLow, curHigh, curStore, curTotal, curDate);
                     }
                     iterate.moveToNext();
@@ -270,17 +299,19 @@ public class ProductDetails extends AppCompatActivity {
     }
 
     //Create Text View
-    public TextView createTextViewPD(TableRow.LayoutParams aParam, String toDisplay, boolean isNum ){
+    protected TextView createTextViewPD (TableRow.LayoutParams aParam, String toDisplay, int type ){
         TextView text = new TextView( this );
         text.setText( toDisplay );
         text.setTextSize(16);
-        if ( !isNum ) {
-            text.setEms(5);     //wraps the text
+        if ( type == 0 ) {
+            text.setEms(3);     //wraps the text
+        } else if ( type == 1) {
+            text.setEms(1);
         } else {
             text.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
         text.setLayoutParams(aParam);
-        text.setTextColor(ContextCompat.getColor(this, R.color.black));
+        text.setTextColor( Color.parseColor("#000000") );
         return text;
     }
 
