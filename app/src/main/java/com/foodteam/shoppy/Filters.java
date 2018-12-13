@@ -44,6 +44,7 @@ public class Filters extends AppCompatActivity {
             Bundle extra = getIntent().getExtras();
             if(extra == null) {
                 product = null;
+                origin = null;
             } else {
                 product = extra.getString("THEPRODUCTNAME");
                 origin = extra.getString("nameOfTable");
@@ -60,7 +61,7 @@ public class Filters extends AppCompatActivity {
                 Intent whatever = new Intent(Filters.this, ProductDetails.class);
                 whatever.putExtra("filterslist", filters);
                 whatever.putExtra("THEPRODUCTNAME", product);
-                whatever.putExtra("nameOfTable", origin);
+                whatever.putExtra("RETURN", origin);
                 startActivity(whatever);
             }
         });
