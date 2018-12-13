@@ -65,17 +65,12 @@ public class EnterDetails extends AppCompatActivity {
         //Database stuff
         openTheDatabase();
         product = retrieveProductName();
-        TextView productName = (TextView) findViewById(R.id.productName);
-        productName.setText(product);
 
         //assigns colors
         Handler = DBHandler.getInstance(getApplicationContext());
         ColorChanges obj = new ColorChanges();
         View view = this.getWindow().getDecorView();
         obj.setWindowCOlor(theDatabase, Handler, view, getWindow());      //causes error when testing but not when using emulator
-
-        // inform user how many items are left to enter
-        Toast.makeText(this,  "There are " + rowNum + " / " + totalRow + " Products Entered", Toast.LENGTH_LONG).show();
 
         submitBtn = (Button) findViewById(R.id.saveData);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,22 +90,27 @@ public class EnterDetails extends AppCompatActivity {
 
         Cursor productQuery = theDatabase.rawQuery("select product from " + tableName + " where inCart = 1;", null );
         int productColumn = productQuery.getColumnIndex("product");
-        totalRow = productQuery.getCount();
-        productQuery.moveToPosition(rowNum);
+        if ( totalRow == 0 ) {
+            totalRow = productQuery.getCount();
+        }
 
-        if (rowNum >= totalRow ) {
+        if ( productQuery.getCount() == 0 ) {
             productQuery.close();
             Toast.makeText(this, "All Done!", Toast.LENGTH_LONG).show();
             Intent returnIntent = new Intent( getApplicationContext(), Lists.class );
             startActivity(returnIntent);
         } else {
+            productQuery.moveToFirst();
             aProduct = productQuery.getString(productColumn);
 
             TextView productName = findViewById(R.id.productName);
-            productName.setText(aProduct);
+            productName.setText( conversion.toListName(aProduct) );
 
             product = aProduct;
             productQuery.close();
+
+            // inform user how many items are left to enter
+            Toast.makeText(this,  "There are " + rowNum + " / " + totalRow + " Products Entered", Toast.LENGTH_LONG).show();
         }
         return aProduct;
     }
@@ -301,9 +301,10 @@ public class EnterDetails extends AppCompatActivity {
                 " where product = '" + product + "' ;");
 
     }
-    //TODO code update of masterList more efficiently
 
     public void resetPage() {
+        Handler.cart( theDatabase, tableName, product, 0);
+
         // clear fields
         TextView priceTxt = (TextView) findViewById(R.id.enterPrice);
         TextView sizeTxt  = (TextView) findViewById(R.id.enterSize);
@@ -318,9 +319,6 @@ public class EnterDetails extends AppCompatActivity {
 
         // get next product
         retrieveProductName();
-
-        // inform user how many items are left to enter
-        Toast.makeText(this,  "There are " + rowNum + " / " + totalRow + " Products Entered", Toast.LENGTH_LONG).show();
 
     }
 }
